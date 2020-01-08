@@ -1,0 +1,25 @@
+@import './fonts';
+@import './snow-animation';
+
+* {
+  margin : 0;
+  padding: 0;
+}
+
+html {
+  height          : 100%;
+  display         : flex;
+  align-items     : center;
+  justify-content : center;
+  background-color: black;
+  cursor          : url(../assets/img/cursor.png), auto;
+}
+
+body {
+  min-width  : 1300px;
+  height     : 700px;
+  border     : 10px double white;
+  box-sizing : border-box;
+  font-family: "Game of Thrones";
+  user-select: none;
+}
