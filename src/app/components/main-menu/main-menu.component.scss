@@ -1,0 +1,198 @@
+:host {
+  display : block;
+  position: relative;
+  height  : 100%;
+  overflow: hidden;
+
+  background: {
+    image : url(../../../assets/img/bg/throne.jpg);
+    repeat: no-repeat;
+    size  : cover;
+  }
+
+  .moving-map {
+    position  : absolute;
+    opacity   : 0.15;
+    width     : 100%;
+    min-height: 100%;
+  }
+
+  .content {
+    background-image: url(../../../assets/img/bg/snowflake-1.png),
+      url(../../../assets/img/bg/snowflake-2.png),
+      url(../../../assets/img/bg/snowflake-3.png);
+    height   : inherit;
+    animation: snow-animation 20s linear infinite;
+
+    .title {
+      position: absolute;
+      top     : 35px;
+      right   : 50px;
+
+      h1.text {
+        font-size          : 42px;
+        text-shadow        : -2px -3px 0px #000000, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff;
+        background-image   : url(../../../assets/img/bg/fire.gif);
+        background-size    : cover;
+        color              : transparent;
+        background-clip    : text;
+        letter-spacing     : 10px;
+        background-position: 0;
+      }
+    }
+
+    .menu-wrap {
+      position      : absolute;
+      top           : 8%;
+      left          : 6%;
+      display       : flex;
+      width         : 320px;
+      flex-direction: column;
+
+      .fire-sphere {
+        position        : absolute;
+        width           : 30px;
+        height          : 30px;
+        background-image: url(../../../assets/img/bg/fire.gif);
+        background-size : cover;
+        box-sizing      : border-box;
+        border-radius   : 50%;
+        top             : -33px;
+        left            : calc(50% - 15px);
+      }
+
+      .logo {
+        background: {
+          image : url(../../../assets/img/bg/logo.png);
+          repeat: no-repeat;
+          size  : cover;
+        }
+
+        height         : 140px;
+        display        : flex;
+        align-items    : center;
+        justify-content: center;
+        width          : 231px;
+        margin-bottom  : 10px;
+        align-self     : center;
+
+        h1 {
+          font-size          : 21px;
+          text-shadow        : -2px -3px 0px #000000, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff;
+          background-image   : url(../../../assets/img/bg/fire.gif);
+          background-size    : cover;
+          color              : transparent;
+          background-clip    : text;
+          letter-spacing     : 12px;
+          background-position: 0;
+          margin-top         : 7px;
+          margin-left        : 15px;
+        }
+      }
+
+      .buttons {
+        display       : flex;
+        flex-direction: column;
+        padding       : 10px;
+        clip-path     : polygon(30px 0, 0 15px, 0 calc(100% - 15px), 30px 100%, calc(100% - 30px) 100%, 100% calc(100% - 15px), 100% 15px, calc(100% - 30px) 0);
+
+        .button {
+          position           : relative;
+          display            : flex;
+          align-items        : center;
+          justify-content    : center;
+          background-color   : rgba(252, 252, 252, 0.2);
+          padding            : 18px;
+          color              : white;
+          font-size          : 23px;
+          letter-spacing     : 5px;
+          background-image   : linear-gradient(45deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0) 70%), linear-gradient(to right, rgba(255, 255, 255, 0.74), rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0) 70%, rgba(255, 255, 255, 0.43)), linear-gradient(to right, rgba(12, 12, 12, 0.78), #cacaca 45%, rgba(125, 125, 125, 0.5)), linear-gradient(to right, #7d7d7d, rgba(169, 169, 169, 0.73) 45%, rgba(0, 0, 0, 0.59)), linear-gradient(to right, black, white 45%, black), linear-gradient(to right, black, white 45%, rgba(4, 4, 4, 0.88));
+          background-repeat  : no-repeat;
+          background-size    : 200% 100%, auto, 100% 2px, 100% 2px, 100% 1px, 100% 1px;
+          background-position: 200% 0, 0 0, 0 0, 0 100%, 0 4px, 0 calc(100% - 4px);
+          text-shadow        : 2px 3px 0px #000000, 2px 3px 0px #000000;
+          transition         : background-color 0.1s linear, transform 0.1s linear;
+
+          &:hover,
+          &:active,
+          &:focus {
+            background-position: -200% 0, 0 0, 0 0, 0 100%, 0 4px,
+              0 calc(100% - 4px);
+            transform       : scale(1.1);
+            transition      : background-position 0.8s linear, transform 0.1s linear;
+            background-color: rgba(255, 17, 0, 0.2);
+          }
+
+          &:active {
+            top: 3px;
+          }
+
+          &.disable {
+            background-color: rgb(158, 158, 158);
+            background-position: 200% 0, 0 0, 0 0, 0 100%, 0 4px,
+              0 calc(100% - 4px);
+            cursor: default;
+          }
+
+          &:not(:last-child) {
+            margin-bottom: 30px;
+          }
+
+          &:first-child {
+            clip-path: polygon(30px 0, 0 15px, 0% 100%, 100% 100%, 100% 15px, calc(100% - 30px) 0);
+          }
+
+          &:last-child {
+            clip-path: polygon(0 0, 0 calc(100% - 15px), 30px 100%, calc(100% - 30px) 100%, 100% calc(100% - 15px), 100% 0)
+          }
+        }
+      }
+    }
+
+    .active-panel {
+      position       : absolute;
+      bottom         : 0px;
+      right          : -80px;
+      display        : flex;
+      align-items    : center;
+      justify-content: space-between;
+      width          : 125px;
+      transition     : all 0.2s linear;
+      padding        : 0px 15px;
+
+      &:hover {
+        right: -10px;
+      }
+
+      .volume {
+        background: {
+          image : url(../../../assets/img/sound.png);
+          repeat: no-repeat;
+          size  : cover;
+        }
+
+        height     : 50px;
+        width      : 50px;
+        transition : all 0.1s linear;
+
+        &.disabled {
+          filter: grayscale(1);
+        }
+      }
+
+      .github-link {
+        width     : 60px;
+        cursor    : unset;
+        transition: all 1s linear;
+
+        img {
+          width: 100%;
+        }
+
+        &:hover {
+          filter: hue-rotate(180deg);
+        }
+      }
+    }
+  }
+}

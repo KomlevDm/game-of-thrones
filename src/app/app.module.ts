@@ -5,13 +5,14 @@ import { AppComponent } from './app.component';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { MainMenuComponent } from './components/main-menu/main-menu.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
 }
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, MainMenuComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
