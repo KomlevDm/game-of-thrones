@@ -8,5 +8,8 @@
       "Top": "Top",
       "Language": "Language"
     }
+  },
+  "ToggleLanguageDialog": {
+    "Title": "Please select your preferred language"
   }
 }

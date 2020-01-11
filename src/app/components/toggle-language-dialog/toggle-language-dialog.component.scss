@@ -1,0 +1,81 @@
+:host {
+  .overlay {
+    position        : absolute;
+    top             : 0;
+    right           : 0;
+    bottom          : 0;
+    left            : 0;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  .content {
+    $width : 500px;
+    $height: 280px;
+
+    position        : absolute;
+    top             : calc(50% - #{$height}/2);
+    left            : calc(50% - #{$width}/2);
+    color           : white;
+    width           : $width;
+    height          : $height;
+    display         : flex;
+    flex-direction  : column;
+    padding         : 35px 20px 55px;
+    box-sizing      : border-box;
+    border          : 1px solid white;
+    border-style    : ridge;
+    box-shadow      : 0 0 5px 2px rgba(255, 255, 255, 0.5);
+    background-image: url(../../../assets/img/bg/rock.jpg);
+    background-size : cover;
+    transition      : top 0.2s linear;
+
+    &.hide {
+      top: -$height;
+    }
+
+    h1 {
+      text-shadow   : 2px 3px 0px #000000, 2px 3px 0px #000000;
+      font-size     : 18px;
+      letter-spacing: 5px;
+      text-align    : center;
+      line-height   : 36px;
+    }
+
+    .active-panel {
+      flex-grow      : 1;
+      display        : flex;
+      align-items    : flex-end;
+      justify-content: space-around;
+
+      .button {
+        position           : relative;
+        background-color   : rgba(252, 252, 252, 0.2);
+        padding            : 25px 15px 17px 25px;
+        background-image   : linear-gradient(45deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0) 70%), linear-gradient(to right, rgba(255, 255, 255, 0.74), rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0) 70%, rgba(255, 255, 255, 0.43)), linear-gradient(to right, rgba(12, 12, 12, 0.78), #cacaca 45%, rgba(125, 125, 125, 0.5)), linear-gradient(to right, #7d7d7d, rgba(169, 169, 169, 0.73) 45%, rgba(0, 0, 0, 0.59)), linear-gradient(to right, black, white 45%, black), linear-gradient(to right, black, white 45%, rgba(4, 4, 4, 0.88));
+        background-repeat  : no-repeat;
+        background-size    : 200% 100%, auto, 100% 2px, 100% 2px, 100% 1px, 100% 1px;
+        background-position: 200% 0, 0 0, 0 0, 0 100%, 0 4px, 0 calc(100% - 4px);
+        transition         : all 0.1s linear;
+
+        &:active {
+          top: 3px;
+        }
+
+        &.selected {
+          background-color: rgba(255, 17, 0, 0.2);
+        }
+
+        h2 {
+          font-size          : 21px;
+          text-shadow        : -2px -3px 0px #000000, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff;
+          background-image   : url(../../../assets/img/bg/fire-sphere.gif);
+          background-size    : cover;
+          color              : transparent;
+          background-clip    : text;
+          letter-spacing     : 6px;
+          background-position: 0;
+        }
+      }
+    }
+  }
+}
