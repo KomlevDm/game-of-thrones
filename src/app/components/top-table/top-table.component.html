@@ -1,0 +1,52 @@
+<div class="wrap" [style.backgroundImage]="'url(assets/img/bg/' + bgImageName + ')'">
+  <img class="back-arrow" src="assets/img/arrow.png" routerLink="" (click)="soundsService.dragonStompy.restart()" />
+
+  <div class="main-title">{{ 'TopTable.Title' | translate }}</div>
+
+  <table class="top-table" *ngIf="tableData.length !== 0; else empty">
+    <tr>
+      <th>
+        <div class="title">
+          №
+        </div>
+      </th>
+
+      <th>
+        <div class="title">
+          {{ 'TopTable.ColumnTitles.Name' | translate }}
+          <img class="sort {{ sortByNameState }}" src="assets/img/sort.png" (click)="sortByName()" />
+        </div>
+      </th>
+
+      <th>
+        <div class="title">
+          {{ 'TopTable.ColumnTitles.Points' | translate }}
+          <img class="sort {{ sortByPointsState }}" src="assets/img/sort.png" (click)="sortByPoints()" />
+        </div>
+      </th>
+
+      <th>
+        <div class="title">
+          {{ 'TopTable.ColumnTitles.Date' | translate }}
+          <img class="sort {{ sortByDateState }}" src="assets/img/sort.png" (click)="sortByDate()" />
+        </div>
+      </th>
+    </tr>
+
+    <tr *ngFor="let row of tableData; index as i">
+      <td>{{ i + 1 }}</td>
+
+      <td>{{ row.name }}</td>
+
+      <td class="{{ row.side }}">{{ row.points }}</td>
+
+      <td>{{ row.date | date: 'HH:mm:ss \u2012 dd.MM.yyyy' }}</td>
+    </tr>
+  </table>
+
+  <ng-template #empty>
+    <div class="empty" (mouseenter)="soundsService.dragonRoar.play()">
+      {{ 'TopTable.EmptyTableText' | translate }}
+    </div>
+  </ng-template>
+</div>

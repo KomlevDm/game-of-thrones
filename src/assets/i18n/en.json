@@ -11,5 +11,14 @@
   },
   "ToggleLanguageDialog": {
     "Title": "Please select your preferred language"
+  },
+  "TopTable": {
+    "Title": "Top",
+    "ColumnTitles": {
+      "Name": "Name",
+      "Points": "Points",
+      "Date": "Date"
+    },
+    "EmptyTableText": "The table is currently empty"
   }
 }

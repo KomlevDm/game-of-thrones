@@ -1,8 +1,12 @@
 :host {
+  display : block;
+  height  : inherit;
+  position: relative;
+
   .wrap {
     display : block;
     position: relative;
-    height  : 100%;
+    height  : inherit;
     overflow: hidden;
 
     background: {

@@ -1,4 +1,5 @@
 export enum EKeyLocalStorage {
   CurrentLanguage = 'currentLanguage',
-  TogglerBgSound = 'togglerBgSound'
+  TogglerBgSound = 'togglerBgSound',
+  TopTableDate = 'topTableDate'
 }

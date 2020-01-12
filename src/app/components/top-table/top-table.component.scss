@@ -1,0 +1,163 @@
+@import "../../../scss/variables";
+
+:host {
+  display : block;
+  height  : inherit;
+  position: relative;
+
+  .wrap {
+    display   : block;
+    position  : relative;
+    height    : inherit;
+    overflow  : hidden;
+    padding   : 40px 100px;
+    box-sizing: border-box;
+
+    .back-arrow {
+      position  : absolute;
+      top       : 20px;
+      left      : 20px;
+      width     : 45px;
+      transition: transform 0.1s linear;
+      transform : rotate(-45deg);
+
+      &:hover {
+        transform: scale(1.3) rotate(0deg);
+      }
+    }
+
+    .main-title {
+      font-size          : 30px;
+      text-shadow        : -2px -3px 0px #000000, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff;
+      background-image   : url(../../../assets/img/bg/fire-sphere.gif);
+      background-size    : cover;
+      color              : transparent;
+      background-clip    : text;
+      letter-spacing     : 12px;
+      background-position: 0;
+      text-align         : center;
+      margin-bottom      : 25px;
+      font-weight        : bold;
+    }
+
+    table.top-table {
+      position        : relative;
+      overflow-y      : auto;
+      display         : block;
+      border-collapse : separate;
+      border-spacing  : 0;
+      font-size       : 13px;
+      letter-spacing  : 1px;
+      text-align      : center;
+      border          : 1px ridge white;
+      box-shadow      : 0 0 5px 2px rgba(255, 255, 255, 0.5);
+      max-height      : 500px;
+      background-image: url(../../../assets/img/bg/rock.jpg);
+      background-size : cover;
+
+      tr {
+        &:nth-child(odd) {
+          background-color: rgba(255, 255, 255, 0.25);
+        }
+
+        th {
+          border-bottom   : 1px ridge white;
+          padding         : 8px;
+          font-weight     : normal;
+          color           : #ffffff;
+          text-shadow     : 2px 3px 0px #000000, 2px 3px 0px #000000;
+          font-size       : 14px;
+          position        : sticky;
+          top             : 0;
+          z-index         : 1;
+          background-color: #250c0c;
+          background-image: -webkit-linear-gradient(90deg,
+              transparent,
+              rgba(0, 0, 0, 0.7) 50%,
+              transparent,
+              transparent);
+          width           : 1%;
+          background-image: url(../../../assets/img/bg/gold.jpg);
+          background-size : cover;
+          letter-spacing  : 5px;
+
+          &:first-child {
+            font-family: serif;
+            font-size  : 16px;
+          }
+
+          &:not(:last-child) {
+            border-right: 1px ridge white;
+          }
+
+          .title {
+            position: relative;
+
+            img.sort {
+              width   : 18px;
+              opacity : 0.5;
+              position: absolute;
+              right   : 5px;
+
+              &.desc {
+                opacity  : 1;
+                transform: rotate(180deg);
+              }
+
+              &.asc {
+                opacity  : 1;
+                transform: rotate(0deg);
+              }
+            }
+          }
+        }
+
+        td {
+          padding       : 7px 15px;
+          font-weight   : normal;
+          color         : white;
+          letter-spacing: 3px;
+          text-shadow   : 2px 2px 0px #000000, 2px 3px 0px #000000;
+
+          &:not(:last-child) {
+            border-right: 1px ridge #9e9e9e;
+          }
+
+          &:nth-child(3) {
+            font-weight: bold;
+            font-size  : 16px;
+
+            &.fire {
+              color: $fire;
+            }
+
+            &.ice {
+              color: $ice;
+            }
+          }
+        }
+      }
+    }
+
+    .empty {
+      $width: 500px;
+
+      position        : absolute;
+      top             : 35%;
+      left            : calc(50% - #{$width}/2);
+      color           : white;
+      width           : $width;
+      padding         : 35px;
+      box-sizing      : border-box;
+      border          : 1px ridge white;
+      box-shadow      : 0 0 5px 2px rgba(255, 255, 255, 0.5);
+      background-image: url(../../../assets/img/bg/rock.jpg);
+      background-size : cover;
+      font-size       : 18px;
+      letter-spacing  : 5px;
+      text-align      : center;
+      line-height     : 36px;
+      text-shadow     : 2px 3px 0px #000000, 2px 3px 0px #000000;
+    }
+  }
+}
