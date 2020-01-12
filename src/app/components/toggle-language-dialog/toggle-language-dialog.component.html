@@ -6,7 +6,7 @@
   <div class="active-panel">
     <div
       class="button"
-      [ngClass]="{ selected: (translateService.onLangChange | async)?.lang === ELanguage.Ru }"
+      [ngClass]="{ selected: translateService.currentLang === ELanguage.Ru }"
       (click)="toggleLanguage(ELanguage.Ru)"
     >
       <h2>Русский</h2>
@@ -14,7 +14,7 @@
 
     <div
       class="button"
-      [ngClass]="{ selected: (translateService.onLangChange | async)?.lang === ELanguage.En }"
+      [ngClass]="{ selected: translateService.currentLang === ELanguage.En }"
       (click)="toggleLanguage(ELanguage.En)"
     >
       <h2>English</h2>

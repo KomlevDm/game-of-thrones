@@ -11,5 +11,14 @@
   },
   "ToggleLanguageDialog": {
     "Title": "Пожалуйста выберите предпочитаемый язык"
+  },
+  "TopTable": {
+    "Title": "Таблица рекордов",
+    "ColumnTitles": {
+      "Name": "Имя",
+      "Points": "Баллы",
+      "Date": "Дата"
+    },
+    "EmptyTableText": "На данный момент таблица пуста"
   }
 }

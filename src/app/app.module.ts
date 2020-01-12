@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,14 +11,16 @@ import { ToggleLanguageDialogComponent } from './components/toggle-language-dial
 import { CommonModule } from '@angular/common';
 import { ELanguage } from './enums/ELanguage';
 import { EKeyLocalStorage } from './enums/EKeyLocalStorage';
+import { TopTableComponent } from './components/top-table/top-table.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
 }
 
 @NgModule({
-  declarations: [AppComponent, MainMenuComponent, ToggleLanguageDialogComponent],
+  declarations: [AppComponent, MainMenuComponent, ToggleLanguageDialogComponent, TopTableComponent],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

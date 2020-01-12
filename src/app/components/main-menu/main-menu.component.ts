@@ -1,4 +1,4 @@
-import { Component, HostBinding } from '@angular/core';
+import { Component } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { SoundsService } from 'src/app/services/sounds.service';
 import { getRandomMenuBgImage } from 'src/app/helpers/getRandomMenuBgImage';

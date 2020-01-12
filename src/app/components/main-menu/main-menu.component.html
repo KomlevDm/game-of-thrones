@@ -24,7 +24,12 @@
           {{ 'MainMenu.Buttons.Load' | translate }}
         </div>
 
-        <div class="button" (mouseenter)="mouseenterButtonMenu()">
+        <div
+          class="button"
+          (mouseenter)="mouseenterButtonMenu()"
+          routerLink="top-table"
+          (click)="soundsService.dragonStompy.restart()"
+        >
           {{ 'MainMenu.Buttons.Top' | translate }}
         </div>
 
