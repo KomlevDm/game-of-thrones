@@ -16,7 +16,12 @@
       </div>
 
       <div class="buttons">
-        <div class="button" (mouseenter)="mouseenterButtonMenu()">
+        <div
+          class="button"
+          (mouseenter)="mouseenterButtonMenu()"
+          routerLink="hero-selection"
+          (click)="soundsService.dragonStompy.restart()"
+        >
           {{ 'MainMenu.Buttons.Play' | translate }}
         </div>
 

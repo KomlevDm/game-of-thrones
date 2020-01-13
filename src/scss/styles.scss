@@ -59,9 +59,12 @@ html {
 
 body {
   min-width  : 1300px;
+  max-width  : 1300px;
   height     : 700px;
   border     : 10px double white;
   box-sizing : border-box;
   font-family: "Game of Thrones";
   user-select: none;
+  color      : white;
+  transition : height 2s linear;
 }

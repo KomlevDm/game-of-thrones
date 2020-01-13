@@ -12,19 +12,28 @@ import { CommonModule } from '@angular/common';
 import { ELanguage } from './enums/ELanguage';
 import { EKeyLocalStorage } from './enums/EKeyLocalStorage';
 import { TopTableComponent } from './components/top-table/top-table.component';
+import { HeroSelectionComponent } from './components/hero-selection/hero-selection.component';
+import { FormsModule } from '@angular/forms';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
 }
 
 @NgModule({
-  declarations: [AppComponent, MainMenuComponent, ToggleLanguageDialogComponent, TopTableComponent],
+  declarations: [
+    AppComponent,
+    MainMenuComponent,
+    ToggleLanguageDialogComponent,
+    TopTableComponent,
+    HeroSelectionComponent
+  ],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     CommonModule,
+    FormsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

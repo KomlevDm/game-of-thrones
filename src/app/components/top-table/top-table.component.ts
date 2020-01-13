@@ -7,7 +7,6 @@ import { EKeyLocalStorage } from 'src/app/enums/EKeyLocalStorage';
 interface ITableItem {
   name: string;
   points: number;
-  side: 'fire' | 'ice';
   date: Date;
 }
 
@@ -17,7 +16,7 @@ interface ITableItem {
   styleUrls: ['./top-table.component.scss']
 })
 export class TopTableComponent {
-  constructor(public soundsService: SoundsService, private router: Router) {}
+  constructor(private router: Router, public soundsService: SoundsService) {}
 
   public bgImageName = getRandomMenuBgImage();
   public sortByNameState: 'desc' | 'asc' = null;

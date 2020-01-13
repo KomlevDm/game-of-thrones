@@ -20,5 +20,23 @@
       "Date": "Дата"
     },
     "EmptyTableText": "На данный момент таблица пуста"
+  },
+  "HeroSelection": {
+    "Title": "Выберите дом",
+    "Houses": {
+      "Stark": {
+        "HouseName": "Старк",
+        "Motto": "Зима близко"
+      },
+      "Targaryen": {
+        "HouseName": "Таргариен",
+        "Motto": "Пламя и кровь"
+      },
+      "Lannister": {
+        "HouseName": "Ланнистер",
+        "Motto": "Услышь мой рев"
+      }
+    },
+    "PlayerInfo": "Ваше имя"
   }
 }

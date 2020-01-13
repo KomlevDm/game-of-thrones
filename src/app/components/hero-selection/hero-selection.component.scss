@@ -1,0 +1,153 @@
+@import "../../../scss/variables";
+@import "../../../scss/mixins";
+
+:host {
+  @include rest-host($bgImgUrl: '../../../assets/img/bg/throne.jpg');
+
+  .back-arrow {
+    @include back-arrow;
+  }
+
+  .main-title {
+    @include main-title($bgImgUrl: '../../../assets/img/bg/fire-sphere.gif');
+  }
+
+  .houses {
+    display        : flex;
+    align-items    : center;
+    justify-content: space-around;
+    margin-bottom  : 20px;
+
+    .house {
+      display       : flex;
+      flex-direction: column;
+      align-items   : center;
+
+      &:active img {
+        top: 3px;
+      }
+
+      &:hover img {
+        box-shadow: 0 0 10px 10px rgba(99, 20, 20, 0.6);
+        filter    : grayscale(0) brightness(1) saturate(200%);
+      }
+
+      &.disabled {
+        filter: sepia(100%);
+        cursor: no-drop;
+
+        &:hover img {
+          box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.5);
+          filter    : grayscale(1) brightness(90%);
+        }
+
+        &:active img {
+          top: 0
+        }
+      }
+
+      &.selected {
+        img {
+          box-shadow: 0 0 10px 10px rgba(99, 20, 20, 0.6);
+          filter    : saturate(200%);
+        }
+      }
+
+      .house-title {
+        font-size          : 21px;
+        text-shadow        : -2px -3px 0px #000000, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff;
+        background-image   : url(../../../assets/img/bg/fire-sphere.gif);
+        background-size    : cover;
+        color              : transparent;
+        background-clip    : text;
+        letter-spacing     : 5px;
+        background-position: 0;
+        font-weight        : bold;
+        margin-bottom      : 15px;
+      }
+
+      img {
+        transition   : all 0.2s linear;
+        margin-bottom: 25px;
+        width        : 250px;
+        border       : 2px ridge white;
+        box-shadow   : 0 0 5px 2px rgba(255, 255, 255, 0.5);
+        filter       : grayscale(1) brightness(90%);
+        position     : relative;
+      }
+
+      .motto {
+        width         : 160px;
+        text-align    : center;
+        letter-spacing: 5px;
+        font-size     : 23px;
+        text-shadow   : 2px 3px 0px #000000, 2px 3px 0px #000000;
+      }
+    }
+  }
+
+  .player-info-wrap {
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+
+    .player-info {
+      display         : flex;
+      align-items     : center;
+      justify-content : center;
+      background-image: url(../../../assets/img/bg/rock.jpg);
+      background-size : cover;
+      padding         : 20px 35px;
+      width           : fit-content;
+      margin-right    : 40px;
+      border          : 2px ridge white;
+      box-shadow      : 0 0 5px 2px rgba(255, 255, 255, 0.5);
+
+      &>:not(:last-child) {
+        margin-right: 30px;
+      }
+
+      span {
+        margin-top         : 8px;
+        font-size          : 21px;
+        text-shadow        : -2px -3px 0px #000000, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff;
+        background-image   : url(../../../assets/img/bg/fire-sphere.gif);
+        background-size    : cover;
+        color              : transparent;
+        background-clip    : text;
+        letter-spacing     : 5px;
+        background-position: 0;
+        font-weight        : bold;
+      }
+
+      input {
+        align-self      : stretch;
+        border          : 2px ridge white;
+        box-shadow      : 0 0 5px 2px rgba(255, 255, 255, 0.5);
+        padding         : 10px 15px;
+        font-family     : "Game of Thrones";
+        width           : 250px;
+        font-weight     : bold;
+        letter-spacing  : 2px;
+        font-size       : 18px;
+        background-color: rgba(255, 255, 255, 0.5);
+        text-shadow     : 2px 2px 0px #ffffff;
+      }
+    }
+
+    .play-button {
+      width     : 140px;
+      transition: all 0.2s linear;
+      position  : relative;
+      filter    : sepia(1);
+
+      &.allow {
+        filter: unset;
+
+        &:active {
+          top: 3px
+        }
+      }
+    }
+  }
+}
