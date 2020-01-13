@@ -46,6 +46,7 @@ export class SoundsService {
   public past: IExtHTMLAudioElement = null;
   public dragonStompy: IExtHTMLAudioElement = null;
   public dragonRoar: IExtHTMLAudioElement = null;
+  public swordBattle: IExtHTMLAudioElement = null;
 
   public get togglerBgSound() {
     return this.bgSound.toggler;
@@ -68,6 +69,8 @@ export class SoundsService {
 
     this.dragonRoar = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.dragonRoar}`);
     this.dragonRoar.volume = 0.5;
+
+    this.swordBattle = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.swordBattle}`);
 
     this.playBgSound();
   }

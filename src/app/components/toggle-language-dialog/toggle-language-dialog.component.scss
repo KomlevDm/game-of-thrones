@@ -1,3 +1,5 @@
+@import "../../../scss/mixins";
+
 :host {
   .overlay {
     position        : absolute;
@@ -15,7 +17,6 @@
     position        : absolute;
     top             : calc(50% - #{$height}/2);
     left            : calc(50% - #{$width}/2);
-    color           : white;
     width           : $width;
     height          : $height;
     display         : flex;
@@ -47,14 +48,10 @@
       justify-content: space-around;
 
       .button {
-        position           : relative;
-        background-color   : rgba(252, 252, 252, 0.2);
-        padding            : 25px 15px 17px 25px;
-        background-image   : linear-gradient(45deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0) 70%), linear-gradient(to right, rgba(255, 255, 255, 0.74), rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0) 70%, rgba(255, 255, 255, 0.43)), linear-gradient(to right, rgba(12, 12, 12, 0.78), #cacaca 45%, rgba(125, 125, 125, 0.5)), linear-gradient(to right, #7d7d7d, rgba(169, 169, 169, 0.73) 45%, rgba(0, 0, 0, 0.59)), linear-gradient(to right, black, white 45%, black), linear-gradient(to right, black, white 45%, rgba(4, 4, 4, 0.88));
-        background-repeat  : no-repeat;
-        background-size    : 200% 100%, auto, 100% 2px, 100% 2px, 100% 1px, 100% 1px;
-        background-position: 200% 0, 0 0, 0 0, 0 100%, 0 4px, 0 calc(100% - 4px);
-        transition         : all 0.1s linear;
+        @include glass-button-background;
+        position  : relative;
+        padding   : 25px 15px 17px 25px;
+        transition: all 0.1s linear;
 
         &:active {
           top: 3px;

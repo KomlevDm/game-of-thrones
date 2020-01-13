@@ -20,5 +20,23 @@
       "Date": "Date"
     },
     "EmptyTableText": "The table is currently empty"
+  },
+  "HeroSelection": {
+    "Title": "Select home",
+    "Houses": {
+      "Stark": {
+        "HouseName": "Stark",
+        "Motto": "Winter is Coming"
+      },
+      "Targaryen": {
+        "HouseName": "Targaryen",
+        "Motto": "Fire and Blood"
+      },
+      "Lannister": {
+        "HouseName": "Lannister",
+        "Motto": "Hear me Roar"
+      }
+    },
+    "PlayerInfo": "Your name"
   }
 }

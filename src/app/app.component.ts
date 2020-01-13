@@ -11,7 +11,14 @@ import { slideInAnimation } from './route-animation';
 export class AppComponent implements OnInit {
   constructor(public soundsService: SoundsService) {}
 
+  private readonly startAnimationTimeoutInMs = 1000;
+
   ngOnInit() {
     this.soundsService.init();
+
+    // setTimeout(() => {
+    //   const body = document.querySelector('body');
+    //   body.style.height = '700px';
+    // }, this.startAnimationTimeoutInMs);
   }
 }

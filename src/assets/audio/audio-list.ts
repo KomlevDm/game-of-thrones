@@ -15,5 +15,6 @@ export const ACTION_AUDIO = {
   pierceWithSword: 'pierce-with-sword.mp3',
   past: 'past.mp3',
   dragonStompy: 'dragon-stompy.mp3',
-  dragonRoar: 'dragon-roar.mp3'
+  dragonRoar: 'dragon-roar.mp3',
+  swordBattle: 'sword-battle.mp3'
 };
