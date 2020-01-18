@@ -29,7 +29,7 @@
         url(../../../assets/img/bg/snowflake-2.png),
         url(../../../assets/img/bg/snowflake-3.png);
       height   : inherit;
-      animation: snow-animation 20s linear infinite;
+      animation: snow-animation-to-right 20s linear infinite;
 
       .title {
         position: absolute;

@@ -33,10 +33,21 @@ export class HeroSelectionComponent {
         this.soundsService.swordBattle.stop();
         this.soundsService.dragonRoar.restart();
         break;
+
+      case EHouse.Lannister:
+        this.soundsService.dragonRoar.stop();
+        this.soundsService.swordBattle.restart();
+        break;
     }
   }
 
   public isAllowPlay(): boolean {
     return this.playerService.house !== null && Boolean(this.playerService.name);
+  }
+
+  public startGame() {
+    if (!this.isAllowPlay()) return;
+
+    this.router.navigateByUrl('game');
   }
 }

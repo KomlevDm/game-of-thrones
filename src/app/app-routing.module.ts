@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { MainMenuComponent } from './components/main-menu/main-menu.component';
 import { TopTableComponent } from './components/top-table/top-table.component';
 import { HeroSelectionComponent } from './components/hero-selection/hero-selection.component';
+import { GameComponent } from './components/game/game.component';
 
 const routes: Routes = [
   { path: '', component: MainMenuComponent, data: { animation: 'main-menu' } },
@@ -10,6 +11,11 @@ const routes: Routes = [
     path: 'hero-selection',
     component: HeroSelectionComponent,
     data: { animation: 'rest' }
+  },
+  {
+    path: 'game',
+    component: GameComponent,
+    data: { animation: 'game' }
   },
   {
     path: 'top-table',

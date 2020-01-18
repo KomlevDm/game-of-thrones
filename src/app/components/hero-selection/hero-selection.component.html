@@ -23,7 +23,11 @@
     <div class="motto">{{ 'HeroSelection.Houses.Targaryen.Motto' | translate }}</div>
   </div>
 
-  <div class="house disabled">
+  <div
+    class="house"
+    [ngClass]="{ selected: playerService.house === EHouse.Lannister }"
+    (click)="selectHouse(EHouse.Lannister)"
+  >
     <div class="house-title">{{ 'HeroSelection.Houses.Lannister.HouseName' | translate }}</div>
 
     <img src="assets/img/bg/lannister-logo.jpg" />
@@ -36,8 +40,8 @@
   <div class="player-info">
     <span>{{ 'HeroSelection.PlayerInfo' | translate }}:</span>
 
-    <input type="text" [(ngModel)]="playerService.name" />
+    <input type="text" [(ngModel)]="playerService.name" maxlength="20" />
   </div>
 
-  <img class="play-button" src="assets/img/play.png" [ngClass]="{ allow: isAllowPlay() }" />
+  <img class="play-button" src="assets/img/play.png" [ngClass]="{ allow: isAllowPlay() }" (click)="startGame()" />
 </div>

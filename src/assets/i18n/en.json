@@ -19,7 +19,7 @@
       "Points": "Points",
       "Date": "Date"
     },
-    "EmptyTableText": "The table is currently empty"
+    "NoteEmptyTable": "The table is currently empty"
   },
   "HeroSelection": {
     "Title": "Select home",
@@ -38,5 +38,8 @@
       }
     },
     "PlayerInfo": "Your name"
+  },
+  "Game": {
+    "NotePlayerNotExists": "You have not chosen a house for which you will play"
   }
 }

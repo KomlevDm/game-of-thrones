@@ -1,0 +1,47 @@
+@import "../../../scss/mixins";
+
+:host {
+  display         : block;
+  height          : inherit;
+  position        : relative;
+  background-image: url(../../../assets/img/bg/night-dragon.jpg);
+
+  .content {
+    display         : flex;
+    flex-direction  : column;
+    height          : inherit;
+    background-image: url(../../../assets/img/bg/game/snow-forest.jpg);
+    background-size : cover;
+    animation       : game-bg-animation 10s infinite linear;
+
+    .info-panel {
+      height          : 54px;
+      background-color: rgba(0, 0, 0, 0.1);
+      // border-bottom   : 3px solid rgba(255, 255, 255, 0.144);
+      box-shadow      : 0 0px 10px 5px rgba(0, 0, 0, 0.4);
+    }
+
+    .game-field {
+      background-image: url(../../../assets/img/bg/snowflake-1.png),
+        url(../../../assets/img/bg/snowflake-2.png),
+        url(../../../assets/img/bg/snowflake-3.png);
+      height   : inherit;
+      animation: snow-animation-to-left 20s linear infinite;
+      flex-grow: 1;
+      position : relative;
+
+      .player {
+        position : absolute;
+        animation: all 50.3s linear;
+
+        img {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .note {
+    @include note($bgImgUrl: '../../../assets/img/bg/rock.jpg');
+  }
+}

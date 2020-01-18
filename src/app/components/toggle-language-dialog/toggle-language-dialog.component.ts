@@ -11,7 +11,7 @@ import { SoundsService } from 'src/app/services/sounds.service';
   styleUrls: ['./toggle-language-dialog.component.scss']
 })
 export class ToggleLanguageDialogComponent {
-  constructor(public translateService: TranslateService, public soundsService: SoundsService) {}
+  constructor(private soundsService: SoundsService, public translateService: TranslateService) {}
 
   public ELanguage = ELanguage;
 

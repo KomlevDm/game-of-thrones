@@ -6,5 +6,8 @@ export class PlayerService {
   constructor() {}
 
   public name = 'Player-1';
-  public house: EHouse = null;
+  public house: EHouse = EHouse.Targaryen;
+  public position = { x: 0, y: 0 };
+  public sizeInPx = 150;
+  public direction = 'unset';
 }

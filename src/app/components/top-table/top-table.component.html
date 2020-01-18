@@ -2,7 +2,7 @@
 
 <div class="main-title">{{ 'TopTable.Title' | translate }}</div>
 
-<table class="top-table" *ngIf="tableData.length !== 0; else empty">
+<table class="top-table" *ngIf="tableData.length !== 0; else note">
   <tr>
     <th>
       <div class="title">
@@ -43,8 +43,8 @@
   </tr>
 </table>
 
-<ng-template #empty>
-  <div class="empty">
-    {{ 'TopTable.EmptyTableText' | translate }}
+<ng-template #note>
+  <div class="note">
+    {{ 'TopTable.NoteEmptyTable' | translate }}
   </div>
 </ng-template>

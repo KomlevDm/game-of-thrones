@@ -14,6 +14,7 @@ import { EKeyLocalStorage } from './enums/EKeyLocalStorage';
 import { TopTableComponent } from './components/top-table/top-table.component';
 import { HeroSelectionComponent } from './components/hero-selection/hero-selection.component';
 import { FormsModule } from '@angular/forms';
+import { GameComponent } from './components/game/game.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -25,7 +26,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     MainMenuComponent,
     ToggleLanguageDialogComponent,
     TopTableComponent,
-    HeroSelectionComponent
+    HeroSelectionComponent,
+    GameComponent
   ],
   imports: [
     BrowserAnimationsModule,

@@ -1,0 +1,28 @@
+<div class="content" *ngIf="isPlayerExists(); else note">
+  <div class="info-panel"></div>
+
+  <div class="game-field">
+    <div
+      class="player"
+      [style.top.px]="playerService.position.y"
+      [style.left.px]="playerService.position.x"
+      [style.width.px]="playerService.sizeInPx"
+      [style.transform]="playerService.direction"
+    >
+      <img src="assets/img/game/players/{{ playerService.house }}.gif" />
+    </div>
+  </div>
+</div>
+
+<ng-template #note>
+  <img
+    class="back-arrow"
+    src="assets/img/arrow.png"
+    routerLink="/hero-selection"
+    (click)="soundsService.dragonStompy.restart()"
+  />
+
+  <div class="note">
+    {{ 'Game.NotePlayerNotExists' | translate }}
+  </div>
+</ng-template>
