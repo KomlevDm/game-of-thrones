@@ -1,6 +1,8 @@
+@import "../scss/variables";
+
 :host {
   display   : block;
-  min-width : 1300px;
+  min-width : $widthScreen;
   height    : 700px;
   position  : relative;
   border    : 10px double white;
@@ -13,20 +15,22 @@
       size  : cover;
     }
 
-    height         : 139px;
+    height         : 137px;
     display        : flex;
     align-items    : center;
     justify-content: center;
-    width          : 228px;
+    width          : 226px;
     align-self     : center;
     position       : absolute;
     z-index        : 1;
-    top            : -1000px;
-    left           : calc(50% - 114px);
-    transition     : top .4s linear;
+    top            : -300px;
+    opacity        : 0;
+    left           : calc(50% - 113px);
+    transition     : all .4s linear;
 
     &.display {
-      top: -44px;
+      top    : -44px;
+      opacity: 1;
     }
 
     h1 {

@@ -12,18 +12,17 @@ export class MainMenuComponent {
   constructor(public soundsService: SoundsService) {}
 
   public stateToggleLanguageDialog$ = new BehaviorSubject(false);
-
   public bgImageName = getRandomMenuBgImage();
 
-  public mouseenterFireSphere() {
+  public mouseenterFireSphere(): void {
     this.soundsService.dragonFlame.play();
   }
 
-  public mouseenterButtonMenu() {
+  public mouseenterButtonMenu(): void {
     this.soundsService.blade.restart();
   }
 
-  public openToggleLanguageDialog() {
+  public openToggleLanguageDialog(): void {
     this.soundsService.shortTomahawk.restart();
     this.stateToggleLanguageDialog$.next(true);
   }

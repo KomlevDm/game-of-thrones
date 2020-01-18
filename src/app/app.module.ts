@@ -47,8 +47,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(private translateService: TranslateService) {
+  constructor(private _translateService: TranslateService) {
     const currentLanguage = localStorage.getItem(EKeyLocalStorage.CurrentLanguage) || ELanguage.En;
-    translateService.use(currentLanguage);
+    _translateService.use(currentLanguage);
   }
 }

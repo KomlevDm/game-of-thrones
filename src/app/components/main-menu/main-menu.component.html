@@ -48,7 +48,7 @@
       <div
         class="volume"
         (click)="soundsService.toggleBgSound()"
-        [ngClass]="{ disabled: !soundsService.togglerBgSound }"
+        [class.disabled]="!soundsService.togglerBgSound"
       ></div>
 
       <a class="github-link" href="https://github.com/KomlevDm/game-of-thrones" target="_blank">

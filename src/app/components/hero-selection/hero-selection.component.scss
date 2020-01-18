@@ -114,17 +114,23 @@
         font-size       : 18px;
         background-color: rgba(255, 255, 255, 0.5);
         text-shadow     : 2px 2px 0px #ffffff;
+
+        &::selection {
+          background: #a70d12;
+        }
       }
     }
 
     .play-button {
-      width     : 140px;
-      transition: all 0.2s linear;
-      position  : relative;
-      filter    : sepia(1);
+      width         : 140px;
+      transition    : all 0.2s linear;
+      position      : relative;
+      filter        : sepia(1);
+      pointer-events: none;
 
       &.allow {
-        filter: unset;
+        filter        : unset;
+        pointer-events: unset;
 
         &:active {
           top: 3px

@@ -2,7 +2,8 @@ import { Component, HostListener } from '@angular/core';
 import { SoundsService } from 'src/app/services/sounds.service';
 import { Router } from '@angular/router';
 import { EHouse } from 'src/app/enums/EHouse';
-import { PlayerService } from 'src/app/services/player.service';
+import { GameService } from 'src/app/services/game.service';
+import { Player } from 'src/app/classes/Player';
 
 @Component({
   selector: 'hero-selection',
@@ -10,18 +11,20 @@ import { PlayerService } from 'src/app/services/player.service';
   styleUrls: ['./hero-selection.component.scss']
 })
 export class HeroSelectionComponent {
-  constructor(private router: Router, public soundsService: SoundsService, public playerService: PlayerService) {}
+  constructor(private _router: Router, public soundsService: SoundsService, public gameService: GameService) {}
 
   public EHouse = EHouse;
+  public selectedHouse: EHouse = null;
+  public playerName = Player.defaultName;
 
   @HostListener('document:keydown.escape')
   onKeydownEscapeHandler() {
     this.soundsService.dragonStompy.restart();
-    this.router.navigateByUrl('');
+    this._router.navigateByUrl('');
   }
 
-  public selectHouse(house: EHouse) {
-    this.playerService.house = house;
+  public selectHouse(house: EHouse): void {
+    this.selectedHouse = house;
 
     switch (house) {
       case EHouse.Stark:
@@ -41,13 +44,13 @@ export class HeroSelectionComponent {
     }
   }
 
-  public isAllowPlay(): boolean {
-    return this.playerService.house !== null && Boolean(this.playerService.name);
+  public isAllowPlayGame(): boolean {
+    return this.selectedHouse !== null && Boolean(this.playerName);
   }
 
-  public startGame() {
-    if (!this.isAllowPlay()) return;
+  public startGame(): void {
+    this.gameService.createPlayer(this.playerName, this.selectedHouse);
 
-    this.router.navigateByUrl('game');
+    this._router.navigateByUrl('game');
   }
 }

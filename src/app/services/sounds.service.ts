@@ -31,7 +31,7 @@ export class SoundsService {
     };
   }
 
-  private bgSound: IBgSound = {
+  private _bgSound: IBgSound = {
     soundNames: Object.values(BACKGROUND_AUDIO.mainMenu),
     currentSoundIndex: 0,
     currentSound: null,
@@ -48,11 +48,11 @@ export class SoundsService {
   public dragonRoar: IExtHTMLAudioElement = null;
   public swordBattle: IExtHTMLAudioElement = null;
 
-  public get togglerBgSound() {
-    return this.bgSound.toggler;
+  public get togglerBgSound(): boolean {
+    return this._bgSound.toggler;
   }
 
-  public init() {
+  public init(): void {
     this.dragonFlame = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.dragonFlame}`);
     this.dragonFlame.volume = 0.5;
 
@@ -75,22 +75,24 @@ export class SoundsService {
     this.playBgSound();
   }
 
-  public toggleBgSound() {
-    this.bgSound.currentSound.volume = this.bgSound.toggler ? 0 : 1;
-    this.bgSound.toggler = !this.bgSound.toggler;
-    localStorage.setItem(EKeyLocalStorage.TogglerBgSound, this.bgSound.toggler.toString());
+  public toggleBgSound(): void {
+    this._bgSound.currentSound.volume = this._bgSound.toggler ? 0 : 1;
+    this._bgSound.toggler = !this._bgSound.toggler;
+    localStorage.setItem(EKeyLocalStorage.TogglerBgSound, this._bgSound.toggler.toString());
   }
 
-  private playBgSound() {
-    this.bgSound.currentSound = new Audio(
-      `${PATH_TO_AUDIO}/${this.bgSound.soundNames[this.bgSound.currentSoundIndex]}`
+  private playBgSound(): void {
+    this._bgSound.currentSound = new Audio(
+      `${PATH_TO_AUDIO}/${this._bgSound.soundNames[this._bgSound.currentSoundIndex]}`
     );
-    this.bgSound.currentSound.volume = Number(this.bgSound.toggler);
-    this.bgSound.currentSound.play();
+    this._bgSound.currentSound.volume = Number(this._bgSound.toggler);
+    this._bgSound.currentSound.play();
 
-    this.bgSound.currentSound.onended = () => {
-      this.bgSound.currentSoundIndex =
-        this.bgSound.currentSoundIndex === this.bgSound.soundNames.length - 1 ? 0 : this.bgSound.currentSoundIndex + 1;
+    this._bgSound.currentSound.onended = () => {
+      this._bgSound.currentSoundIndex =
+        this._bgSound.currentSoundIndex === this._bgSound.soundNames.length - 1
+          ? 0
+          : this._bgSound.currentSoundIndex + 1;
 
       this.playBgSound();
     };

@@ -6,7 +6,7 @@ import { EKeyLocalStorage } from 'src/app/enums/EKeyLocalStorage';
 
 interface ITableItem {
   name: string;
-  points: number;
+  score: number;
   date: Date;
 }
 
@@ -16,7 +16,7 @@ interface ITableItem {
   styleUrls: ['./top-table.component.scss']
 })
 export class TopTableComponent {
-  constructor(private router: Router, public soundsService: SoundsService) {}
+  constructor(private _router: Router, public soundsService: SoundsService) {}
 
   public bgImageName = getRandomMenuBgImage();
   public sortByNameState: 'desc' | 'asc' = null;
@@ -27,10 +27,10 @@ export class TopTableComponent {
   @HostListener('document:keydown.escape')
   onKeydownEscapeHandler() {
     this.soundsService.dragonStompy.restart();
-    this.router.navigateByUrl('');
+    this._router.navigateByUrl('');
   }
 
-  public sortByName() {
+  public sortByName(): void {
     this.soundsService.past.restart();
 
     this.sortByPointsState = null;
@@ -45,22 +45,22 @@ export class TopTableComponent {
     }
   }
 
-  public sortByPoints() {
+  public sortByPoints(): void {
     this.soundsService.past.restart();
 
     this.sortByNameState = null;
     this.sortByDateState = null;
 
     if (this.sortByPointsState === null || this.sortByPointsState === 'desc') {
-      this.tableData.sort((a, b) => a.points - b.points);
+      this.tableData.sort((a, b) => a.score - b.score);
       this.sortByPointsState = 'asc';
     } else {
-      this.tableData.sort((a, b) => b.points - a.points);
+      this.tableData.sort((a, b) => b.score - a.score);
       this.sortByPointsState = 'desc';
     }
   }
 
-  public sortByDate() {
+  public sortByDate(): void {
     this.soundsService.past.restart();
 
     this.sortByNameState = null;

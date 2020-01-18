@@ -4,12 +4,12 @@
   <div class="game-field">
     <div
       class="player"
-      [style.top.px]="playerService.position.y"
-      [style.left.px]="playerService.position.x"
-      [style.width.px]="playerService.sizeInPx"
-      [style.transform]="playerService.direction"
+      [style.top.px]="player.position.top"
+      [style.left.px]="player.position.left"
+      [style.width.px]="player.widthHeroInPx"
+      [style.transform]="player.direction"
     >
-      <img src="assets/img/game/players/{{ playerService.house }}.gif" />
+      <img src="assets/img/game/players/{{ player.house }}.gif" />
     </div>
   </div>
 </div>
