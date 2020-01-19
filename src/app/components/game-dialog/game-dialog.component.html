@@ -1,0 +1,22 @@
+<div class="overlay" [hidden]="!(state$ | async)" (click)="close()"></div>
+
+<div [class.hide]="!(state$ | async)" class="content">
+  <div class="buttons">
+    <div class="button" (mouseenter)="mouseenterButtonMenu()" (click)="close()">
+      {{ 'Game.GameDialog.ButtonNames.Continue' | translate }}
+    </div>
+
+    <div class="button" (mouseenter)="mouseenterButtonMenu()">
+      {{ 'Game.GameDialog.ButtonNames.Safe' | translate }}
+    </div>
+
+    <div
+      class="button"
+      (mouseenter)="mouseenterButtonMenu()"
+      routerLink=""
+      (click)="soundsService.dragonStompy.restart()"
+    >
+      {{ 'Game.GameDialog.ButtonNames.Exit' | translate }}
+    </div>
+  </div>
+</div>

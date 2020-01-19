@@ -7,7 +7,7 @@ export abstract class GoingHero extends Player {
   constructor(settings: IPlayerSettings) {
     super(settings);
 
-    this.jump$
+    this._jump$
       .pipe(
         debounceTime(DEBOUNCE_TIME_JUMP_IN_MS),
         filter(() => !this._isJumpingNow),
@@ -28,12 +28,12 @@ export abstract class GoingHero extends Player {
   }
 
   private readonly _maxHeightJumpInPx = 220;
-  private readonly jump$ = new Subject();
+  private readonly _jump$ = new Subject();
 
   private _isJumpingNow = false;
   private _isAchieveMaxJump = false;
 
   public jump(): void {
-    this.jump$.next();
+    this._jump$.next();
   }
 }

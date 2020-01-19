@@ -16,7 +16,7 @@
     "Title": "Таблица рекордов",
     "ColumnTitles": {
       "Name": "Имя",
-      "Points": "Баллы",
+      "Score": "Очки",
       "Date": "Дата"
     },
     "NoteEmptyTable": "На данный момент таблица пуста"
@@ -40,6 +40,13 @@
     "PlayerInfo": "Ваше имя"
   },
   "Game": {
-    "NotePlayerNotExists": "Вы не выбрали дом, за который будете играть"
+    "NotePlayerNotExists": "Вы не выбрали дом, за который будете играть",
+    "GameDialog": {
+      "ButtonNames": {
+        "Continue": "Продолжить",
+        "Safe": "Сохранить",
+        "Exit": "Выйти"
+      }
+    }
   }
 }

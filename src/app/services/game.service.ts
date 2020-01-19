@@ -10,7 +10,7 @@ export class GameService {
   public player: Player = null;
 
   public createPlayer(name: string, house: EHouse) {
-    const ClassOfHouse = this.getClassRorHouse(house);
+    const ClassOfHouse = this._getClassRorHouse(house);
     this.player = new ClassOfHouse({ name });
   }
 
@@ -18,7 +18,7 @@ export class GameService {
 
   public saveGame(): void {}
 
-  private getClassRorHouse(house: EHouse): Type<Player> {
+  private _getClassRorHouse(house: EHouse): Type<Player> {
     switch (house) {
       case EHouse.Stark:
         return Stark;

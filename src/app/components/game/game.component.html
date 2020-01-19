@@ -1,5 +1,19 @@
 <div class="content" *ngIf="isPlayerExists(); else note">
-  <div class="info-panel"></div>
+  <div class="info-panel">
+    <div class="hero-state">
+      <div class="lives">
+        <img *ngFor="let item of getLivesAsArray()" src="assets/img/game/life.png" />
+      </div>
+
+      <div class="shield">
+        <img src="assets/img/game/shield.png" />
+      </div>
+    </div>
+
+    <div class="score">
+      <h1>{{ player.score }}</h1>
+    </div>
+  </div>
 
   <div class="game-field">
     <div
@@ -12,6 +26,8 @@
       <img src="assets/img/game/players/{{ player.house }}.gif" />
     </div>
   </div>
+
+  <game-dialog [state$]="stateGameDialog$"></game-dialog>
 </div>
 
 <ng-template #note>

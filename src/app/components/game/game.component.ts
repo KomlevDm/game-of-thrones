@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { GameService } from 'src/app/services/game.service';
 import { SoundsService } from 'src/app/services/sounds.service';
 import { Router } from '@angular/router';
@@ -6,27 +6,41 @@ import { Player } from 'src/app/classes/Player';
 import { Targaryen } from 'src/app/classes/Targaryen';
 import { Lannister } from 'src/app/classes/Lannister';
 import { Stark } from 'src/app/classes/Stark';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss']
 })
-export class GameComponent implements OnInit {
-  constructor(private router: Router, public soundsService: SoundsService, public gameService: GameService) {
+export class GameComponent implements OnInit, OnDestroy {
+  constructor(private _router: Router, public soundsService: SoundsService, public gameService: GameService) {
     this.player = gameService.player;
   }
 
+  private _destroyedComponent$ = new Subject();
   private _isKeydownArrowUp = false;
   private _isKeydownArrowDown = false;
   private _isKeydownArrowLeft = false;
   private _isKeydownArrowRight = false;
   private _isKeydownSpace = false;
+  private _pauseGame = false;
 
   public player: Player;
+  public stateGameDialog$ = new BehaviorSubject(false);
 
   ngOnInit() {
+    this.stateGameDialog$
+      .pipe(takeUntil(this._destroyedComponent$))
+      .subscribe(dialogState => (this._pauseGame = dialogState));
+
     if (this.isPlayerExists()) this.gameLoop();
+  }
+
+  ngOnDestroy() {
+    this._destroyedComponent$.next();
+    this._destroyedComponent$.complete();
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -53,11 +67,12 @@ export class GameComponent implements OnInit {
         break;
 
       case 'Escape':
-        if (!this.isPlayerExists()) {
+        if (this.isPlayerExists()) this._toggleGameDialog();
+        else {
           this.soundsService.dragonStompy.restart();
-          this.router.navigateByUrl('/hero-selection');
-        } else {
+          this._router.navigateByUrl('/hero-selection');
         }
+
         break;
     }
   }
@@ -85,26 +100,26 @@ export class GameComponent implements OnInit {
         this._isKeydownSpace = false;
         break;
     }
-
-    this._isKeydownSpace = true;
   }
 
   public gameLoop(): void {
-    if (this._isKeydownArrowUp) {
-      if (this.player instanceof Targaryen) this.player.stepToUp();
+    if (!this._pauseGame) {
+      if (this._isKeydownArrowUp) {
+        if (this.player instanceof Targaryen) this.player.stepToUp();
 
-      if (this.player instanceof Stark || this.player instanceof Lannister) this.player.jump();
-    }
+        if (this.player instanceof Stark || this.player instanceof Lannister) this.player.jump();
+      }
 
-    if (this._isKeydownArrowDown) {
-      if (this.player instanceof Targaryen) this.player.stepToDown();
-    }
+      if (this._isKeydownArrowDown) {
+        if (this.player instanceof Targaryen) this.player.stepToDown();
+      }
 
-    if (this._isKeydownArrowLeft) this.player.stepToLeft();
+      if (this._isKeydownArrowLeft) this.player.stepToLeft();
 
-    if (this._isKeydownArrowRight) this.player.stepToRight();
+      if (this._isKeydownArrowRight) this.player.stepToRight();
 
-    if (this._isKeydownSpace) {
+      if (this._isKeydownSpace) {
+      }
     }
 
     requestAnimationFrame(this.gameLoop.bind(this));
@@ -112,5 +127,19 @@ export class GameComponent implements OnInit {
 
   public isPlayerExists(): boolean {
     return this.player !== null;
+  }
+
+  public getLivesAsArray(): void[] {
+    return new Array(this.player.lives);
+  }
+
+  private _toggleGameDialog(): void {
+    if (this.stateGameDialog$.value) {
+      this.soundsService.past.restart();
+      this.stateGameDialog$.next(false);
+    } else {
+      this.soundsService.shortTomahawk.restart();
+      this.stateGameDialog$.next(true);
+    }
   }
 }

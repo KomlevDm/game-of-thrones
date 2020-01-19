@@ -16,5 +16,7 @@ export const ACTION_AUDIO = {
   past: 'past.mp3',
   dragonStompy: 'dragon-stompy.mp3',
   dragonRoar: 'dragon-roar.mp3',
-  swordBattle: 'sword-battle.mp3'
+  swordBattle: 'sword-battle.mp3',
+  lionRoar: 'lion-roar.mp3',
+  wolfRipsApartEnemy: 'wolf-rips-apart-enemy.mp3'
 };

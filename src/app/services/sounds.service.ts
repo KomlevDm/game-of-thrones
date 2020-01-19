@@ -35,7 +35,7 @@ export class SoundsService {
     soundNames: Object.values(BACKGROUND_AUDIO.mainMenu),
     currentSoundIndex: 0,
     currentSound: null,
-    toggler: this.initTogglerBgSound()
+    toggler: this._initTogglerBgSound()
   };
 
   public dragonFlame: IExtHTMLAudioElement = null;
@@ -47,6 +47,8 @@ export class SoundsService {
   public dragonStompy: IExtHTMLAudioElement = null;
   public dragonRoar: IExtHTMLAudioElement = null;
   public swordBattle: IExtHTMLAudioElement = null;
+  public lionRoar: IExtHTMLAudioElement = null;
+  public wolfRipsApartEnemy: IExtHTMLAudioElement = null;
 
   public get togglerBgSound(): boolean {
     return this._bgSound.toggler;
@@ -60,6 +62,7 @@ export class SoundsService {
 
     this.tomahawk = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.tomahawk}`);
     this.shortTomahawk = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.shortTomahawk}`);
+    this.shortTomahawk.volume = 0.5;
 
     this.pierceWithSword = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.pierceWithSword}`);
 
@@ -72,7 +75,12 @@ export class SoundsService {
 
     this.swordBattle = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.swordBattle}`);
 
-    this.playBgSound();
+    this.lionRoar = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.lionRoar}`);
+    this.lionRoar.volume = 0.5;
+
+    this.wolfRipsApartEnemy = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.wolfRipsApartEnemy}`);
+
+    this._playBgSound();
   }
 
   public toggleBgSound(): void {
@@ -81,7 +89,7 @@ export class SoundsService {
     localStorage.setItem(EKeyLocalStorage.TogglerBgSound, this._bgSound.toggler.toString());
   }
 
-  private playBgSound(): void {
+  private _playBgSound(): void {
     this._bgSound.currentSound = new Audio(
       `${PATH_TO_AUDIO}/${this._bgSound.soundNames[this._bgSound.currentSoundIndex]}`
     );
@@ -94,11 +102,11 @@ export class SoundsService {
           ? 0
           : this._bgSound.currentSoundIndex + 1;
 
-      this.playBgSound();
+      this._playBgSound();
     };
   }
 
-  private initTogglerBgSound(): boolean {
+  private _initTogglerBgSound(): boolean {
     const togglerBgSound = localStorage.getItem(EKeyLocalStorage.TogglerBgSound);
 
     return togglerBgSound === null ? true : JSON.parse(togglerBgSound);

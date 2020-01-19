@@ -13,18 +13,22 @@ export interface IPlayerSettings {
   direction: string;
   position: IPosition;
   heightHeroInPx: number;
+  lives: number;
+  score: number;
 }
 
 export abstract class Player {
   static defaultName = 'Player';
 
-  constructor({ name, house, heightHeroInPx, direction, position }: IPlayerSettings) {
+  constructor({ name, house, heightHeroInPx, direction, position, lives, score }: IPlayerSettings) {
     console.log(heightHeroInPx);
     this._name = name || Player.defaultName;
     this._house = house;
     this._heightHeroInPx = heightHeroInPx;
     this._direction = direction || 'unset';
     this._position = position;
+    this._lives = lives || 5;
+    this._score = score || 0;
   }
 
   private readonly _name: string;
@@ -36,9 +40,9 @@ export abstract class Player {
 
   private _direction: string;
   private _position: IPosition;
+  private _lives: number;
+  private _score: number;
 
-  public lives: number;
-  public score: number;
   public isActivatedShield: boolean;
 
   public get name(): string {
@@ -57,6 +61,14 @@ export abstract class Player {
     return this._position;
   }
 
+  public get lives(): number {
+    return this._lives;
+  }
+
+  public get score(): number {
+    return this._score;
+  }
+
   public get widthHeroInPx(): number {
     return this._widthHeroInPx;
   }
@@ -65,7 +77,7 @@ export abstract class Player {
     const newPositionLeft = this.position.left - this._stepSizeInPx;
 
     if (newPositionLeft >= 0) {
-      this.setDirection(EDirection.Left);
+      this._setDirection(EDirection.Left);
       this.position.left = newPositionLeft;
     }
   }
@@ -74,12 +86,20 @@ export abstract class Player {
     const newPositionLeft = this.position.left + this._stepSizeInPx;
 
     if (newPositionLeft + this._widthHeroInPx <= SIZE_FIELD_GAME_IN_PX.width) {
-      this.setDirection(EDirection.Right);
+      this._setDirection(EDirection.Right);
       this.position.left = newPositionLeft;
     }
   }
 
-  private setDirection(direction: EDirection): void {
+  public deleteLife(): void {
+    this._lives -= 1;
+  }
+
+  public increaseScore(value: number): void {
+    this._score += value;
+  }
+
+  private _setDirection(direction: EDirection): void {
     switch (direction) {
       case EDirection.Left:
         this._direction = 'scale(-1, 1)';

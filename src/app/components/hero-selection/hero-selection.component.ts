@@ -29,17 +29,20 @@ export class HeroSelectionComponent {
     switch (house) {
       case EHouse.Stark:
         this.soundsService.dragonRoar.stop();
-        this.soundsService.swordBattle.restart();
+        this.soundsService.lionRoar.stop();
+        this.soundsService.wolfRipsApartEnemy.restart();
         break;
 
       case EHouse.Targaryen:
-        this.soundsService.swordBattle.stop();
+        this.soundsService.wolfRipsApartEnemy.stop();
+        this.soundsService.lionRoar.stop();
         this.soundsService.dragonRoar.restart();
         break;
 
       case EHouse.Lannister:
+        this.soundsService.wolfRipsApartEnemy.stop();
         this.soundsService.dragonRoar.stop();
-        this.soundsService.swordBattle.restart();
+        this.soundsService.lionRoar.restart();
         break;
     }
   }

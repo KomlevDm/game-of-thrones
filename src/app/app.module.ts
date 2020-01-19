@@ -15,6 +15,7 @@ import { TopTableComponent } from './components/top-table/top-table.component';
 import { HeroSelectionComponent } from './components/hero-selection/hero-selection.component';
 import { FormsModule } from '@angular/forms';
 import { GameComponent } from './components/game/game.component';
+import { GameDialogComponent } from './components/game-dialog/game-dialog.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -27,7 +28,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ToggleLanguageDialogComponent,
     TopTableComponent,
     HeroSelectionComponent,
-    GameComponent
+    GameComponent,
+    GameDialogComponent
   ],
   imports: [
     BrowserAnimationsModule,

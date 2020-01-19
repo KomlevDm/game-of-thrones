@@ -16,7 +16,7 @@
     "Title": "Top",
     "ColumnTitles": {
       "Name": "Name",
-      "Points": "Points",
+      "Score": "Score",
       "Date": "Date"
     },
     "NoteEmptyTable": "The table is currently empty"
@@ -40,6 +40,13 @@
     "PlayerInfo": "Your name"
   },
   "Game": {
-    "NotePlayerNotExists": "You have not chosen a house for which you will play"
+    "NotePlayerNotExists": "You have not chosen a house for which you will play",
+    "GameDialog": {
+      "ButtonNames": {
+        "Continue": "Continue",
+        "Safe": "Safe",
+        "Exit": "Exit"
+      }
+    }
   }
 }

@@ -15,8 +15,49 @@
     animation       : game-bg-animation 10s infinite linear;
 
     .info-panel {
-      height    : 50px;
-      box-shadow: 0 0px 10px 5px rgba(0, 0, 0, 0.4);
+      height         : 50px;
+      display        : flex;
+      align-items    : center;
+      justify-content: space-between;
+      padding        : 0 5px;
+
+      .hero-state {
+        display        : flex;
+        align-items    : center;
+        padding-top    : 2px;
+        justify-content: space-between;
+        width          : 390px;
+
+        .lives {
+          img {
+            width: 40px;
+
+            &:not(:last-child) {
+              margin-right: 10px;
+            }
+          }
+        }
+
+        .shield {
+          img {
+            width: 38px;
+          }
+        }
+      }
+
+      .score {
+        h1 {
+          font-size          : 21px;
+          text-shadow        : -2px -3px 0px #000000, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff;
+          background-image   : url(../../../assets/img/bg/fire-sphere.gif);
+          background-size    : cover;
+          color              : transparent;
+          background-clip    : text;
+          letter-spacing     : 5px;
+          background-position: 0;
+          margin-top         : 7px;
+        }
+      }
     }
 
     .game-field {

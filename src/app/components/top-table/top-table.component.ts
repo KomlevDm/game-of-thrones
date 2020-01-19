@@ -20,9 +20,9 @@ export class TopTableComponent {
 
   public bgImageName = getRandomMenuBgImage();
   public sortByNameState: 'desc' | 'asc' = null;
-  public sortByPointsState: 'desc' | 'asc' = null;
+  public sortByScoreState: 'desc' | 'asc' = null;
   public sortByDateState: 'desc' | 'asc' = null;
-  public tableData = this.initTableData();
+  public tableData = this._initTableData();
 
   @HostListener('document:keydown.escape')
   onKeydownEscapeHandler() {
@@ -33,7 +33,7 @@ export class TopTableComponent {
   public sortByName(): void {
     this.soundsService.past.restart();
 
-    this.sortByPointsState = null;
+    this.sortByScoreState = null;
     this.sortByDateState = null;
 
     if (this.sortByNameState === null || this.sortByNameState === 'desc') {
@@ -45,18 +45,18 @@ export class TopTableComponent {
     }
   }
 
-  public sortByPoints(): void {
+  public sortByScore(): void {
     this.soundsService.past.restart();
 
     this.sortByNameState = null;
     this.sortByDateState = null;
 
-    if (this.sortByPointsState === null || this.sortByPointsState === 'desc') {
+    if (this.sortByScoreState === null || this.sortByScoreState === 'desc') {
       this.tableData.sort((a, b) => a.score - b.score);
-      this.sortByPointsState = 'asc';
+      this.sortByScoreState = 'asc';
     } else {
       this.tableData.sort((a, b) => b.score - a.score);
-      this.sortByPointsState = 'desc';
+      this.sortByScoreState = 'desc';
     }
   }
 
@@ -64,7 +64,7 @@ export class TopTableComponent {
     this.soundsService.past.restart();
 
     this.sortByNameState = null;
-    this.sortByPointsState = null;
+    this.sortByScoreState = null;
 
     if (this.sortByDateState === null || this.sortByDateState === 'desc') {
       this.tableData.sort((a, b) => a.date.getTime() - b.date.getTime());
@@ -75,7 +75,7 @@ export class TopTableComponent {
     }
   }
 
-  private initTableData(): ITableItem[] {
+  private _initTableData(): ITableItem[] {
     const topTableDate = localStorage.getItem(EKeyLocalStorage.TopTableDate);
 
     return topTableDate === null ? [] : JSON.parse(topTableDate);
