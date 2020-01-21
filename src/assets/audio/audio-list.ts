@@ -18,5 +18,6 @@ export const ACTION_AUDIO = {
   dragonRoar: 'dragon-roar.mp3',
   swordBattle: 'sword-battle.mp3',
   lionRoar: 'lion-roar.mp3',
-  wolfRipsApartEnemy: 'wolf-rips-apart-enemy.mp3'
+  wolfRipsApartEnemy: 'wolf-rips-apart-enemy.mp3',
+  zombieBite: 'zombie-bite.mp3'
 };

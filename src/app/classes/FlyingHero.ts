@@ -7,14 +7,14 @@ export abstract class FlyingHero extends Player {
   }
 
   public stepToUp(): void {
-    const newPositionTop = this.position.top - this._stepSizeInPx;
+    const newPositionTop = this.positionInPx.top - this._stepSizeHeroInPx;
 
-    if (newPositionTop >= 0) this.position.top = newPositionTop;
+    if (newPositionTop >= 0) this.positionInPx.top = newPositionTop;
   }
 
   public stepToDown(): void {
-    const newPositionTop = this.position.top + this._stepSizeInPx;
+    const newPositionTop = this.positionInPx.top + this._stepSizeHeroInPx;
 
-    if (newPositionTop + this._heightHeroInPx <= SIZE_FIELD_GAME_IN_PX.height) this.position.top = newPositionTop;
+    if (newPositionTop + this._heightHeroInPx <= SIZE_FIELD_GAME_IN_PX.height) this.positionInPx.top = newPositionTop;
   }
 }

@@ -49,7 +49,7 @@
         h1 {
           font-size          : 21px;
           text-shadow        : -2px -3px 0px #000000, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff;
-          background-image   : url(../../../assets/img/bg/fire-sphere.gif);
+          background-image   : url(../../../assets/img/game/attacks/fire-sphere.gif);
           background-size    : cover;
           color              : transparent;
           background-clip    : text;
@@ -75,6 +75,13 @@
         img {
           width: 100%;
         }
+      }
+
+      .attack {
+        position     : absolute;
+        width        : 25px;
+        animation    : rotate-pulsar-to-left 0.5s linear infinite;
+        border-radius: 50%;
       }
     }
   }

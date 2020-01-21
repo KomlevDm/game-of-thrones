@@ -7,8 +7,12 @@ export class Targaryen extends FlyingHero {
     super({
       ...settings,
       house: EHouse.Targaryen,
-      position: settings.position || { left: 0, top: 150 },
-      heightHeroInPx: 223
+      positionInPx: settings.positionInPx || { left: 0, top: 150 },
+      heightHeroInPx: 223,
+      attack: {
+        name: 'fire-sphere.gif',
+        deltaTopPositionInPx: -16
+      }
     });
   }
 }

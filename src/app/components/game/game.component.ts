@@ -1,8 +1,17 @@
-import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  HostListener,
+  OnDestroy,
+  ViewChild,
+  ViewContainerRef,
+  TemplateRef,
+  EmbeddedViewRef
+} from '@angular/core';
 import { GameService } from 'src/app/services/game.service';
 import { SoundsService } from 'src/app/services/sounds.service';
 import { Router } from '@angular/router';
-import { Player } from 'src/app/classes/Player';
+import { Player, ISettingsAttackNodeElement } from 'src/app/classes/Player';
 import { Targaryen } from 'src/app/classes/Targaryen';
 import { Lannister } from 'src/app/classes/Lannister';
 import { Stark } from 'src/app/classes/Stark';
@@ -17,6 +26,7 @@ import { takeUntil } from 'rxjs/operators';
 export class GameComponent implements OnInit, OnDestroy {
   constructor(private _router: Router, public soundsService: SoundsService, public gameService: GameService) {
     this.player = gameService.player;
+    if (this.player) this.player.initAttack(this._fabricAttackNodeElement.bind(this));
   }
 
   private _destroyedComponent$ = new Subject();
@@ -29,6 +39,9 @@ export class GameComponent implements OnInit, OnDestroy {
 
   public player: Player;
   public stateGameDialog$ = new BehaviorSubject(false);
+
+  @ViewChild('gameField', { static: false, read: ViewContainerRef }) gameField: ViewContainerRef;
+  @ViewChild('attack', { static: false }) attackNodeElementTemplate: TemplateRef<ISettingsAttackNodeElement>;
 
   ngOnInit() {
     this.stateGameDialog$
@@ -118,9 +131,10 @@ export class GameComponent implements OnInit, OnDestroy {
 
       if (this._isKeydownArrowRight) this.player.stepToRight();
 
-      if (this._isKeydownSpace) {
-      }
+      if (this._isKeydownSpace) this.player.attack();
     }
+
+    this.player.drawAttackNodeElements();
 
     requestAnimationFrame(this.gameLoop.bind(this));
   }
@@ -141,5 +155,12 @@ export class GameComponent implements OnInit, OnDestroy {
       this.soundsService.shortTomahawk.restart();
       this.stateGameDialog$.next(true);
     }
+  }
+
+  private _fabricAttackNodeElement(settings: ISettingsAttackNodeElement): EmbeddedViewRef<ISettingsAttackNodeElement> {
+    const attackNodeElement = this.attackNodeElementTemplate.createEmbeddedView(settings);
+    this.gameField.insert(attackNodeElement);
+
+    return attackNodeElement;
   }
 }

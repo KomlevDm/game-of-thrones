@@ -49,6 +49,7 @@ export class SoundsService {
   public swordBattle: IExtHTMLAudioElement = null;
   public lionRoar: IExtHTMLAudioElement = null;
   public wolfRipsApartEnemy: IExtHTMLAudioElement = null;
+  public zombieBite: IExtHTMLAudioElement = null;
 
   public get togglerBgSound(): boolean {
     return this._bgSound.toggler;
@@ -79,6 +80,8 @@ export class SoundsService {
     this.lionRoar.volume = 0.5;
 
     this.wolfRipsApartEnemy = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.wolfRipsApartEnemy}`);
+
+    this.zombieBite = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.zombieBite}`);
 
     this._playBgSound();
   }

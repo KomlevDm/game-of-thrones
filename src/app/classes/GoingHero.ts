@@ -15,11 +15,11 @@ export abstract class GoingHero extends Player {
         switchMap(() => timer(0, 10).pipe(takeWhile(() => this._isJumpingNow)))
       )
       .subscribe(() => {
-        if (this.position.top - this._stepSizeInPx >= this._maxHeightJumpInPx && !this._isAchieveMaxJump) {
-          this.position.top -= this._stepSizeInPx;
-        } else if (this.position.top + this._stepSizeInPx + this._heightHeroInPx <= SIZE_FIELD_GAME_IN_PX.height) {
+        if (this.positionInPx.top - this._stepSizeHeroInPx >= this._maxHeightJumpInPx && !this._isAchieveMaxJump) {
+          this.positionInPx.top -= this._stepSizeHeroInPx;
+        } else if (this.positionInPx.top + this._stepSizeHeroInPx + this._heightHeroInPx <= SIZE_FIELD_GAME_IN_PX.height) {
           this._isAchieveMaxJump = true;
-          this.position.top += this._stepSizeInPx;
+          this.positionInPx.top += this._stepSizeHeroInPx;
         } else {
           this._isAchieveMaxJump = false;
           this._isJumpingNow = false;
@@ -28,7 +28,7 @@ export abstract class GoingHero extends Player {
   }
 
   private readonly _maxHeightJumpInPx = 220;
-  private readonly _jump$ = new Subject();
+  private readonly _jump$ = new Subject<void>();
 
   private _isJumpingNow = false;
   private _isAchieveMaxJump = false;

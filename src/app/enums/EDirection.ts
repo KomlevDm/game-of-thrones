@@ -1,4 +1,4 @@
 export enum EDirection {
-  Left,
-  Right
+  Left = 'left',
+  Right = 'right'
 }
