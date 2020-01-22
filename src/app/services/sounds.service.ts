@@ -50,6 +50,10 @@ export class SoundsService {
   public lionRoar: IExtHTMLAudioElement = null;
   public wolfRipsApartEnemy: IExtHTMLAudioElement = null;
   public zombieBite: IExtHTMLAudioElement = null;
+  public shield: IExtHTMLAudioElement = null;
+  public starkAttack: IExtHTMLAudioElement = null;
+  public targaryenAttack: IExtHTMLAudioElement = null;
+  public lannisterAttack: IExtHTMLAudioElement = null;
 
   public get togglerBgSound(): boolean {
     return this._bgSound.toggler;
@@ -83,6 +87,14 @@ export class SoundsService {
 
     this.zombieBite = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.zombieBite}`);
 
+    this.shield = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.shield}`);
+
+    this.starkAttack = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.starkAttack}`);
+
+    this.targaryenAttack = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.targaryenAttack}`);
+
+    this.lannisterAttack = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.lannisterAttack}`);
+
     this._playBgSound();
   }
 
@@ -97,7 +109,7 @@ export class SoundsService {
       `${PATH_TO_AUDIO}/${this._bgSound.soundNames[this._bgSound.currentSoundIndex]}`
     );
     this._bgSound.currentSound.volume = Number(this._bgSound.toggler);
-    this._bgSound.currentSound.play();
+    this._bgSound.currentSound.autoplay = true;
 
     this._bgSound.currentSound.onended = () => {
       this._bgSound.currentSoundIndex =

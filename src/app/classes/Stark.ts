@@ -7,11 +7,9 @@ export class Stark extends GoingHero {
     super({
       ...settings,
       house: EHouse.Stark,
-      positionInPx: settings.positionInPx || { left: 0, top: 400 },
-      heightHeroInPx: 150,
       attack: {
         name: 'attack-3.png',
-        deltaTopPositionInPx: -40
+        deltaTopPositionInPx: -33
       }
     });
   }

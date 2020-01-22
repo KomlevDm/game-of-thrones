@@ -42,10 +42,15 @@
   "Game": {
     "NotePlayerNotExists": "Вы не выбрали дом, за который будете играть",
     "GameDialog": {
+      "GameOverText": "Игра окончена",
+      "SaveText": "Сохранить текущие достижения, как",
       "ButtonNames": {
         "Continue": "Продолжить",
-        "Safe": "Сохранить",
-        "Exit": "Выйти"
+        "Save": "Сохранить",
+        "Exit": "Выйти",
+        "Restart": "Заново",
+        "Ok": "Ок",
+        "Cancel": "Закрыть"
       }
     }
   }

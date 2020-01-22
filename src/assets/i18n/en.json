@@ -42,10 +42,15 @@
   "Game": {
     "NotePlayerNotExists": "You have not chosen a house for which you will play",
     "GameDialog": {
+      "GameOverText": "Game over",
+      "SaveText": "Save current achievements as",
       "ButtonNames": {
         "Continue": "Continue",
-        "Safe": "Safe",
-        "Exit": "Exit"
+        "Save": "Save",
+        "Exit": "Exit",
+        "Restart": "Restart",
+        "Ok": "Ok",
+        "Cancel": "Cancel"
       }
     }
   }

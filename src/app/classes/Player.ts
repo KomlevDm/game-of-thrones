@@ -2,8 +2,8 @@ import { EHouse } from '../enums/EHouse';
 import { EDirection } from '../enums/EDirection';
 import { SIZE_FIELD_GAME_IN_PX, DEBOUNCE_TIME_ATTACK_IN_MS } from '../constants/gameSettings';
 import { EmbeddedViewRef } from '@angular/core';
-import { debounceTime } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { debounceTime, switchMap, mergeMap } from 'rxjs/operators';
+import { Subject, timer } from 'rxjs';
 
 type FabricAttackNodeElementType = (
   settings: ISettingsAttackNodeElement
@@ -17,6 +17,7 @@ interface IPosition {
 interface IAttack {
   name: string;
   deltaTopPositionInPx: number;
+  deltaLeftPositionInPx: number;
   stepSizeInPx: number;
   widthInPx: number;
   gapWithoutHeroInPx: number;
@@ -43,6 +44,8 @@ export interface IPlayerSettings {
   heightHeroInPx: number;
   lives: number;
   score: number;
+  isActivatedShield: boolean;
+  isBlockedShield: boolean;
   attack: {
     name: string;
     deltaTopPositionInPx: number;
@@ -52,17 +55,31 @@ export interface IPlayerSettings {
 export abstract class Player {
   static defaultName = 'Player';
 
-  constructor({ name, house, heightHeroInPx, direction, positionInPx, lives, score, attack }: IPlayerSettings) {
+  constructor({
+    name,
+    house,
+    heightHeroInPx,
+    direction,
+    positionInPx,
+    lives,
+    score,
+    isActivatedShield,
+    isBlockedShield,
+    attack
+  }: IPlayerSettings) {
     this._name = name || Player.defaultName;
     this._house = house;
     this._heightHeroInPx = heightHeroInPx;
-    this._direction = direction || 'unset';
+    this._direction = direction || EDirection.Right;
     this._positionInPx = positionInPx;
     this._lives = lives || 5;
     this._score = score || 0;
+    this._isActivatedShield = isActivatedShield || false;
+    this._isBlockedShield = isBlockedShield || false;
 
     this._attack = {
       ...attack,
+      deltaLeftPositionInPx: 30,
       stepSizeInPx: 10,
       widthInPx: 30,
       gapWithoutHeroInPx: 20,
@@ -72,19 +89,24 @@ export abstract class Player {
     this._attack.attack$.pipe(debounceTime(DEBOUNCE_TIME_ATTACK_IN_MS)).subscribe(attackDirection => {
       const independentSettings = {
         name: this._attack.name,
-        top: this._positionInPx.top + this._heightHeroInPx / 2 + this._attack.deltaTopPositionInPx,
+        top: this._positionInPx.top + this._attack.deltaTopPositionInPx,
         width: this._attack.widthInPx
       };
 
-      const dependentSettings = this._isDirectionToRight(attackDirection)
-        ? {
-            left: this._positionInPx.left + this._widthHeroInPx + this._attack.gapWithoutHeroInPx,
-            animationDirection: EDirection.Right
-          }
-        : {
-            left: this._positionInPx.left - this._attack.gapWithoutHeroInPx,
-            animationDirection: EDirection.Left
-          };
+      const dependentSettings =
+        attackDirection === EDirection.Right
+          ? {
+              left:
+                this._positionInPx.left +
+                this._widthHeroInPx +
+                this._attack.gapWithoutHeroInPx -
+                this._attack.deltaLeftPositionInPx,
+              animationDirection: EDirection.Right
+            }
+          : {
+              left: this._positionInPx.left - this._attack.gapWithoutHeroInPx,
+              animationDirection: EDirection.Left
+            };
 
       const attackObject = {
         attackNodeElement: this._attack.fabricAttackNodeElement({ ...independentSettings, ...dependentSettings }),
@@ -99,6 +121,8 @@ export abstract class Player {
   private readonly _house: EHouse;
   private readonly _widthHeroInPx = 225;
   private readonly _attack: IAttack;
+  private readonly _timeoutShieldInMs = 5000;
+  private readonly _timeoutBlockShieldInMs = 10000;
 
   protected readonly _heightHeroInPx: number;
   protected readonly _stepSizeHeroInPx = 5;
@@ -108,8 +132,8 @@ export abstract class Player {
   private _lives: number;
   private _score: number;
   private _attackObjects: IAttackObject[] = [];
-
-  public isActivatedShield: boolean;
+  private _isActivatedShield: boolean;
+  private _isBlockedShield: boolean;
 
   public get name(): string {
     return this._name;
@@ -135,6 +159,14 @@ export abstract class Player {
     return this._score;
   }
 
+  public get isActivatedShield(): boolean {
+    return this._isActivatedShield;
+  }
+
+  public get isBlockedShield(): boolean {
+    return this._isBlockedShield;
+  }
+
   public get widthHeroInPx(): number {
     return this._widthHeroInPx;
   }
@@ -143,7 +175,7 @@ export abstract class Player {
     const newPositionLeft = this.positionInPx.left - this._stepSizeHeroInPx;
 
     if (newPositionLeft >= 0) {
-      this._setDirection(EDirection.Left);
+      this._direction = EDirection.Left;
       this.positionInPx.left = newPositionLeft;
     }
   }
@@ -152,7 +184,7 @@ export abstract class Player {
     const newPositionLeft = this.positionInPx.left + this._stepSizeHeroInPx;
 
     if (newPositionLeft + this._widthHeroInPx <= SIZE_FIELD_GAME_IN_PX.width) {
-      this._setDirection(EDirection.Right);
+      this._direction = EDirection.Right;
       this.positionInPx.left = newPositionLeft;
     }
   }
@@ -169,7 +201,7 @@ export abstract class Player {
     for (let i = 0; i < this._attackObjects.length; i++) {
       const { attackNodeElement, direction } = this._attackObjects[i];
 
-      if (this._isDirectionToRight(direction)) {
+      if (direction === EDirection.Right) {
         if (attackNodeElement.context.left < SIZE_FIELD_GAME_IN_PX.width)
           attackNodeElement.context.left += this._attack.stepSizeInPx;
         else {
@@ -189,27 +221,29 @@ export abstract class Player {
     }
   }
 
+  public activateShield(): boolean {
+    if (this._isActivatedShield || this._isBlockedShield) return false;
+
+    this._isActivatedShield = true;
+
+    timer(this._timeoutShieldInMs)
+      .pipe(
+        mergeMap(() => {
+          this._isActivatedShield = false;
+          this._isBlockedShield = true;
+          return timer(this._timeoutBlockShieldInMs);
+        })
+      )
+      .subscribe(() => (this._isBlockedShield = false));
+
+    return true;
+  }
+
   public deleteLife(): void {
     this._lives -= 1;
   }
 
   public increaseScore(value: number): void {
     this._score += value;
-  }
-
-  private _setDirection(direction: EDirection): void {
-    switch (direction) {
-      case EDirection.Left:
-        this._direction = 'scale(-1, 1)';
-        break;
-
-      case EDirection.Right:
-        this._direction = 'unset';
-        break;
-    }
-  }
-
-  private _isDirectionToRight(direction: string = this._direction): boolean {
-    return direction === 'unset';
   }
 }

@@ -53,7 +53,6 @@ export class HeroSelectionComponent {
 
   public startGame(): void {
     this.gameService.createPlayer(this.playerName, this.selectedHouse);
-
     this._router.navigateByUrl('game');
   }
 }

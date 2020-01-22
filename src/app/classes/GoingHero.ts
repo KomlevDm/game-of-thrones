@@ -5,7 +5,11 @@ import { timer, Subject } from 'rxjs';
 
 export abstract class GoingHero extends Player {
   constructor(settings: IPlayerSettings) {
-    super(settings);
+    super({
+      ...settings,
+      positionInPx: settings.positionInPx || { left: 0, top: 475 },
+      heightHeroInPx: 150
+    });
 
     this._jump$
       .pipe(
@@ -17,7 +21,10 @@ export abstract class GoingHero extends Player {
       .subscribe(() => {
         if (this.positionInPx.top - this._stepSizeHeroInPx >= this._maxHeightJumpInPx && !this._isAchieveMaxJump) {
           this.positionInPx.top -= this._stepSizeHeroInPx;
-        } else if (this.positionInPx.top + this._stepSizeHeroInPx + this._heightHeroInPx <= SIZE_FIELD_GAME_IN_PX.height) {
+        } else if (
+          this.positionInPx.top + this._stepSizeHeroInPx + this._heightHeroInPx / 2 <=
+          SIZE_FIELD_GAME_IN_PX.height
+        ) {
           this._isAchieveMaxJump = true;
           this.positionInPx.top += this._stepSizeHeroInPx;
         } else {
@@ -27,7 +34,7 @@ export abstract class GoingHero extends Player {
       });
   }
 
-  private readonly _maxHeightJumpInPx = 220;
+  private readonly _maxHeightJumpInPx = 290;
   private readonly _jump$ = new Subject<void>();
 
   private _isJumpingNow = false;

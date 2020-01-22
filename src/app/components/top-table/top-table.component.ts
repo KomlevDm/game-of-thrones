@@ -76,8 +76,8 @@ export class TopTableComponent {
   }
 
   private _initTableData(): ITableItem[] {
-    const topTableDate = localStorage.getItem(EKeyLocalStorage.TopTableDate);
+    const topTableData = localStorage.getItem(EKeyLocalStorage.TopTableData);
 
-    return topTableDate === null ? [] : JSON.parse(topTableDate);
+    return topTableData === null ? [] : JSON.parse(topTableData);
   }
 }

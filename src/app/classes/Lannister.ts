@@ -7,11 +7,9 @@ export class Lannister extends GoingHero {
     super({
       ...settings,
       house: EHouse.Lannister,
-      positionInPx: settings.positionInPx || { left: 0, top: 410 },
-      heightHeroInPx: 140,
       attack: {
         name: 'attack-2.png',
-        deltaTopPositionInPx: -30
+        deltaTopPositionInPx: -25
       }
     });
   }

@@ -7,7 +7,7 @@ export class Targaryen extends FlyingHero {
     super({
       ...settings,
       house: EHouse.Targaryen,
-      positionInPx: settings.positionInPx || { left: 0, top: 150 },
+      positionInPx: settings.positionInPx || { left: 0, top: 260 },
       heightHeroInPx: 223,
       attack: {
         name: 'fire-sphere.gif',

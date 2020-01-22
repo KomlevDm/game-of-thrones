@@ -11,12 +11,13 @@ import {
 import { GameService } from 'src/app/services/game.service';
 import { SoundsService } from 'src/app/services/sounds.service';
 import { Router } from '@angular/router';
-import { Player, ISettingsAttackNodeElement } from 'src/app/classes/Player';
+import { ISettingsAttackNodeElement } from 'src/app/classes/Player';
 import { Targaryen } from 'src/app/classes/Targaryen';
 import { Lannister } from 'src/app/classes/Lannister';
 import { Stark } from 'src/app/classes/Stark';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { EMode } from '../game-dialog/game-dialog.component';
 
 @Component({
   selector: 'game',
@@ -25,8 +26,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class GameComponent implements OnInit, OnDestroy {
   constructor(private _router: Router, public soundsService: SoundsService, public gameService: GameService) {
-    this.player = gameService.player;
-    if (this.player) this.player.initAttack(this._fabricAttackNodeElement.bind(this));
+    if (this.gameService.player) this.gameService.player.initAttack(this._fabricAttackNodeElement.bind(this));
   }
 
   private _destroyedComponent$ = new Subject();
@@ -35,10 +35,13 @@ export class GameComponent implements OnInit, OnDestroy {
   private _isKeydownArrowLeft = false;
   private _isKeydownArrowRight = false;
   private _isKeydownSpace = false;
+  private _isKeydownControlLeft = false;
   private _pauseGame = false;
+  private _requestID: number;
+  private _isGameOver = false;
 
-  public player: Player;
   public stateGameDialog$ = new BehaviorSubject(false);
+  public gameMode$ = new BehaviorSubject(EMode.Game);
 
   @ViewChild('gameField', { static: false, read: ViewContainerRef }) gameField: ViewContainerRef;
   @ViewChild('attack', { static: false }) attackNodeElementTemplate: TemplateRef<ISettingsAttackNodeElement>;
@@ -54,6 +57,8 @@ export class GameComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this._destroyedComponent$.next();
     this._destroyedComponent$.complete();
+
+    cancelAnimationFrame(this._requestID);
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -79,8 +84,12 @@ export class GameComponent implements OnInit, OnDestroy {
         this._isKeydownSpace = true;
         break;
 
+      case 'ControlLeft':
+        this._isKeydownControlLeft = true;
+        break;
+
       case 'Escape':
-        if (this.isPlayerExists()) this._toggleGameDialog();
+        if (this.isPlayerExists() && !this._isGameOver) this._toggleGameDialog();
         else {
           this.soundsService.dragonStompy.restart();
           this._router.navigateByUrl('/hero-selection');
@@ -112,39 +121,57 @@ export class GameComponent implements OnInit, OnDestroy {
       case 'Space':
         this._isKeydownSpace = false;
         break;
+
+      case 'ControlLeft':
+        this._isKeydownControlLeft = false;
+        break;
     }
   }
 
   public gameLoop(): void {
     if (!this._pauseGame) {
       if (this._isKeydownArrowUp) {
-        if (this.player instanceof Targaryen) this.player.stepToUp();
+        if (this.gameService.player instanceof Targaryen) this.gameService.player.stepToUp();
 
-        if (this.player instanceof Stark || this.player instanceof Lannister) this.player.jump();
+        if (this.gameService.player instanceof Stark || this.gameService.player instanceof Lannister) {
+          this.gameService.player.jump();
+        }
       }
 
       if (this._isKeydownArrowDown) {
-        if (this.player instanceof Targaryen) this.player.stepToDown();
+        if (this.gameService.player instanceof Targaryen) this.gameService.player.stepToDown();
       }
 
-      if (this._isKeydownArrowLeft) this.player.stepToLeft();
+      if (this._isKeydownArrowLeft) this.gameService.player.stepToLeft();
 
-      if (this._isKeydownArrowRight) this.player.stepToRight();
+      if (this._isKeydownArrowRight) this.gameService.player.stepToRight();
 
-      if (this._isKeydownSpace) this.player.attack();
+      if (this._isKeydownSpace) {
+        this.gameService.player.attack();
+
+        if (this.gameService.player instanceof Stark) this.soundsService.starkAttack.restart();
+
+        if (this.gameService.player instanceof Targaryen) this.soundsService.targaryenAttack.restart();
+
+        if (this.gameService.player instanceof Lannister) this.soundsService.lannisterAttack.restart();
+      }
+
+      if (this._isKeydownControlLeft) {
+        if (this.gameService.player.activateShield()) this.soundsService.shield.restart();
+      }
     }
 
-    this.player.drawAttackNodeElements();
+    this.gameService.player.drawAttackNodeElements();
 
-    requestAnimationFrame(this.gameLoop.bind(this));
+    this._requestID = requestAnimationFrame(this.gameLoop.bind(this));
   }
 
   public isPlayerExists(): boolean {
-    return this.player !== null;
+    return this.gameService.player !== null;
   }
 
   public getLivesAsArray(): void[] {
-    return new Array(this.player.lives);
+    return new Array(this.gameService.player.lives);
   }
 
   private _toggleGameDialog(): void {
@@ -152,6 +179,7 @@ export class GameComponent implements OnInit, OnDestroy {
       this.soundsService.past.restart();
       this.stateGameDialog$.next(false);
     } else {
+      this.gameMode$.next(EMode.Game);
       this.soundsService.shortTomahawk.restart();
       this.stateGameDialog$.next(true);
     }

@@ -5,13 +5,13 @@
         <img *ngFor="let item of getLivesAsArray()" src="assets/img/game/life.png" />
       </div>
 
-      <div class="shield">
+      <div class="shield" [class.active]="gameService.player.isActivatedShield || gameService.player.isBlockedShield">
         <img src="assets/img/game/shield.png" />
       </div>
     </div>
 
     <div class="score">
-      <h1>{{ player.score }}</h1>
+      <h1>{{ gameService.player.score }}</h1>
     </div>
   </div>
 
@@ -20,16 +20,18 @@
 
     <div
       class="player"
-      [style.top.px]="player.positionInPx.top"
-      [style.left.px]="player.positionInPx.left"
-      [style.width.px]="player.widthHeroInPx"
-      [style.transform]="player.direction"
+      [style.top.px]="gameService.player.positionInPx.top"
+      [style.left.px]="gameService.player.positionInPx.left"
+      [style.width.px]="gameService.player.widthHeroInPx"
+      [style.transform]="gameService.player.direction"
+      [class.shield]="gameService.player.isActivatedShield"
     >
-      <img src="assets/img/game/players/{{ player.house }}.gif" />
+      <img class="shield" src="assets/img/game/sphere-shield.png" />
+      <img class="hero" src="assets/img/game/players/{{ gameService.player.house }}.gif" />
     </div>
   </div>
 
-  <game-dialog [state$]="stateGameDialog$"></game-dialog>
+  <game-dialog [state$]="stateGameDialog$" [mode$]="gameMode$"></game-dialog>
 </div>
 
 <!-- Templates -->
@@ -54,12 +56,13 @@
   let-width="width"
   let-animationDirection="animationDirection"
 >
-  <img
+  <div
     class="attack"
-    src="assets/img/game/attacks/{{ name }}"
     [style.top.px]="top"
     [style.left.px]="left"
     [style.width.px]="width"
-    [style.animationName]="'rotate-pulsar-to-' + animationDirection"
-  />
+    [style.transform]="animationDirection"
+  >
+    <img src="assets/img/game/attacks/{{ name }}" />
+  </div>
 </ng-template>
