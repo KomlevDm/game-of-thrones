@@ -19,20 +19,25 @@
         <div
           class="button"
           (mouseenter)="mouseenterButtonMenu()"
-          routerLink="hero-selection"
+          routerLink="/hero-selection"
           (click)="soundsService.dragonStompy.restart()"
         >
           {{ 'MainMenu.Buttons.Play' | translate }}
         </div>
 
-        <div class="button" (mouseenter)="mouseenterButtonMenu()">
+        <div
+          class="button"
+          (mouseenter)="mouseenterButtonMenu()"
+          routerLink="/load"
+          (click)="soundsService.dragonStompy.restart()"
+        >
           {{ 'MainMenu.Buttons.Load' | translate }}
         </div>
 
         <div
           class="button"
           (mouseenter)="mouseenterButtonMenu()"
-          routerLink="top-table"
+          routerLink="/top-table"
           (click)="soundsService.dragonStompy.restart()"
         >
           {{ 'MainMenu.Buttons.Top' | translate }}

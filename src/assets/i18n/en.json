@@ -53,5 +53,13 @@
         "Cancel": "Cancel"
       }
     }
+  },
+  "Load": {
+    "Title": "Available saves",
+    "NoteEmptySaveGameData": "No saves available",
+    "ButtonNames": {
+      "Delete": "Delete",
+      "Load": "Load"
+    }
   }
 }

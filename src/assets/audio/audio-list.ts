@@ -23,5 +23,6 @@ export const ACTION_AUDIO = {
   shield: 'shield.mp3',
   starkAttack: 'stark-attack.mp3',
   targaryenAttack: 'targaryen-attack.mp3',
-  lannisterAttack: 'lannister-attack.mp3'
+  lannisterAttack: 'lannister-attack.mp3',
+  startGame: 'start-game.mp3'
 };

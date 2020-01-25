@@ -1,0 +1,109 @@
+@import "../../../scss/variables";
+@import "../../../scss/mixins";
+
+:host {
+  @include rest-host($bgImgUrl: '../../../assets/img/bg/jon-snow.jpg');
+
+  .main-title {
+    @include main-title($bgImgUrl: '../../../assets/img/game/attacks/fire-sphere.gif');
+  }
+
+  .content {
+    border    : 4px double white;
+    box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.5);
+    max-height: 500px;
+    display   : flex;
+    flex-wrap : wrap;
+    overflow  : auto;
+    padding   : 10px 0;
+    margin    : 15px 20px;
+
+    .save-game {
+      width     : 150px;
+      margin    : 15px 29px;
+      transition: all 0.2s linear;
+
+      &:hover {
+        img {
+          filter: none;
+        }
+      }
+
+      .title {
+        padding-left: 10px;
+        font-size   : 28px;
+        text-shadow :
+          -2px -2px 0px #000000,
+          -2px -2px 3px #ffffff,
+          -2px -2px 3px #ffffff,
+          -2px -2px 3px #ffffff;
+        background-image   : url(../../../assets/img/game/attacks/fire-sphere.gif);
+        background-size    : cover;
+        color              : transparent;
+        background-clip    : text;
+        letter-spacing     : 1px;
+        background-position: 0;
+        text-align         : center;
+        margin-bottom      : 8px;
+        font-weight        : bold;
+        white-space        : nowrap;
+        text-overflow      : ellipsis;
+        font-family        : serif;
+        overflow           : hidden;
+      }
+
+      .date {
+        font-size     : 10px;
+        text-align    : center;
+        letter-spacing: 3px;
+        font-weight   : bold;
+        text-shadow   : 0px -2px 0px #000000, -2px -3px 3px #000000, 0px 0px 10px #000000;
+        margin-bottom : 8px;
+      }
+
+      img {
+        width        : 100%;
+        border       : 4px double white;
+        box-sizing   : border-box;
+        border-radius: 50% 50% 0 0;
+        margin-bottom: 1px;
+        transition   : all 0.2s linear;
+        filter       : sepia(100%);
+      }
+
+      .button {
+        @include glass-button-background;
+        position       : relative;
+        display        : flex;
+        align-items    : center;
+        justify-content: center;
+        padding        : 13px;
+        font-size      : 12px;
+        font-weight    : bold;
+        letter-spacing : 2px;
+        text-shadow    : 2px 3px 0px #000000, 2px 3px 0px #000000;
+        transition     : all 0.1s linear;
+
+        &:hover {
+          transform: scale(1.07);
+        }
+
+        &:not(:last-child) {
+          margin-bottom: 5px;
+        }
+
+        &.delete {
+          background-color: rgba(255, 17, 0, 0.2);
+        }
+
+        &:active {
+          top: 3px;
+        }
+      }
+    }
+  }
+
+  .note {
+    @include note($bgImgUrl: '../../../assets/img/bg/rock.jpg');
+  }
+}

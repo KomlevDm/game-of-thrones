@@ -11,7 +11,7 @@ import { Player } from 'src/app/classes/Player';
   styleUrls: ['./hero-selection.component.scss']
 })
 export class HeroSelectionComponent {
-  constructor(private _router: Router, public soundsService: SoundsService, public gameService: GameService) {}
+  constructor(private _gameService: GameService, public soundsService: SoundsService) {}
 
   public EHouse = EHouse;
   public selectedHouse: EHouse = null;
@@ -19,8 +19,7 @@ export class HeroSelectionComponent {
 
   @HostListener('document:keydown.escape')
   onKeydownEscapeHandler() {
-    this.soundsService.dragonStompy.restart();
-    this._router.navigateByUrl('');
+    this._gameService.navigateToMainMenu();
   }
 
   public selectHouse(house: EHouse): void {
@@ -52,7 +51,6 @@ export class HeroSelectionComponent {
   }
 
   public startGame(): void {
-    this.gameService.createPlayer(this.playerName, this.selectedHouse);
-    this._router.navigateByUrl('game');
+    this._gameService.startGame(this.playerName, this.selectedHouse);
   }
 }

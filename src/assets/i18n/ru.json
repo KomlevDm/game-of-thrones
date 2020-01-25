@@ -53,5 +53,13 @@
         "Cancel": "Закрыть"
       }
     }
+  },
+  "Load": {
+    "Title": "Доступные сохранения",
+    "NoteEmptySaveGameData": "Нет доступных сохранений",
+    "ButtonNames": {
+      "Delete": "Удалить",
+      "Load": "Загрузить"
+    }
   }
 }

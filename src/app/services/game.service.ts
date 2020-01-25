@@ -1,60 +1,108 @@
 import { Injectable, Type } from '@angular/core';
-import { Player, IPlayerSettings } from '../classes/Player';
+import { Player } from '../classes/Player';
 import { EHouse } from '../enums/EHouse';
 import { Stark } from '../classes/Stark';
 import { Targaryen } from '../classes/Targaryen';
 import { Lannister } from '../classes/Lannister';
 import { EKeyLocalStorage } from '../enums/EKeyLocalStorage';
+import { ISaveGameData } from '../components/load/load.component';
 
-interface ISaveData {
-  name: string;
-  player: IPlayerSettings;
-  date: string;
-}
+import { v1 as uuid } from 'uuid';
+import { Router } from '@angular/router';
+import { SoundsService } from './sounds.service';
 
 @Injectable({ providedIn: 'root' })
 export class GameService {
+  constructor(private _router: Router, private _soundsService: SoundsService) {}
+
   private _player: Player = null;
+  private _gameSession: string = null;
+  private _saveGameName: string = null;
 
   public get player(): Player {
     return this._player;
   }
 
-  public createPlayer(name: string, house: EHouse): void {
+  public get saveGameName(): string {
+    return this._saveGameName;
+  }
+
+  public startGame(name: string, house: EHouse): void {
     const ClassOfHouse = this._getClassRorHouse(house);
     this._player = new ClassOfHouse({ name });
-  }
 
-  public loadGame(gameData: ISaveData): void {
-    const ClassOfHouse = this._getClassRorHouse(gameData.player.house);
-    this._player = new ClassOfHouse(gameData.player);
-  }
+    this._createGameSession();
 
-  public saveGame(name: string): void {
-    const currentSaveData = {
-      name,
-      player: Object.create(null),
-      date: new Date().toString()
-    };
-    for (const key in this._player) {
-      if (this._player.hasOwnProperty(key) && this._isValidKey(key)) {
-        currentSaveData.player[this._deleteUnderscoreForKey(key)] = this._player[key];
-      }
-    }
+    this._router.navigateByUrl('/game');
 
-    const saveDataFromLocalStorage: ISaveData[] = JSON.parse(localStorage.getItem(EKeyLocalStorage.SaveData));
-
-    if (saveDataFromLocalStorage === null) {
-      localStorage.setItem(EKeyLocalStorage.SaveData, JSON.stringify([currentSaveData]));
-    } else {
-      saveDataFromLocalStorage.push(currentSaveData);
-      localStorage.setItem(EKeyLocalStorage.SaveData, JSON.stringify(saveDataFromLocalStorage));
-    }
+    this._soundsService.startGame.play();
   }
 
   public restartGame(): void {
     const ClassOfHouse = this._getClassRorHouse(this._player.house);
     this._player = new ClassOfHouse({ name: this._player.name });
+
+    this._createGameSession();
+
+    this._soundsService.startGame.play();
+  }
+
+  public loadGame(gameData: ISaveGameData): void {
+    this._saveGameName = gameData.name;
+
+    const ClassOfHouse = this._getClassRorHouse(gameData.player.house);
+    this._player = new ClassOfHouse(gameData.player);
+
+    this._createGameSession(gameData.sessionId);
+
+    this._soundsService.startGame.play();
+
+    this._router.navigateByUrl('/game');
+  }
+
+  public saveGame(name: string): void {
+    const currentGameData = {
+      sessionId: this._gameSession,
+      name,
+      player: Object.create(null),
+      date: new Date().toString()
+    };
+
+    for (const key in this._player) {
+      if (this._player.hasOwnProperty(key) && this._isValidKey(key)) {
+        currentGameData.player[this._deleteUnderscoreForKey(key)] = this._player[key];
+      }
+    }
+
+    const saveDataFromLocalStorage: ISaveGameData[] = JSON.parse(localStorage.getItem(EKeyLocalStorage.SaveGameData));
+
+    if (saveDataFromLocalStorage === null) {
+      localStorage.setItem(EKeyLocalStorage.SaveGameData, JSON.stringify([currentGameData]));
+    } else {
+      const oldGameDataIndex = saveDataFromLocalStorage.findIndex(
+        elem => elem.sessionId === this._gameSession && elem.name === name
+      );
+
+      if (oldGameDataIndex === -1) saveDataFromLocalStorage.push(currentGameData);
+      else saveDataFromLocalStorage[oldGameDataIndex] = currentGameData;
+
+      localStorage.setItem(EKeyLocalStorage.SaveGameData, JSON.stringify(saveDataFromLocalStorage));
+    }
+  }
+
+  public navigateToMainMenu(): void {
+    this._soundsService.dragonStompy.restart();
+    this._router.navigateByUrl('/');
+  }
+
+  public cleanGameInfo(): void {
+    this._player = null;
+    this._gameSession = null;
+    this._saveGameName = null;
+  }
+
+  private _createGameSession(sessionId?: string): void {
+    this._gameSession = sessionId || uuid();
   }
 
   private _getClassRorHouse(house: EHouse): Type<Player> {

@@ -36,12 +36,7 @@
 
 <!-- Templates -->
 <ng-template #note>
-  <img
-    class="back-arrow"
-    src="assets/img/arrow.png"
-    routerLink="/hero-selection"
-    (click)="soundsService.dragonStompy.restart()"
-  />
+  <back-arrow navigationUrl="/hero-selection"></back-arrow>
 
   <div class="note">
     {{ 'Game.NotePlayerNotExists' | translate }}

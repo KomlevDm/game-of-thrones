@@ -21,7 +21,7 @@ export class GameDialogComponent {
   @Input() mode$: BehaviorSubject<EMode>;
 
   public EMode = EMode;
-  public saveGameName = 'No name';
+  public saveGameName = this._gameService.saveGameName || 'No name';
 
   public mouseenterButtonMenu(): void {
     this.soundsService.blade.restart();

@@ -3,6 +3,7 @@
 :host {
   display   : block;
   min-width : $widthScreen;
+  max-width : $widthScreen;
   height    : 700px;
   position  : relative;
   border    : 10px double white;

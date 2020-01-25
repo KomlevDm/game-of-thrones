@@ -16,6 +16,8 @@ import { HeroSelectionComponent } from './components/hero-selection/hero-selecti
 import { FormsModule } from '@angular/forms';
 import { GameComponent } from './components/game/game.component';
 import { GameDialogComponent } from './components/game-dialog/game-dialog.component';
+import { LoadComponent } from './components/load/load.component';
+import { BackArrowComponent } from './components/back-arrow/back-arrow.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -29,7 +31,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     TopTableComponent,
     HeroSelectionComponent,
     GameComponent,
-    GameDialogComponent
+    GameDialogComponent,
+    LoadComponent,
+    BackArrowComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -51,6 +55,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 export class AppModule {
   constructor(private _translateService: TranslateService) {
     const currentLanguage = localStorage.getItem(EKeyLocalStorage.CurrentLanguage) || ELanguage.En;
-    _translateService.use(currentLanguage);
+    this._translateService.use(currentLanguage);
   }
 }

@@ -128,12 +128,6 @@
               top: 3px;
             }
 
-            &.disable {
-              background-color: rgb(158, 158, 158);
-              background-position: 200% 0, 0 0, 0 0, 0 100%, 0 4px,
-                0 calc(100% - 4px);
-            }
-
             &:not(:last-child) {
               margin-bottom: 30px;
             }

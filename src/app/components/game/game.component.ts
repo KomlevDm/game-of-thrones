@@ -25,7 +25,7 @@ import { EMode } from '../game-dialog/game-dialog.component';
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit, OnDestroy {
-  constructor(private _router: Router, public soundsService: SoundsService, public gameService: GameService) {
+  constructor(private _router: Router, private _soundsService: SoundsService, public gameService: GameService) {
     if (this.gameService.player) this.gameService.player.initAttack(this._fabricAttackNodeElement.bind(this));
   }
 
@@ -37,7 +37,7 @@ export class GameComponent implements OnInit, OnDestroy {
   private _isKeydownSpace = false;
   private _isKeydownControlLeft = false;
   private _pauseGame = false;
-  private _requestID: number;
+  private _requestIdAnimationFrame: number;
   private _isGameOver = false;
 
   public stateGameDialog$ = new BehaviorSubject(false);
@@ -55,10 +55,12 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.gameService.cleanGameInfo();
+
     this._destroyedComponent$.next();
     this._destroyedComponent$.complete();
 
-    cancelAnimationFrame(this._requestID);
+    cancelAnimationFrame(this._requestIdAnimationFrame);
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -91,7 +93,7 @@ export class GameComponent implements OnInit, OnDestroy {
       case 'Escape':
         if (this.isPlayerExists() && !this._isGameOver) this._toggleGameDialog();
         else {
-          this.soundsService.dragonStompy.restart();
+          this._soundsService.dragonStompy.restart();
           this._router.navigateByUrl('/hero-selection');
         }
 
@@ -149,21 +151,21 @@ export class GameComponent implements OnInit, OnDestroy {
       if (this._isKeydownSpace) {
         this.gameService.player.attack();
 
-        if (this.gameService.player instanceof Stark) this.soundsService.starkAttack.restart();
+        if (this.gameService.player instanceof Stark) this._soundsService.starkAttack.restart();
 
-        if (this.gameService.player instanceof Targaryen) this.soundsService.targaryenAttack.restart();
+        if (this.gameService.player instanceof Targaryen) this._soundsService.targaryenAttack.restart();
 
-        if (this.gameService.player instanceof Lannister) this.soundsService.lannisterAttack.restart();
+        if (this.gameService.player instanceof Lannister) this._soundsService.lannisterAttack.restart();
       }
 
       if (this._isKeydownControlLeft) {
-        if (this.gameService.player.activateShield()) this.soundsService.shield.restart();
+        if (this.gameService.player.activateShield()) this._soundsService.shield.restart();
       }
     }
 
     this.gameService.player.drawAttackNodeElements();
 
-    this._requestID = requestAnimationFrame(this.gameLoop.bind(this));
+    this._requestIdAnimationFrame = requestAnimationFrame(this.gameLoop.bind(this));
   }
 
   public isPlayerExists(): boolean {
@@ -176,11 +178,11 @@ export class GameComponent implements OnInit, OnDestroy {
 
   private _toggleGameDialog(): void {
     if (this.stateGameDialog$.value) {
-      this.soundsService.past.restart();
+      this._soundsService.past.restart();
       this.stateGameDialog$.next(false);
     } else {
       this.gameMode$.next(EMode.Game);
-      this.soundsService.shortTomahawk.restart();
+      this._soundsService.shortTomahawk.restart();
       this.stateGameDialog$.next(true);
     }
   }

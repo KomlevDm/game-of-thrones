@@ -29,15 +29,19 @@ export class SoundsService {
       this.currentTime = 0;
       this.play();
     };
+
+    const togglerBgSound = localStorage.getItem(EKeyLocalStorage.TogglerBgSound);
+    this._bgSound.toggler = null ? true : JSON.parse(togglerBgSound);
   }
 
   private _bgSound: IBgSound = {
     soundNames: Object.values(BACKGROUND_AUDIO.mainMenu),
     currentSoundIndex: 0,
     currentSound: null,
-    toggler: this._initTogglerBgSound()
+    toggler: true
   };
 
+  public startGame: IExtHTMLAudioElement = null;
   public dragonFlame: IExtHTMLAudioElement = null;
   public blade: IExtHTMLAudioElement = null;
   public tomahawk: IExtHTMLAudioElement = null;
@@ -60,6 +64,8 @@ export class SoundsService {
   }
 
   public init(): void {
+    this.startGame = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.startGame}`);
+
     this.dragonFlame = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.dragonFlame}`);
     this.dragonFlame.volume = 0.5;
 
@@ -119,11 +125,5 @@ export class SoundsService {
 
       this._playBgSound();
     };
-  }
-
-  private _initTogglerBgSound(): boolean {
-    const togglerBgSound = localStorage.getItem(EKeyLocalStorage.TogglerBgSound);
-
-    return togglerBgSound === null ? true : JSON.parse(togglerBgSound);
   }
 }

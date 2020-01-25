@@ -53,7 +53,7 @@
         transition   : all 0.2s linear;
         margin-bottom: 25px;
         width        : 250px;
-        border       : 2px ridge white;
+        border       : 4px double white;
         box-shadow   : 0 0 5px 2px rgba(255, 255, 255, 0.5);
         position     : relative;
       }
@@ -79,10 +79,10 @@
       justify-content : center;
       background-image: url(../../../assets/img/bg/rock.jpg);
       background-size : cover;
-      padding         : 20px 35px;
+      padding         : 25px 35px;
       width           : fit-content;
       margin-right    : 40px;
-      border          : 2px ridge white;
+      border          : 4px double white;
       box-shadow      : 0 0 5px 2px rgba(255, 255, 255, 0.5);
 
       &>:not(:last-child) {
@@ -103,17 +103,17 @@
       }
 
       input {
+        border          : none;
         align-self      : stretch;
-        border          : 2px ridge white;
-        box-shadow      : 0 0 5px 2px rgba(255, 255, 255, 0.5);
-        padding         : 10px 15px;
-        font-family     : "Game of Thrones";
+        box-shadow      : 0 0 5px 5px rgba(255, 255, 255, 0.5);
+        padding         : 4px 15px;
+        font-family     : serif;
         width           : 250px;
         font-weight     : bold;
         letter-spacing  : 2px;
-        font-size       : 18px;
+        font-size       : 30px;
         background-color: rgba(255, 255, 255, 0.5);
-        text-shadow     : 2px 2px 0px #ffffff;
+        text-shadow     : 1px 1px 0px #ffffff;
 
         &::selection {
           background: #a70d12;
