@@ -23,7 +23,7 @@ export interface IMonsterSettings {
     deltaTopPositionInPx: number;
     fabricAttackNodeElement: FabricAttackNodeElementType;
     gapWithoutAttackingInPx: number;
-    widthInPx?: number;
+    sizeInPx?: number;
   };
 }
 
@@ -37,16 +37,16 @@ export abstract class Monster {
 
     this._attack = {
       ...attack,
-      widthInPx: attack.widthInPx || 30,
+      sizeInPx: attack.sizeInPx || 30,
       stepSizeInPx: 10,
       attack$: new Subject<void>()
     };
     this._attack.attack$.pipe(debounceTime(DEBOUNCE_TIME_ATTACK_IN_MS)).subscribe(() => {
       const settingsAttackNodeElement = {
-        left: this._positionInPx.left - this._attack.gapWithoutAttackingInPx,
-        top: this._positionInPx.top + this._attack.deltaTopPositionInPx,
         name: this._attack.name,
-        width: this._attack.widthInPx
+        leftInPx: this._positionInPx.left - this._attack.gapWithoutAttackingInPx,
+        topInPx: this._positionInPx.top + this._attack.deltaTopPositionInPx,
+        sizeInPx: this._attack.sizeInPx
       };
 
       this._attackNodeElements.push(this._attack.fabricAttackNodeElement(settingsAttackNodeElement));
@@ -70,6 +70,10 @@ export abstract class Monster {
 
   public get stepSizeMonsterInPx(): number {
     return this._stepSizeMonsterInPx;
+  }
+
+  public get attackNodeElements(): EmbeddedViewRef<ISettingsAttackNodeElement>[] {
+    return this._attackNodeElements;
   }
 
   public get positionInPx(): IPosition {
@@ -97,8 +101,8 @@ export abstract class Monster {
 
   public drawAttackNodeElements(): void {
     for (let i = 0; i < this._attackNodeElements.length; i++) {
-      if (this._attackNodeElements[i].context.left + this._attack.widthInPx > 0) {
-        this._attackNodeElements[i].context.left -= this._attack.stepSizeInPx;
+      if (this._attackNodeElements[i].context.leftInPx + this._attack.sizeInPx > 0) {
+        this._attackNodeElements[i].context.leftInPx -= this._attack.stepSizeInPx;
       } else {
         this._attackNodeElements[i].destroy();
         this._attackNodeElements.splice(i, 1);

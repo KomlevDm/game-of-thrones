@@ -6,7 +6,7 @@ export interface IAttack<T> {
   deltaTopPositionInPx: number;
   deltaLeftPositionInPx?: number;
   stepSizeInPx: number;
-  widthInPx: number;
+  sizeInPx: number;
   gapWithoutAttackingInPx: number;
   fabricAttackNodeElement: FabricAttackNodeElementType;
   sound?: () => void;

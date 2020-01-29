@@ -7,6 +7,8 @@ export class Lannister extends GoingPlayer {
     super({
       ...settings,
       house: EHouse.Lannister,
+      heightHeroInPx: 115,
+      positionInPx: settings.positionInPx || { left: 0, top: 475 },
       attack: {
         ...settings.attack,
         name: 'attack-2.png',

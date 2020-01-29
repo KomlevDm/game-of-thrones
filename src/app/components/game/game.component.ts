@@ -170,6 +170,8 @@ export class GameComponent implements OnInit, OnDestroy {
 
       this.gameService.player.drawAttackNodeElements();
       this._monsterService.drawMonsters();
+
+      this._calculateCollisions();
     }
 
     this._requestIdAnimationFrame = requestAnimationFrame(this.gameLoop.bind(this));
@@ -202,5 +204,35 @@ export class GameComponent implements OnInit, OnDestroy {
     this.gameField.insert(monsterNodeElement);
 
     return monsterNodeElement;
+  }
+
+  private _calculateCollisions() {
+    for (let i = 0; i < this.gameService.player.attackObjects.length; i++) {
+      for (let j = 0; j < this._monsterService.monsterObjects.length; j++) {
+        const attackContext = this.gameService.player.attackObjects[i].attackNodeElement.context;
+        const monsterContext = this._monsterService.monsterObjects[j].monsterNodeElement.context;
+
+        if (
+          attackContext.topInPx + attackContext.sizeInPx / 2 > monsterContext.positionInPx.top &&
+          attackContext.topInPx + attackContext.sizeInPx / 2 <
+            monsterContext.positionInPx.top + monsterContext.sizeInPx.height &&
+          attackContext.leftInPx + attackContext.sizeInPx / 2 > monsterContext.positionInPx.left &&
+          attackContext.leftInPx + attackContext.sizeInPx / 2 <
+            monsterContext.positionInPx.left + monsterContext.sizeInPx.width
+        ) {
+          this.gameService.player.attackObjects[i].attackNodeElement.destroy();
+          this.gameService.player.attackObjects.splice(i, 1);
+          i -= 1;
+
+          this._monsterService.monsterObjects[j].subAttack.unsubscribe();
+          this._monsterService.monsterObjects[j].monster.attackNodeElements.forEach(a => a.destroy());
+          this._monsterService.monsterObjects[j].monsterNodeElement.destroy();
+          this._monsterService.monsterObjects.splice(j, 1);
+          j -= 1;
+
+          break;
+        }
+      }
+    }
   }
 }

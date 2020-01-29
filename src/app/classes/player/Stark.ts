@@ -7,6 +7,8 @@ export class Stark extends GoingPlayer {
     super({
       ...settings,
       house: EHouse.Stark,
+      heightHeroInPx: 128,
+      positionInPx: settings.positionInPx || { left: 0, top: 475 },
       attack: {
         ...settings.attack,
         name: 'attack-3.png',

@@ -46,17 +46,17 @@
 <ng-template
   #attack
   let-name="name"
-  let-top="top"
-  let-left="left"
-  let-width="width"
-  let-animationDirection="animationDirection"
+  let-left="leftInPx"
+  let-top="topInPx"
+  let-width="sizeInPx"
+  let-transform="animationDirection"
 >
   <div
     class="attack"
-    [style.top.px]="top"
     [style.left.px]="left"
+    [style.top.px]="top"
     [style.width.px]="width"
-    [style.transform]="animationDirection"
+    [style.transform]="transform"
   >
     <img src="assets/img/game/attacks/{{ name }}" />
   </div>
@@ -65,13 +65,13 @@
 <ng-template
   #monster
   let-name="name"
-  let-top="positionInPx.top"
   let-left="positionInPx.left"
+  let-top="positionInPx.top"
   let-width="sizeInPx.width"
 >
   <img
-    [style.top.px]="top"
     [style.left.px]="left"
+    [style.top.px]="top"
     [style.width.px]="width"
     class="monster"
     src="assets/img/game/monsters/{{ name }}.gif"

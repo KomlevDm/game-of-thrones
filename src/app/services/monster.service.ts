@@ -37,6 +37,10 @@ export class MonsterService {
   private _togglerGenerationMonsters = true;
   private _subGenerationMonsters: Subscription = null;
 
+  public get monsterObjects(): IMonsterObject[] {
+    return this._monsterObjects;
+  }
+
   public initFabricsMonster(
     fabricMonsterNodeElement: FabricMonsterNodeElementType,
     fabricAttackNodeElement: FabricAttackNodeElementType

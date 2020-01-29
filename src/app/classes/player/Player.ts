@@ -53,7 +53,7 @@ export abstract class Player {
       ...attack,
       deltaLeftPositionInPx: 30,
       stepSizeInPx: 10,
-      widthInPx: 30,
+      sizeInPx: 30,
       gapWithoutAttackingInPx: 20,
       fabricAttackNodeElement: null,
       attack$: new Subject<string>()
@@ -61,14 +61,14 @@ export abstract class Player {
     this._attack.attack$.pipe(debounceTime(DEBOUNCE_TIME_ATTACK_IN_MS)).subscribe(attackDirection => {
       const independentSettings = {
         name: this._attack.name,
-        top: this._positionInPx.top + this._attack.deltaTopPositionInPx,
-        width: this._attack.widthInPx
+        topInPx: this._positionInPx.top + this._attack.deltaTopPositionInPx,
+        sizeInPx: this._attack.sizeInPx
       };
 
       const dependentSettings =
         attackDirection === EDirection.Right
           ? {
-              left:
+              leftInPx:
                 this._positionInPx.left +
                 this._widthHeroInPx +
                 this._attack.gapWithoutAttackingInPx -
@@ -76,7 +76,7 @@ export abstract class Player {
               animationDirection: EDirection.Right
             }
           : {
-              left: this._positionInPx.left - this._attack.gapWithoutAttackingInPx,
+              leftInPx: this._positionInPx.left - this._attack.gapWithoutAttackingInPx,
               animationDirection: EDirection.Left
             };
 
@@ -122,6 +122,10 @@ export abstract class Player {
 
   public get positionInPx(): IPosition {
     return this._positionInPx;
+  }
+
+  public get attackObjects(): IAttackObject[] {
+    return this._attackObjects;
   }
 
   public get lives(): number {
@@ -175,16 +179,16 @@ export abstract class Player {
       const { attackNodeElement, direction } = this._attackObjects[i];
 
       if (direction === EDirection.Right) {
-        if (attackNodeElement.context.left < SIZE_FIELD_GAME_IN_PX.width)
-          attackNodeElement.context.left += this._attack.stepSizeInPx;
+        if (attackNodeElement.context.leftInPx < SIZE_FIELD_GAME_IN_PX.width)
+          attackNodeElement.context.leftInPx += this._attack.stepSizeInPx;
         else {
           attackNodeElement.destroy();
           this._attackObjects.splice(i, 1);
           i -= 1;
         }
       } else {
-        if (attackNodeElement.context.left + this._attack.widthInPx > 0) {
-          attackNodeElement.context.left -= this._attack.stepSizeInPx;
+        if (attackNodeElement.context.leftInPx + this._attack.sizeInPx > 0) {
+          attackNodeElement.context.leftInPx -= this._attack.stepSizeInPx;
         } else {
           attackNodeElement.destroy();
           this._attackObjects.splice(i, 1);

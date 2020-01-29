@@ -7,7 +7,7 @@ export class IceDragon extends Monster {
     super({
       name: 'ice-dragon',
       positionInPx: { left: SIZE_FIELD_GAME_IN_PX.width, top: 395 },
-      sizeInPx: { width: 250, height: 150 },
+      sizeInPx: { width: 250, height: 154 },
       stepSizeMonsterInPx: 5,
       lives: 4,
       attack: {
@@ -15,7 +15,7 @@ export class IceDragon extends Monster {
         deltaTopPositionInPx: 55,
         fabricAttackNodeElement,
         gapWithoutAttackingInPx: 40,
-        widthInPx: 40
+        sizeInPx: 40
       }
     });
   }

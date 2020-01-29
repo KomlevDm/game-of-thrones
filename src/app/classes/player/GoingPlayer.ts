@@ -6,11 +6,7 @@ import { EDirection } from 'src/app/enums/EDirection';
 
 export abstract class GoingPlayer extends Player {
   constructor(settings: IPlayerSettings) {
-    super({
-      ...settings,
-      positionInPx: settings.positionInPx || { left: 0, top: 475 },
-      heightHeroInPx: 150
-    });
+    super(settings);
 
     this._jump$
       .pipe(
