@@ -9,14 +9,15 @@
   }
 
   .content {
-    border    : 4px double white;
-    box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.5);
-    max-height: 500px;
-    display   : flex;
-    flex-wrap : wrap;
-    overflow  : auto;
-    padding   : 10px 0;
-    margin    : 15px 20px;
+    border     : 4px double white;
+    box-shadow : 0 0 5px 2px rgba(255, 255, 255, 0.5);
+    height     : 500px;
+    display    : flex;
+    flex-wrap  : wrap;
+    overflow   : auto;
+    padding    : 10px 0;
+    margin     : 15px 20px;
+    align-items: center;
 
     .save-game {
       width     : 150px;

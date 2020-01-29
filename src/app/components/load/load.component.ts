@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { SoundsService } from 'src/app/services/sounds.service';
-import { IPlayerSettings } from 'src/app/classes/Player';
+import { IPlayerSettings } from 'src/app/classes/player/Player';
 import { EKeyLocalStorage } from 'src/app/enums/EKeyLocalStorage';
 import { GameService } from 'src/app/services/game.service';
 

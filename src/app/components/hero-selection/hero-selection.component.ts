@@ -3,7 +3,7 @@ import { SoundsService } from 'src/app/services/sounds.service';
 import { Router } from '@angular/router';
 import { EHouse } from 'src/app/enums/EHouse';
 import { GameService } from 'src/app/services/game.service';
-import { Player } from 'src/app/classes/Player';
+import { Player } from 'src/app/classes/player/Player';
 
 @Component({
   selector: 'hero-selection',

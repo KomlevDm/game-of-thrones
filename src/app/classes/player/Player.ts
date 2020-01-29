@@ -1,28 +1,18 @@
-import { EHouse } from '../enums/EHouse';
-import { EDirection } from '../enums/EDirection';
-import { SIZE_FIELD_GAME_IN_PX, DEBOUNCE_TIME_ATTACK_IN_MS } from '../constants/gameSettings';
+import { EHouse } from '../../enums/EHouse';
+import { EDirection } from '../../enums/EDirection';
+import { SIZE_FIELD_GAME_IN_PX, DEBOUNCE_TIME_ATTACK_IN_MS } from '../../constants/gameSettings';
 import { EmbeddedViewRef } from '@angular/core';
-import { debounceTime, switchMap, mergeMap } from 'rxjs/operators';
+import { debounceTime, mergeMap } from 'rxjs/operators';
 import { Subject, timer } from 'rxjs';
+import { IPosition } from '../../interfaces/IPosition';
+import { FabricAttackNodeElementType } from '../../types/FabricAttackNodeElementType';
+import { ISettingsAttackNodeElement } from '../../interfaces/ISettingsAttackNodeElement';
+import { IAttack } from '../../interfaces/IAttack';
 
-type FabricAttackNodeElementType = (
-  settings: ISettingsAttackNodeElement
-) => EmbeddedViewRef<ISettingsAttackNodeElement>;
-
-interface IPosition {
-  left: number;
-  top: number;
-}
-
-interface IAttack {
-  name: string;
-  deltaTopPositionInPx: number;
-  deltaLeftPositionInPx: number;
-  stepSizeInPx: number;
-  widthInPx: number;
-  gapWithoutHeroInPx: number;
-  fabricAttackNodeElement: FabricAttackNodeElementType;
-  attack$: Subject<string>;
+interface IShield {
+  isActivatedShield: boolean;
+  isBlockedShield: boolean;
+  sound: () => void;
 }
 
 interface IAttackObject {
@@ -30,43 +20,26 @@ interface IAttackObject {
   direction: string;
 }
 
-export interface ISettingsAttackNodeElement extends IPosition {
-  name: string;
-  width: number;
-  animationDirection: EDirection;
-}
-
 export interface IPlayerSettings {
-  name: string;
-  house: EHouse;
-  direction: string;
-  positionInPx: IPosition;
-  heightHeroInPx: number;
-  lives: number;
-  score: number;
-  isActivatedShield: boolean;
-  isBlockedShield: boolean;
-  attack: {
+  name?: string;
+  house?: EHouse;
+  direction?: EDirection;
+  positionInPx?: IPosition;
+  heightHeroInPx?: number;
+  lives?: number;
+  score?: number;
+  shield?: IShield;
+  attack?: {
     name: string;
     deltaTopPositionInPx: number;
+    sound: () => void;
   };
 }
 
 export abstract class Player {
   static defaultName = 'Player';
 
-  constructor({
-    name,
-    house,
-    heightHeroInPx,
-    direction,
-    positionInPx,
-    lives,
-    score,
-    isActivatedShield,
-    isBlockedShield,
-    attack
-  }: IPlayerSettings) {
+  constructor({ name, house, direction, positionInPx, heightHeroInPx, lives, score, shield, attack }: IPlayerSettings) {
     this._name = name || Player.defaultName;
     this._house = house;
     this._heightHeroInPx = heightHeroInPx;
@@ -74,15 +47,14 @@ export abstract class Player {
     this._positionInPx = positionInPx;
     this._lives = lives || 5;
     this._score = score || 0;
-    this._isActivatedShield = isActivatedShield || false;
-    this._isBlockedShield = isBlockedShield || false;
+    this._shield = shield;
 
     this._attack = {
       ...attack,
       deltaLeftPositionInPx: 30,
       stepSizeInPx: 10,
       widthInPx: 30,
-      gapWithoutHeroInPx: 20,
+      gapWithoutAttackingInPx: 20,
       fabricAttackNodeElement: null,
       attack$: new Subject<string>()
     };
@@ -99,12 +71,12 @@ export abstract class Player {
               left:
                 this._positionInPx.left +
                 this._widthHeroInPx +
-                this._attack.gapWithoutHeroInPx -
+                this._attack.gapWithoutAttackingInPx -
                 this._attack.deltaLeftPositionInPx,
               animationDirection: EDirection.Right
             }
           : {
-              left: this._positionInPx.left - this._attack.gapWithoutHeroInPx,
+              left: this._positionInPx.left - this._attack.gapWithoutAttackingInPx,
               animationDirection: EDirection.Left
             };
 
@@ -113,6 +85,8 @@ export abstract class Player {
         direction: attackDirection
       };
 
+      this._attack.sound();
+
       this._attackObjects.push(attackObject);
     });
   }
@@ -120,20 +94,19 @@ export abstract class Player {
   private readonly _name: string;
   private readonly _house: EHouse;
   private readonly _widthHeroInPx = 225;
-  private readonly _attack: IAttack;
+  private readonly _shield: IShield;
+  private readonly _attack: IAttack<string>;
   private readonly _timeoutShieldInMs = 5000;
   private readonly _timeoutBlockShieldInMs = 10000;
 
   protected readonly _heightHeroInPx: number;
   protected readonly _stepSizeHeroInPx = 5;
 
-  private _direction: string;
+  private _direction: EDirection;
   private _positionInPx: IPosition;
   private _lives: number;
   private _score: number;
   private _attackObjects: IAttackObject[] = [];
-  private _isActivatedShield: boolean;
-  private _isBlockedShield: boolean;
 
   public get name(): string {
     return this._name;
@@ -143,7 +116,7 @@ export abstract class Player {
     return this._house;
   }
 
-  public get direction(): string {
+  public get direction(): EDirection {
     return this._direction;
   }
 
@@ -160,19 +133,19 @@ export abstract class Player {
   }
 
   public get isActivatedShield(): boolean {
-    return this._isActivatedShield;
+    return this._shield.isActivatedShield;
   }
 
   public get isBlockedShield(): boolean {
-    return this._isBlockedShield;
+    return this._shield.isBlockedShield;
   }
 
   public get widthHeroInPx(): number {
     return this._widthHeroInPx;
   }
 
-  public stepToLeft(): void {
-    const newPositionLeft = this.positionInPx.left - this._stepSizeHeroInPx;
+  public stepToLeft(stepSize = this._stepSizeHeroInPx): void {
+    const newPositionLeft = this.positionInPx.left - stepSize;
 
     if (newPositionLeft >= 0) {
       this._direction = EDirection.Left;
@@ -180,8 +153,8 @@ export abstract class Player {
     }
   }
 
-  public stepToRight(): void {
-    const newPositionLeft = this.positionInPx.left + this._stepSizeHeroInPx;
+  public stepToRight(stepSize = this._stepSizeHeroInPx): void {
+    const newPositionLeft = this.positionInPx.left + stepSize;
 
     if (newPositionLeft + this._widthHeroInPx <= SIZE_FIELD_GAME_IN_PX.width) {
       this._direction = EDirection.Right;
@@ -189,7 +162,7 @@ export abstract class Player {
     }
   }
 
-  public initAttack(fabricAttackNodeElement: FabricAttackNodeElementType): void {
+  public initFabricAttack(fabricAttackNodeElement: FabricAttackNodeElementType): void {
     this._attack.fabricAttackNodeElement = fabricAttackNodeElement;
   }
 
@@ -221,22 +194,21 @@ export abstract class Player {
     }
   }
 
-  public activateShield(): boolean {
-    if (this._isActivatedShield || this._isBlockedShield) return false;
+  public activateShield(): void {
+    if (this._shield.isActivatedShield || this._shield.isBlockedShield) return;
 
-    this._isActivatedShield = true;
+    this._shield.isActivatedShield = true;
+    this._shield.sound();
 
     timer(this._timeoutShieldInMs)
       .pipe(
         mergeMap(() => {
-          this._isActivatedShield = false;
-          this._isBlockedShield = true;
+          this._shield.isActivatedShield = false;
+          this._shield.isBlockedShield = true;
           return timer(this._timeoutBlockShieldInMs);
         })
       )
-      .subscribe(() => (this._isBlockedShield = false));
-
-    return true;
+      .subscribe(() => (this._shield.isBlockedShield = false));
   }
 
   public deleteLife(): void {

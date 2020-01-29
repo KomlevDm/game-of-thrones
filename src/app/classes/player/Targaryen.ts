@@ -1,8 +1,8 @@
 import { IPlayerSettings } from './Player';
-import { EHouse } from '../enums/EHouse';
-import { FlyingHero } from './FlyingHero';
+import { EHouse } from '../../enums/EHouse';
+import { FlyingPlayer } from './FlyingPlayer';
 
-export class Targaryen extends FlyingHero {
+export class Targaryen extends FlyingPlayer {
   constructor(settings: IPlayerSettings) {
     super({
       ...settings,
@@ -10,6 +10,7 @@ export class Targaryen extends FlyingHero {
       positionInPx: settings.positionInPx || { left: 0, top: 260 },
       heightHeroInPx: 223,
       attack: {
+        ...settings.attack,
         name: 'fire-sphere.gif',
         deltaTopPositionInPx: -16
       }

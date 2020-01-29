@@ -1,9 +1,10 @@
 import { Player, IPlayerSettings } from './Player';
 import { debounceTime, filter, tap, switchMap, takeWhile } from 'rxjs/operators';
-import { DEBOUNCE_TIME_JUMP_IN_MS, SIZE_FIELD_GAME_IN_PX } from '../constants/gameSettings';
+import { DEBOUNCE_TIME_JUMP_IN_MS, SIZE_FIELD_GAME_IN_PX } from '../../constants/gameSettings';
 import { timer, Subject } from 'rxjs';
+import { EDirection } from 'src/app/enums/EDirection';
 
-export abstract class GoingHero extends Player {
+export abstract class GoingPlayer extends Player {
   constructor(settings: IPlayerSettings) {
     super({
       ...settings,
@@ -21,12 +22,18 @@ export abstract class GoingHero extends Player {
       .subscribe(() => {
         if (this.positionInPx.top - this._stepSizeHeroInPx >= this._maxHeightJumpInPx && !this._isAchieveMaxJump) {
           this.positionInPx.top -= this._stepSizeHeroInPx;
+
+          if (this.direction === EDirection.Right) this.stepToRight(this._horizontalJumpSizeStep);
+          else this.stepToLeft(this._horizontalJumpSizeStep);
         } else if (
           this.positionInPx.top + this._stepSizeHeroInPx + this._heightHeroInPx / 2 <=
           SIZE_FIELD_GAME_IN_PX.height
         ) {
           this._isAchieveMaxJump = true;
           this.positionInPx.top += this._stepSizeHeroInPx;
+
+          if (this.direction === EDirection.Right) this.stepToRight(this._horizontalJumpSizeStep);
+          else this.stepToLeft(this._horizontalJumpSizeStep);
         } else {
           this._isAchieveMaxJump = false;
           this._isJumpingNow = false;
@@ -35,6 +42,7 @@ export abstract class GoingHero extends Player {
   }
 
   private readonly _maxHeightJumpInPx = 290;
+  private readonly _horizontalJumpSizeStep = 2;
   private readonly _jump$ = new Subject<void>();
 
   private _isJumpingNow = false;

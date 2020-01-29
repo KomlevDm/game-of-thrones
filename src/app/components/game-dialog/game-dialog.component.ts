@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { SoundsService } from 'src/app/services/sounds.service';
 import { GameService } from 'src/app/services/game.service';
 
-export enum EMode {
+export enum EGameDialogMode {
   Game,
   Save,
   GameOver
@@ -18,9 +18,9 @@ export class GameDialogComponent {
   constructor(private _gameService: GameService, public soundsService: SoundsService) {}
 
   @Input() state$: BehaviorSubject<boolean>;
-  @Input() mode$: BehaviorSubject<EMode>;
+  @Input() mode$: BehaviorSubject<EGameDialogMode>;
 
-  public EMode = EMode;
+  public EMode = EGameDialogMode;
   public saveGameName = this._gameService.saveGameName || 'No name';
 
   public mouseenterButtonMenu(): void {
@@ -39,6 +39,6 @@ export class GameDialogComponent {
 
   public save(): void {
     this._gameService.saveGame(this.saveGameName);
-    this.mode$.next(EMode.Game);
+    this.mode$.next(EGameDialogMode.Game);
   }
 }

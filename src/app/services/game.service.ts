@@ -1,19 +1,23 @@
-import { Injectable, Type } from '@angular/core';
-import { Player } from '../classes/Player';
+import { Injectable } from '@angular/core';
+import { Player, IPlayerSettings } from '../classes/player/Player';
 import { EHouse } from '../enums/EHouse';
-import { Stark } from '../classes/Stark';
-import { Targaryen } from '../classes/Targaryen';
-import { Lannister } from '../classes/Lannister';
+import { Stark } from '../classes/player/Stark';
+import { Targaryen } from '../classes/player/Targaryen';
+import { Lannister } from '../classes/player/Lannister';
 import { EKeyLocalStorage } from '../enums/EKeyLocalStorage';
 import { ISaveGameData } from '../components/load/load.component';
-
 import { v1 as uuid } from 'uuid';
 import { Router } from '@angular/router';
 import { SoundsService } from './sounds.service';
+import { MonsterService } from './monster.service';
 
 @Injectable({ providedIn: 'root' })
 export class GameService {
-  constructor(private _router: Router, private _soundsService: SoundsService) {}
+  constructor(
+    private _router: Router,
+    private _soundsService: SoundsService,
+    private _monsterService: MonsterService
+  ) {}
 
   private _player: Player = null;
   private _gameSession: string = null;
@@ -28,8 +32,7 @@ export class GameService {
   }
 
   public startGame(name: string, house: EHouse): void {
-    const ClassOfHouse = this._getClassRorHouse(house);
-    this._player = new ClassOfHouse({ name });
+    this._player = this._getInstancePlayer(house, { name });
 
     this._createGameSession();
 
@@ -39,8 +42,9 @@ export class GameService {
   }
 
   public restartGame(): void {
-    const ClassOfHouse = this._getClassRorHouse(this._player.house);
-    this._player = new ClassOfHouse({ name: this._player.name });
+    this._player = this._getInstancePlayer(this._player.house, { name: this._player.name });
+
+    this._monsterService.restartGenerateMonster();
 
     this._createGameSession();
 
@@ -50,14 +54,13 @@ export class GameService {
   public loadGame(gameData: ISaveGameData): void {
     this._saveGameName = gameData.name;
 
-    const ClassOfHouse = this._getClassRorHouse(gameData.player.house);
-    this._player = new ClassOfHouse(gameData.player);
+    this._player = this._getInstancePlayer(gameData.player.house, gameData.player);
 
     this._createGameSession(gameData.sessionId);
 
-    this._soundsService.startGame.play();
-
     this._router.navigateByUrl('/game');
+
+    this._soundsService.startGame.play();
   }
 
   public saveGame(name: string): void {
@@ -105,16 +108,42 @@ export class GameService {
     this._gameSession = sessionId || uuid();
   }
 
-  private _getClassRorHouse(house: EHouse): Type<Player> {
+  private _getInstancePlayer(house: EHouse, settings: IPlayerSettings): Player {
+    const shield = {
+      ...settings.shield,
+      sound: this._soundsService.shield.restart.bind(this._soundsService.shield)
+    };
+
     switch (house) {
       case EHouse.Stark:
-        return Stark;
+        return new Stark({
+          ...settings,
+          shield,
+          attack: {
+            ...settings.attack,
+            sound: this._soundsService.starkAttack.restart.bind(this._soundsService.starkAttack)
+          }
+        });
 
       case EHouse.Targaryen:
-        return Targaryen;
+        return new Targaryen({
+          ...settings,
+          shield,
+          attack: {
+            ...settings.attack,
+            sound: this._soundsService.targaryenAttack.restart.bind(this._soundsService.targaryenAttack)
+          }
+        });
 
       case EHouse.Lannister:
-        return Lannister;
+        return new Lannister({
+          ...settings,
+          shield,
+          attack: {
+            ...settings.attack,
+            sound: this._soundsService.lannisterAttack.restart.bind(this._soundsService.lannisterAttack)
+          }
+        });
     }
   }
 

@@ -1,4 +1,4 @@
-<div class="content" *ngIf="isPlayerExists(); else note">
+<div class="content" *ngIf="gameService.player; else note">
   <div class="info-panel">
     <div class="hero-state">
       <div class="lives">
@@ -31,7 +31,7 @@
     </div>
   </div>
 
-  <game-dialog [state$]="stateGameDialog$" [mode$]="gameMode$"></game-dialog>
+  <game-dialog [state$]="stateGameDialog$" [mode$]="gameDialogMode$"></game-dialog>
 </div>
 
 <!-- Templates -->
@@ -60,4 +60,20 @@
   >
     <img src="assets/img/game/attacks/{{ name }}" />
   </div>
+</ng-template>
+
+<ng-template
+  #monster
+  let-name="name"
+  let-top="positionInPx.top"
+  let-left="positionInPx.left"
+  let-width="sizeInPx.width"
+>
+  <img
+    [style.top.px]="top"
+    [style.left.px]="left"
+    [style.width.px]="width"
+    class="monster"
+    src="assets/img/game/monsters/{{ name }}.gif"
+  />
 </ng-template>

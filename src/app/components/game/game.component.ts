@@ -11,13 +11,14 @@ import {
 import { GameService } from 'src/app/services/game.service';
 import { SoundsService } from 'src/app/services/sounds.service';
 import { Router } from '@angular/router';
-import { ISettingsAttackNodeElement } from 'src/app/classes/Player';
-import { Targaryen } from 'src/app/classes/Targaryen';
-import { Lannister } from 'src/app/classes/Lannister';
-import { Stark } from 'src/app/classes/Stark';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { EMode } from '../game-dialog/game-dialog.component';
+import { EGameDialogMode } from '../game-dialog/game-dialog.component';
+import { ISettingsAttackNodeElement } from 'src/app/interfaces/ISettingsAttackNodeElement';
+import { MonsterService } from 'src/app/services/monster.service';
+import { FlyingPlayer } from 'src/app/classes/player/FlyingPlayer';
+import { GoingPlayer } from 'src/app/classes/player/GoingPlayer';
+import { Monster } from 'src/app/classes/monster/Monster';
 
 @Component({
   selector: 'game',
@@ -25,11 +26,13 @@ import { EMode } from '../game-dialog/game-dialog.component';
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit, OnDestroy {
-  constructor(private _router: Router, private _soundsService: SoundsService, public gameService: GameService) {
-    if (this.gameService.player) this.gameService.player.initAttack(this._fabricAttackNodeElement.bind(this));
-  }
+  constructor(
+    private _router: Router,
+    private _soundsService: SoundsService,
+    private _monsterService: MonsterService,
+    public gameService: GameService
+  ) {}
 
-  private _destroyedComponent$ = new Subject();
   private _isKeydownArrowUp = false;
   private _isKeydownArrowDown = false;
   private _isKeydownArrowLeft = false;
@@ -37,25 +40,41 @@ export class GameComponent implements OnInit, OnDestroy {
   private _isKeydownSpace = false;
   private _isKeydownControlLeft = false;
   private _pauseGame = false;
-  private _requestIdAnimationFrame: number;
   private _isGameOver = false;
+  private _requestIdAnimationFrame: number;
+  private _destroyedComponent$ = new Subject();
 
   public stateGameDialog$ = new BehaviorSubject(false);
-  public gameMode$ = new BehaviorSubject(EMode.Game);
+  public gameDialogMode$ = new BehaviorSubject(EGameDialogMode.Game);
 
   @ViewChild('gameField', { static: false, read: ViewContainerRef }) gameField: ViewContainerRef;
   @ViewChild('attack', { static: false }) attackNodeElementTemplate: TemplateRef<ISettingsAttackNodeElement>;
+  @ViewChild('monster', { static: false }) monsterNodeElementTemplate: TemplateRef<Monster>;
 
   ngOnInit() {
-    this.stateGameDialog$
-      .pipe(takeUntil(this._destroyedComponent$))
-      .subscribe(dialogState => (this._pauseGame = dialogState));
+    if (this.gameService.player) {
+      this.gameService.player.initFabricAttack(this._fabricAttackNodeElement.bind(this));
 
-    if (this.isPlayerExists()) this.gameLoop();
+      this._monsterService.initFabricsMonster(
+        this._fabricMonsterNodeElement.bind(this),
+        this._fabricAttackNodeElement.bind(this)
+      );
+      this._monsterService.startGenerateMonsters();
+
+      this.gameLoop();
+    }
+
+    this.stateGameDialog$.pipe(takeUntil(this._destroyedComponent$)).subscribe(dialogState => {
+      this._pauseGame = dialogState;
+
+      if (this._pauseGame) this._monsterService.pauseGenerateMonsters();
+      else this._monsterService.startGenerateMonsters();
+    });
   }
 
   ngOnDestroy() {
     this.gameService.cleanGameInfo();
+    this._monsterService.cleanMonsterInfo();
 
     this._destroyedComponent$.next();
     this._destroyedComponent$.complete();
@@ -91,7 +110,7 @@ export class GameComponent implements OnInit, OnDestroy {
         break;
 
       case 'Escape':
-        if (this.isPlayerExists() && !this._isGameOver) this._toggleGameDialog();
+        if (this.gameService.player && !this._isGameOver) this._toggleGameDialog();
         else {
           this._soundsService.dragonStompy.restart();
           this._router.navigateByUrl('/hero-selection');
@@ -133,43 +152,27 @@ export class GameComponent implements OnInit, OnDestroy {
   public gameLoop(): void {
     if (!this._pauseGame) {
       if (this._isKeydownArrowUp) {
-        if (this.gameService.player instanceof Targaryen) this.gameService.player.stepToUp();
-
-        if (this.gameService.player instanceof Stark || this.gameService.player instanceof Lannister) {
-          this.gameService.player.jump();
-        }
+        if (this.gameService.player instanceof FlyingPlayer) this.gameService.player.stepToUp();
+        if (this.gameService.player instanceof GoingPlayer) this.gameService.player.jump();
       }
 
-      if (this._isKeydownArrowDown) {
-        if (this.gameService.player instanceof Targaryen) this.gameService.player.stepToDown();
+      if (this._isKeydownArrowDown && this.gameService.player instanceof FlyingPlayer) {
+        this.gameService.player.stepToDown();
       }
 
       if (this._isKeydownArrowLeft) this.gameService.player.stepToLeft();
 
       if (this._isKeydownArrowRight) this.gameService.player.stepToRight();
 
-      if (this._isKeydownSpace) {
-        this.gameService.player.attack();
+      if (this._isKeydownSpace) this.gameService.player.attack();
 
-        if (this.gameService.player instanceof Stark) this._soundsService.starkAttack.restart();
+      if (this._isKeydownControlLeft) this.gameService.player.activateShield();
 
-        if (this.gameService.player instanceof Targaryen) this._soundsService.targaryenAttack.restart();
-
-        if (this.gameService.player instanceof Lannister) this._soundsService.lannisterAttack.restart();
-      }
-
-      if (this._isKeydownControlLeft) {
-        if (this.gameService.player.activateShield()) this._soundsService.shield.restart();
-      }
+      this.gameService.player.drawAttackNodeElements();
+      this._monsterService.drawMonsters();
     }
 
-    this.gameService.player.drawAttackNodeElements();
-
     this._requestIdAnimationFrame = requestAnimationFrame(this.gameLoop.bind(this));
-  }
-
-  public isPlayerExists(): boolean {
-    return this.gameService.player !== null;
   }
 
   public getLivesAsArray(): void[] {
@@ -181,7 +184,7 @@ export class GameComponent implements OnInit, OnDestroy {
       this._soundsService.past.restart();
       this.stateGameDialog$.next(false);
     } else {
-      this.gameMode$.next(EMode.Game);
+      this.gameDialogMode$.next(EGameDialogMode.Game);
       this._soundsService.shortTomahawk.restart();
       this.stateGameDialog$.next(true);
     }
@@ -192,5 +195,12 @@ export class GameComponent implements OnInit, OnDestroy {
     this.gameField.insert(attackNodeElement);
 
     return attackNodeElement;
+  }
+
+  private _fabricMonsterNodeElement(settings: Monster): EmbeddedViewRef<Monster> {
+    const monsterNodeElement = this.monsterNodeElementTemplate.createEmbeddedView(settings);
+    this.gameField.insert(monsterNodeElement);
+
+    return monsterNodeElement;
   }
 }

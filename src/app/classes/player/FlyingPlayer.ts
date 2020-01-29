@@ -1,7 +1,7 @@
 import { Player, IPlayerSettings } from './Player';
-import { SIZE_FIELD_GAME_IN_PX } from '../constants/gameSettings';
+import { SIZE_FIELD_GAME_IN_PX } from '../../constants/gameSettings';
 
-export abstract class FlyingHero extends Player {
+export abstract class FlyingPlayer extends Player {
   constructor(settings: IPlayerSettings) {
     super(settings);
   }

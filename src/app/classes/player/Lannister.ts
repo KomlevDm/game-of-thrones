@@ -1,13 +1,14 @@
-import { EHouse } from '../enums/EHouse';
-import { GoingHero } from './GoingHero';
+import { EHouse } from '../../enums/EHouse';
+import { GoingPlayer } from './GoingPlayer';
 import { IPlayerSettings } from './Player';
 
-export class Lannister extends GoingHero {
+export class Lannister extends GoingPlayer {
   constructor(settings: IPlayerSettings) {
     super({
       ...settings,
       house: EHouse.Lannister,
       attack: {
+        ...settings.attack,
         name: 'attack-2.png',
         deltaTopPositionInPx: -25
       }
