@@ -149,6 +149,16 @@ export class GameComponent implements OnInit, OnDestroy {
     }
   }
 
+  @HostListener('window:focus')
+  onWindowFocusHandler() {
+    this._toggleGameDialog();
+  }
+
+  @HostListener('window:blur')
+  onWindowBlurHandler() {
+    this._toggleGameDialog();
+  }
+
   public gameLoop(): void {
     if (!this._pauseGame) {
       if (this._isKeydownArrowUp) {
@@ -224,11 +234,14 @@ export class GameComponent implements OnInit, OnDestroy {
           this.gameService.player.attackObjects.splice(i, 1);
           i -= 1;
 
-          this._monsterService.monsterObjects[j].subAttack.unsubscribe();
-          this._monsterService.monsterObjects[j].monster.attackNodeElements.forEach(a => a.destroy());
-          this._monsterService.monsterObjects[j].monsterNodeElement.destroy();
-          this._monsterService.monsterObjects.splice(j, 1);
-          j -= 1;
+          this._monsterService.monsterObjects[j].monster.deleteLife();
+          if (this._monsterService.monsterObjects[j].monster.isDead) {
+            this._monsterService.monsterObjects[j].subAttack.unsubscribe();
+            this._monsterService.monsterObjects[j].monster.attackNodeElements.forEach(a => a.destroy());
+            this._monsterService.monsterObjects[j].monsterNodeElement.destroy();
+            this._monsterService.monsterObjects.splice(j, 1);
+            j -= 1;
+          }
 
           break;
         }

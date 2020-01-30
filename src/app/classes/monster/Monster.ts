@@ -1,7 +1,4 @@
-import { DEBOUNCE_TIME_ATTACK_IN_MS } from '../../constants/gameSettings';
 import { EmbeddedViewRef } from '@angular/core';
-import { debounceTime } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 import { IPosition } from '../../interfaces/IPosition';
 import { FabricAttackNodeElementType } from '../../types/FabricAttackNodeElementType';
 import { IAttack } from '../../interfaces/IAttack';
@@ -34,28 +31,16 @@ export abstract class Monster {
     this._sizeInPx = sizeInPx;
     this._stepSizeMonsterInPx = stepSizeMonsterInPx || 3;
     this._lives = lives;
-
     this._attack = {
       ...attack,
       sizeInPx: attack.sizeInPx || 30,
-      stepSizeInPx: 10,
-      attack$: new Subject<void>()
+      stepSizeInPx: 10
     };
-    this._attack.attack$.pipe(debounceTime(DEBOUNCE_TIME_ATTACK_IN_MS)).subscribe(() => {
-      const settingsAttackNodeElement = {
-        name: this._attack.name,
-        leftInPx: this._positionInPx.left - this._attack.gapWithoutAttackingInPx,
-        topInPx: this._positionInPx.top + this._attack.deltaTopPositionInPx,
-        sizeInPx: this._attack.sizeInPx
-      };
-
-      this._attackNodeElements.push(this._attack.fabricAttackNodeElement(settingsAttackNodeElement));
-    });
   }
 
   private readonly _name: string;
   private readonly _sizeInPx: ISize;
-  private readonly _attack: IAttack<void>;
+  private readonly _attack: IAttack;
 
   protected readonly _stepSizeMonsterInPx: number;
 
@@ -96,7 +81,14 @@ export abstract class Monster {
   }
 
   public attack(): void {
-    this._attack.attack$.next();
+    const settingsAttackNodeElement = {
+      name: this._attack.name,
+      leftInPx: this._positionInPx.left - this._attack.gapWithoutAttackingInPx,
+      topInPx: this._positionInPx.top + this._attack.deltaTopPositionInPx,
+      sizeInPx: this._attack.sizeInPx
+    };
+
+    this._attackNodeElements.push(this._attack.fabricAttackNodeElement(settingsAttackNodeElement));
   }
 
   public drawAttackNodeElements(): void {
@@ -112,6 +104,10 @@ export abstract class Monster {
   }
 
   public deleteLife(): void {
+    if (this._isDead) return;
+
     this._lives -= 1;
+
+    if (this._lives === 0) this._isDead = true;
   }
 }

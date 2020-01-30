@@ -95,7 +95,7 @@ export abstract class Player {
   private readonly _house: EHouse;
   private readonly _widthHeroInPx = 225;
   private readonly _shield: IShield;
-  private readonly _attack: IAttack<string>;
+  private readonly _attack: IAttack;
   private readonly _timeoutShieldInMs = 5000;
   private readonly _timeoutBlockShieldInMs = 10000;
 

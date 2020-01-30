@@ -1,7 +1,7 @@
 import { Subject } from 'rxjs';
 import { FabricAttackNodeElementType } from '../types/FabricAttackNodeElementType';
 
-export interface IAttack<T> {
+export interface IAttack {
   name: string;
   deltaTopPositionInPx: number;
   deltaLeftPositionInPx?: number;
@@ -10,5 +10,5 @@ export interface IAttack<T> {
   gapWithoutAttackingInPx: number;
   fabricAttackNodeElement: FabricAttackNodeElementType;
   sound?: () => void;
-  attack$: Subject<T>;
+  attack$?: Subject<string>;
 }
