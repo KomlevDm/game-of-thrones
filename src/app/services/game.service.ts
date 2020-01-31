@@ -32,7 +32,7 @@ export class GameService {
   }
 
   public startGame(name: string, house: EHouse): void {
-    this._player = this._getInstancePlayer(house, { name });
+    this._player = this._createInstancePlayer(house, { name });
 
     this._createGameSession();
 
@@ -42,7 +42,7 @@ export class GameService {
   }
 
   public restartGame(): void {
-    this._player = this._getInstancePlayer(this._player.house, { name: this._player.name });
+    this._player = this._createInstancePlayer(this._player.house, { name: this._player.name });
 
     this._monsterService.restartGenerateMonster();
 
@@ -54,7 +54,7 @@ export class GameService {
   public loadGame(gameData: ISaveGameData): void {
     this._saveGameName = gameData.name;
 
-    this._player = this._getInstancePlayer(gameData.player.house, gameData.player);
+    this._player = this._createInstancePlayer(gameData.player.house, gameData.player);
 
     this._createGameSession(gameData.sessionId);
 
@@ -108,42 +108,16 @@ export class GameService {
     this._gameSession = sessionId || uuid();
   }
 
-  private _getInstancePlayer(house: EHouse, settings: IPlayerSettings): Player {
-    const shield = {
-      ...settings.shield,
-      sound: this._soundsService.shield.restart.bind(this._soundsService.shield)
-    };
-
+  private _createInstancePlayer(house: EHouse, settings: IPlayerSettings): Player {
     switch (house) {
       case EHouse.Stark:
-        return new Stark({
-          ...settings,
-          shield,
-          attack: {
-            ...settings.attack,
-            sound: this._soundsService.starkAttack.restart.bind(this._soundsService.starkAttack)
-          }
-        });
+        return new Stark(settings);
 
       case EHouse.Targaryen:
-        return new Targaryen({
-          ...settings,
-          shield,
-          attack: {
-            ...settings.attack,
-            sound: this._soundsService.targaryenAttack.restart.bind(this._soundsService.targaryenAttack)
-          }
-        });
+        return new Targaryen(settings);
 
       case EHouse.Lannister:
-        return new Lannister({
-          ...settings,
-          shield,
-          attack: {
-            ...settings.attack,
-            sound: this._soundsService.lannisterAttack.restart.bind(this._soundsService.lannisterAttack)
-          }
-        });
+        return new Lannister(settings);
     }
   }
 

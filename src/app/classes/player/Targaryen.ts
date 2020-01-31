@@ -1,18 +1,23 @@
 import { IPlayerSettings } from './Player';
 import { EHouse } from '../../enums/EHouse';
 import { FlyingPlayer } from './FlyingPlayer';
+import { SoundsService } from 'src/app/services/sounds.service';
 
 export class Targaryen extends FlyingPlayer {
   constructor(settings: IPlayerSettings) {
     super({
-      ...settings,
+      name: settings.name,
       house: EHouse.Targaryen,
-      positionInPx: settings.positionInPx || { left: 0, top: 260 },
-      heightHeroInPx: 223,
+      direction: settings.direction,
+      positionInPx: settings.positionInPx || { left: 0, top: 150 },
+      sizeInPx: { width: 225, height: 223 },
+      lives: settings.lives,
+      score: settings.score,
+      shield: settings.shield,
       attack: {
-        ...settings.attack,
         name: 'fire-sphere.gif',
-        deltaTopPositionInPx: -16
+        deltaPositionInPx: { left: 20, top: -16 },
+        sound: SoundsService.instance.targaryenAttack.restart.bind(SoundsService.instance.targaryenAttack)
       }
     });
   }

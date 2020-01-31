@@ -1,18 +1,23 @@
 import { EHouse } from '../../enums/EHouse';
 import { GoingPlayer } from './GoingPlayer';
 import { IPlayerSettings } from './Player';
+import { SoundsService } from 'src/app/services/sounds.service';
 
 export class Lannister extends GoingPlayer {
   constructor(settings: IPlayerSettings) {
     super({
-      ...settings,
+      name: settings.name,
       house: EHouse.Lannister,
-      heightHeroInPx: 115,
-      positionInPx: settings.positionInPx || { left: 0, top: 475 },
+      direction: settings.direction,
+      positionInPx: settings.positionInPx || { left: 0, top: 425 },
+      sizeInPx: { width: 225, height: 115 },
+      lives: settings.lives,
+      score: settings.score,
+      shield: settings.shield,
       attack: {
-        ...settings.attack,
         name: 'attack-2.png',
-        deltaTopPositionInPx: -25
+        deltaPositionInPx: { left: 20, top: 40 },
+        sound: SoundsService.instance.lannisterAttack.restart.bind(SoundsService.instance.lannisterAttack)
       }
     });
   }

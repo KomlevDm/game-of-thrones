@@ -20,9 +20,9 @@
 
     <div
       class="player"
-      [style.top.px]="gameService.player.positionInPx.top"
       [style.left.px]="gameService.player.positionInPx.left"
-      [style.width.px]="gameService.player.widthHeroInPx"
+      [style.top.px]="gameService.player.positionInPx.top"
+      [style.width.px]="gameService.player.sizeInPx.width"
       [style.transform]="gameService.player.direction"
       [class.shield]="gameService.player.isActivatedShield"
     >

@@ -2,50 +2,48 @@ import { EmbeddedViewRef } from '@angular/core';
 import { IPosition } from '../../interfaces/IPosition';
 import { FabricAttackNodeElementType } from '../../types/FabricAttackNodeElementType';
 import { IAttack } from '../../interfaces/IAttack';
-import { ISettingsAttackNodeElement } from '../../interfaces/ISettingsAttackNodeElement';
-
-interface ISize {
-  width: number;
-  height: number;
-}
+import { IAttackNodeElementSettings } from '../../interfaces/IAttackNodeElementSettings';
+import { ISize } from 'src/app/interfaces/ISize';
 
 export interface IMonsterSettings {
   name: string;
   positionInPx?: IPosition;
   sizeInPx: ISize;
-  stepSizeMonsterInPx?: number;
+  stepSizeInPx?: number;
   lives: number;
+  cost: number;
   attack: {
     name: string;
-    deltaTopPositionInPx: number;
-    fabricAttackNodeElement: FabricAttackNodeElementType;
-    gapWithoutAttackingInPx: number;
     sizeInPx?: number;
+    deltaPositionInPx: IPosition;
   };
 }
 
 export abstract class Monster {
-  constructor({ name, positionInPx, sizeInPx, stepSizeMonsterInPx, lives, attack }: IMonsterSettings) {
+  constructor({ name, positionInPx, sizeInPx, stepSizeInPx, lives, cost, attack }: IMonsterSettings) {
     this._name = name;
     this._positionInPx = positionInPx;
     this._sizeInPx = sizeInPx;
-    this._stepSizeMonsterInPx = stepSizeMonsterInPx || 3;
+    this._stepSizeInPx = stepSizeInPx || 3;
     this._lives = lives;
+    this._cost = cost;
     this._attack = {
-      ...attack,
+      name: attack.name,
       sizeInPx: attack.sizeInPx || 30,
-      stepSizeInPx: 10
+      deltaPositionInPx: attack.deltaPositionInPx,
+      stepSizeInPx: 10,
+      fabricAttackNodeElement: null
     };
   }
 
   private readonly _name: string;
+  private readonly _positionInPx: IPosition;
   private readonly _sizeInPx: ISize;
+  private readonly _stepSizeInPx: number;
+  private readonly _cost: number;
   private readonly _attack: IAttack;
+  private readonly _attackNodeElements: EmbeddedViewRef<IAttackNodeElementSettings>[] = [];
 
-  protected readonly _stepSizeMonsterInPx: number;
-
-  private _positionInPx: IPosition;
-  private _attackNodeElements: EmbeddedViewRef<ISettingsAttackNodeElement>[] = [];
   private _lives: number;
   private _isDead = false;
 
@@ -53,20 +51,24 @@ export abstract class Monster {
     return this._name;
   }
 
-  public get stepSizeMonsterInPx(): number {
-    return this._stepSizeMonsterInPx;
-  }
-
-  public get attackNodeElements(): EmbeddedViewRef<ISettingsAttackNodeElement>[] {
-    return this._attackNodeElements;
-  }
-
   public get positionInPx(): IPosition {
     return this._positionInPx;
   }
 
+  public get stepSizeInPx(): number {
+    return this._stepSizeInPx;
+  }
+
   public get sizeInPx(): ISize {
     return this._sizeInPx;
+  }
+
+  public get cost(): number {
+    return this._cost;
+  }
+
+  public get attackNodeElements(): EmbeddedViewRef<IAttackNodeElementSettings>[] {
+    return this._attackNodeElements;
   }
 
   public get isDead(): boolean {
@@ -74,21 +76,25 @@ export abstract class Monster {
   }
 
   public step(): void {
-    const newPositionLeft = this.positionInPx.left - this._stepSizeMonsterInPx;
+    const newPositionLeft = this.positionInPx.left - this._stepSizeInPx;
 
     if (newPositionLeft + this._sizeInPx.width >= 0) this.positionInPx.left = newPositionLeft;
     else this._isDead = true;
   }
 
+  public initFabricAttack(fabricAttackNodeElement: FabricAttackNodeElementType): void {
+    this._attack.fabricAttackNodeElement = fabricAttackNodeElement;
+  }
+
   public attack(): void {
-    const settingsAttackNodeElement = {
+    const attackNodeElementSettings = {
       name: this._attack.name,
-      leftInPx: this._positionInPx.left - this._attack.gapWithoutAttackingInPx,
-      topInPx: this._positionInPx.top + this._attack.deltaTopPositionInPx,
+      leftInPx: this._positionInPx.left - this._attack.deltaPositionInPx.left,
+      topInPx: this._positionInPx.top + this._attack.deltaPositionInPx.top,
       sizeInPx: this._attack.sizeInPx
     };
 
-    this._attackNodeElements.push(this._attack.fabricAttackNodeElement(settingsAttackNodeElement));
+    this._attackNodeElements.push(this._attack.fabricAttackNodeElement(attackNodeElementSettings));
   }
 
   public drawAttackNodeElements(): void {

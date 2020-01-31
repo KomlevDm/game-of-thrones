@@ -1,17 +1,15 @@
 import { FlyingMonster } from './FlyingMonster';
-import { FabricAttackNodeElementType } from 'src/app/types/FabricAttackNodeElementType';
 
 export class FlyIceDragon extends FlyingMonster {
-  constructor(fabricAttackNodeElement: FabricAttackNodeElementType) {
+  constructor() {
     super({
       name: 'fly-ice-dragon',
       sizeInPx: { width: 130, height: 130 },
       lives: 1,
+      cost: 100,
       attack: {
         name: 'attack-1.png',
-        deltaTopPositionInPx: 30,
-        fabricAttackNodeElement,
-        gapWithoutAttackingInPx: 15,
+        deltaPositionInPx: { left: 15, top: 30 },
         sizeInPx: 20
       }
     });

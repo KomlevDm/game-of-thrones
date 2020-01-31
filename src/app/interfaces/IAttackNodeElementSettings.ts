@@ -1,6 +1,6 @@
 import { EDirection } from '../enums/EDirection';
 
-export interface ISettingsAttackNodeElement {
+export interface IAttackNodeElementSettings {
   name: string;
   leftInPx: number;
   topInPx: number;

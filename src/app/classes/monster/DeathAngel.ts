@@ -1,17 +1,15 @@
 import { FlyingMonster } from './FlyingMonster';
-import { FabricAttackNodeElementType } from 'src/app/types/FabricAttackNodeElementType';
 
 export class DeathAngel extends FlyingMonster {
-  constructor(fabricAttackNodeElement: FabricAttackNodeElementType) {
+  constructor() {
     super({
       name: 'death-angel',
       sizeInPx: { width: 200, height: 146 },
       lives: 5,
+      cost: 500,
       attack: {
         name: 'attack-4.png',
-        deltaTopPositionInPx: 40,
-        fabricAttackNodeElement,
-        gapWithoutAttackingInPx: 60,
+        deltaPositionInPx: { left: 60, top: 40 },
         sizeInPx: 50
       }
     });

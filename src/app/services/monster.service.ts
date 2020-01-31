@@ -114,20 +114,23 @@ export class MonsterService {
     const monsters = [Gin, FlyIceDragon, IceDragon, DeathAngel];
     const monsterIndex = Math.floor(Math.random() * monsters.length);
 
-    return new monsters[monsterIndex](this._fabricAttackNodeElement);
+    const newMonster = new monsters[monsterIndex]();
+    newMonster.initFabricAttack(this._fabricAttackNodeElement);
+
+    return newMonster;
   }
 
   private _randomVerticalStep(monsterObject: IMonsterObject): void {
     if (
       monsterObject.verticalDirection === EVerticalDirection.Up &&
-      monsterObject.monster.positionInPx.top <= monsterObject.monster.stepSizeMonsterInPx
+      monsterObject.monster.positionInPx.top <= monsterObject.monster.stepSizeInPx
     ) {
       (monsterObject.monster as FlyingMonster).stepToDown();
       monsterObject.verticalDirection = Number(!monsterObject.verticalDirection);
     } else if (
       monsterObject.verticalDirection === EVerticalDirection.Down &&
       monsterObject.monster.positionInPx.top >=
-        SIZE_FIELD_GAME_IN_PX.height - monsterObject.monster.sizeInPx.height - monsterObject.monster.stepSizeMonsterInPx
+        SIZE_FIELD_GAME_IN_PX.height - monsterObject.monster.sizeInPx.height - monsterObject.monster.stepSizeInPx
     ) {
       (monsterObject.monster as FlyingMonster).stepToUp();
       monsterObject.verticalDirection = Number(!monsterObject.verticalDirection);
@@ -139,6 +142,6 @@ export class MonsterService {
   }
 
   private _getRandomVerticalDirection(): EVerticalDirection {
-    return getRandomNumber(0, 1);
+    return getRandomNumber(EVerticalDirection.Up, EVerticalDirection.Down);
   }
 }

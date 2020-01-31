@@ -14,13 +14,13 @@ export abstract class FlyingMonster extends Monster {
   }
 
   public stepToUp(): void {
-    const newPositionTop = this.positionInPx.top - this._stepSizeMonsterInPx;
+    const newPositionTop = this.positionInPx.top - this.stepSizeInPx;
 
     if (newPositionTop >= 0) this.positionInPx.top = newPositionTop;
   }
 
   public stepToDown(): void {
-    const newPositionTop = this.positionInPx.top + this._stepSizeMonsterInPx;
+    const newPositionTop = this.positionInPx.top + this.stepSizeInPx;
 
     if (newPositionTop + this.sizeInPx.height <= SIZE_FIELD_GAME_IN_PX.height) this.positionInPx.top = newPositionTop;
   }

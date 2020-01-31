@@ -1,20 +1,18 @@
 import { Monster } from './Monster';
-import { FabricAttackNodeElementType } from 'src/app/types/FabricAttackNodeElementType';
 import { SIZE_FIELD_GAME_IN_PX } from 'src/app/constants/gameSettings';
 
 export class IceDragon extends Monster {
-  constructor(fabricAttackNodeElement: FabricAttackNodeElementType) {
+  constructor() {
     super({
       name: 'ice-dragon',
-      positionInPx: { left: SIZE_FIELD_GAME_IN_PX.width, top: 395 },
-      sizeInPx: { width: 250, height: 154 },
-      stepSizeMonsterInPx: 5,
+      positionInPx: { left: SIZE_FIELD_GAME_IN_PX.width, top: 355 },
+      sizeInPx: { width: 330, height: 203 },
+      stepSizeInPx: 5,
       lives: 4,
+      cost: 450,
       attack: {
         name: 'attack-6.png',
-        deltaTopPositionInPx: 55,
-        fabricAttackNodeElement,
-        gapWithoutAttackingInPx: 40,
+        deltaPositionInPx: { left: 40, top: 65 },
         sizeInPx: 40
       }
     });

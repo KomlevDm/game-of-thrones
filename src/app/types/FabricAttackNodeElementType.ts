@@ -1,6 +1,6 @@
-import { ISettingsAttackNodeElement } from '../interfaces/ISettingsAttackNodeElement';
+import { IAttackNodeElementSettings } from '../interfaces/IAttackNodeElementSettings';
 import { EmbeddedViewRef } from '@angular/core';
 
 export type FabricAttackNodeElementType = (
-  settings: ISettingsAttackNodeElement
-) => EmbeddedViewRef<ISettingsAttackNodeElement>;
+  settings: IAttackNodeElementSettings
+) => EmbeddedViewRef<IAttackNodeElementSettings>;

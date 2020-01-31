@@ -18,7 +18,11 @@ interface IExtHTMLAudioElement extends HTMLAudioElement {
 
 @Injectable({ providedIn: 'root' })
 export class SoundsService {
+  static instance: SoundsService;
+
   constructor() {
+    SoundsService.instance = this;
+
     Audio.prototype.stop = function() {
       this.pause();
       this.currentTime = 0;
@@ -34,7 +38,7 @@ export class SoundsService {
     this._bgSound.toggler = null ? true : JSON.parse(togglerBgSound);
   }
 
-  private _bgSound: IBgSound = {
+  private readonly _bgSound: IBgSound = {
     soundNames: Object.values(BACKGROUND_AUDIO.mainMenu),
     currentSoundIndex: 0,
     currentSound: null,
@@ -58,6 +62,7 @@ export class SoundsService {
   public starkAttack: IExtHTMLAudioElement = null;
   public targaryenAttack: IExtHTMLAudioElement = null;
   public lannisterAttack: IExtHTMLAudioElement = null;
+  public coinsRinging: IExtHTMLAudioElement = null;
 
   public get togglerBgSound(): boolean {
     return this._bgSound.toggler;
@@ -100,6 +105,8 @@ export class SoundsService {
     this.targaryenAttack = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.targaryenAttack}`);
 
     this.lannisterAttack = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.lannisterAttack}`);
+
+    this.coinsRinging = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.coinsRinging}`);
 
     this._playBgSound();
   }
