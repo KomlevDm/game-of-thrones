@@ -1,5 +1,9 @@
 @import './fonts';
+@import './variables';
 @import './snow-animation';
+@import './game-bg-animation';
+@import './rotate-animation';
+@import './rotate-pulsar-animation';
 
 * {
   margin : 0;
@@ -49,22 +53,103 @@
 }
 
 html {
-  height          : 100%;
+  height: 100%;
+  width : 100%;
+}
+
+body {
+  height          : inherit;
+  width           : inherit;
+  font-family     : "Game of Thrones";
+  user-select     : none;
+  color           : white;
   display         : flex;
   align-items     : center;
   justify-content : center;
   background-color: black;
   cursor          : url(../assets/img/cursor.png), auto;
-}
 
-body {
-  min-width  : 1300px;
-  max-width  : 1300px;
-  height     : 700px;
-  border     : 10px double white;
-  box-sizing : border-box;
-  font-family: "Game of Thrones";
-  user-select: none;
-  color      : white;
-  transition : height 2s linear;
+  .spinner {
+    width        : 100px;
+    height       : 100px;
+    border-radius: 50%;
+    perspective  : 800px;
+
+    .inner {
+      position     : absolute;
+      box-sizing   : border-box;
+      width        : 100%;
+      height       : 100%;
+      border-radius: 50%;
+
+      &.one {
+        left         : 0%;
+        top          : 0%;
+        animation    : inner-one 1s linear infinite;
+        border-bottom: 3px solid $ice;
+
+        @keyframes inner-one {
+          0% {
+            transform   : rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+            border-color: $ice;
+          }
+
+          50% {
+            border-color: $fire;
+          }
+
+          100% {
+            transform   : rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+            border-color: $ice;
+          }
+        }
+      }
+
+      &.two {
+        right       : 0%;
+        top         : 0%;
+        animation   : inner-two 1s linear infinite;
+        border-right: 3px solid $ice;
+
+        @keyframes inner-two {
+          0% {
+            transform   : rotateX(50deg) rotateY(10deg) rotateZ(0deg);
+            border-color: $ice;
+          }
+
+          50% {
+            border-color: $fire;
+          }
+
+          100% {
+            transform   : rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+            border-color: $ice;
+          }
+        }
+      }
+
+      &.three {
+        right     : 0%;
+        bottom    : 0%;
+        animation : inner-three 1s linear infinite;
+        border-top: 3px solid $ice;
+
+        @keyframes inner-three {
+          0% {
+            transform   : rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+            border-color: $ice;
+          }
+
+          50% {
+            border-color: $fire;
+          }
+
+          100% {
+            transform   : rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+            border-color: $ice;
+          }
+        }
+      }
+    }
+  }
 }

@@ -11,7 +11,7 @@ import { SoundsService } from 'src/app/services/sounds.service';
   styleUrls: ['./toggle-language-dialog.component.scss']
 })
 export class ToggleLanguageDialogComponent {
-  constructor(public translateService: TranslateService, public soundsService: SoundsService) {}
+  constructor(private _soundsService: SoundsService, public translateService: TranslateService) {}
 
   public ELanguage = ELanguage;
 
@@ -22,15 +22,15 @@ export class ToggleLanguageDialogComponent {
     if (this.state$.value) this.close();
   }
 
-  public toggleLanguage(language: ELanguage) {
-    this.soundsService.blade.restart();
+  public toggleLanguage(language: ELanguage): void {
+    this._soundsService.blade.restart();
 
     this.translateService.use(language);
     localStorage.setItem(EKeyLocalStorage.CurrentLanguage, language);
   }
 
-  public close() {
-    this.soundsService.past.restart();
+  public close(): void {
+    this._soundsService.past.restart();
     this.state$.next(false);
   }
 }

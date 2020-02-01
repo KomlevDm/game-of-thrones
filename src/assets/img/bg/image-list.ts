@@ -7,3 +7,9 @@ export const MENU_BACKGROUND_IMAGES = {
   nightKing: 'night-king.jpg',
   throne: 'throne.jpg'
 };
+
+export const GAME_BACKGROUND_IMAGES = {
+  snowForest: 'snow-forest.jpg',
+  caves: 'caves.jpg',
+  nightMountains: 'night-mountains.jpg'
+};

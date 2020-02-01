@@ -18,27 +18,32 @@
       <div class="buttons">
         <div
           class="button"
-          (mouseenter)="mouseenterButtonMenu()"
-          routerLink="hero-selection"
+          (mouseenter)="gameService.mouseenterButton()"
+          routerLink="/hero-selection"
           (click)="soundsService.dragonStompy.restart()"
         >
           {{ 'MainMenu.Buttons.Play' | translate }}
         </div>
 
-        <div class="button" (mouseenter)="mouseenterButtonMenu()">
+        <div
+          class="button"
+          (mouseenter)="gameService.mouseenterButton()"
+          routerLink="/load"
+          (click)="soundsService.dragonStompy.restart()"
+        >
           {{ 'MainMenu.Buttons.Load' | translate }}
         </div>
 
         <div
           class="button"
-          (mouseenter)="mouseenterButtonMenu()"
-          routerLink="top-table"
+          (mouseenter)="gameService.mouseenterButton()"
+          routerLink="/top-table"
           (click)="soundsService.dragonStompy.restart()"
         >
           {{ 'MainMenu.Buttons.Top' | translate }}
         </div>
 
-        <div class="button" (mouseenter)="mouseenterButtonMenu()" (click)="openToggleLanguageDialog()">
+        <div class="button" (mouseenter)="gameService.mouseenterButton()" (click)="openToggleLanguageDialog()">
           {{ 'MainMenu.Buttons.Language' | translate }}
         </div>
       </div>
@@ -48,7 +53,7 @@
       <div
         class="volume"
         (click)="soundsService.toggleBgSound()"
-        [ngClass]="{ disabled: !soundsService.togglerBgSound }"
+        [class.disabled]="!soundsService.togglerBgSound"
       ></div>
 
       <a class="github-link" href="https://github.com/KomlevDm/game-of-thrones" target="_blank">

@@ -14,6 +14,10 @@ import { EKeyLocalStorage } from './enums/EKeyLocalStorage';
 import { TopTableComponent } from './components/top-table/top-table.component';
 import { HeroSelectionComponent } from './components/hero-selection/hero-selection.component';
 import { FormsModule } from '@angular/forms';
+import { GameComponent } from './components/game/game.component';
+import { GameDialogComponent } from './components/game-dialog/game-dialog.component';
+import { LoadComponent } from './components/load/load.component';
+import { BackArrowComponent } from './components/back-arrow/back-arrow.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -25,7 +29,11 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     MainMenuComponent,
     ToggleLanguageDialogComponent,
     TopTableComponent,
-    HeroSelectionComponent
+    HeroSelectionComponent,
+    GameComponent,
+    GameDialogComponent,
+    LoadComponent,
+    BackArrowComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -45,8 +53,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(private translateService: TranslateService) {
+  constructor(private _translateService: TranslateService) {
     const currentLanguage = localStorage.getItem(EKeyLocalStorage.CurrentLanguage) || ELanguage.En;
-    translateService.use(currentLanguage);
+    this._translateService.use(currentLanguage);
   }
 }

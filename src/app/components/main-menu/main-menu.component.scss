@@ -29,7 +29,7 @@
         url(../../../assets/img/bg/snowflake-2.png),
         url(../../../assets/img/bg/snowflake-3.png);
       height   : inherit;
-      animation: snow-animation 20s linear infinite;
+      animation: snow-animation-to-right 20s linear infinite;
 
       .title {
         position: absolute;
@@ -39,7 +39,7 @@
         h1.text {
           font-size          : 58px;
           text-shadow        : -2px -3px 0px #000000, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff;
-          background-image   : url(../../../assets/img/bg/fire-sphere.gif);
+          background-image   : url(../../../assets/img/game/attacks/fire-sphere.gif);
           background-size    : cover;
           color              : transparent;
           background-clip    : text;
@@ -60,7 +60,7 @@
           position        : absolute;
           width           : 30px;
           height          : 30px;
-          background-image: url(../../../assets/img/bg/fire-sphere.gif);
+          background-image: url(../../../assets/img/game/attacks/fire-sphere.gif);
           background-size : cover;
           box-sizing      : border-box;
           border-radius   : 50%;
@@ -86,7 +86,7 @@
           h1 {
             font-size          : 21px;
             text-shadow        : -2px -3px 0px #000000, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff;
-            background-image   : url(../../../assets/img/bg/fire-sphere.gif);
+            background-image   : url(../../../assets/img/game/attacks/fire-sphere.gif);
             background-size    : cover;
             color              : transparent;
             background-clip    : text;
@@ -101,7 +101,6 @@
           display       : flex;
           flex-direction: column;
           padding       : 10px;
-          clip-path     : polygon(30px 0, 0 15px, 0 calc(100% - 15px), 30px 100%, calc(100% - 30px) 100%, 100% calc(100% - 15px), 100% 15px, calc(100% - 30px) 0);
 
           .button {
             @include glass-button-background;
@@ -127,13 +126,6 @@
 
             &:active {
               top: 3px;
-            }
-
-            &.disable {
-              background-color: rgb(158, 158, 158);
-              background-position: 200% 0, 0 0, 0 0, 0 100%, 0 4px,
-                0 calc(100% - 4px);
-              cursor: default;
             }
 
             &:not(:last-child) {

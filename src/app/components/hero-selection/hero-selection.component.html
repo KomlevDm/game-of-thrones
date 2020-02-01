@@ -1,9 +1,9 @@
-<img class="back-arrow" src="assets/img/arrow.png" routerLink="" (click)="soundsService.dragonStompy.restart()" />
+<back-arrow></back-arrow>
 
 <div class="main-title">{{ 'HeroSelection.Title' | translate }}</div>
 
 <div class="houses">
-  <div class="house" [ngClass]="{ selected: playerService.house === EHouse.Stark }" (click)="selectHouse(EHouse.Stark)">
+  <div class="house" [class.selected]="selectedHouse === EHouse.Stark" (click)="selectHouse(EHouse.Stark)">
     <div class="house-title">{{ 'HeroSelection.Houses.Stark.HouseName' | translate }}</div>
 
     <img src="assets/img/bg/stark-logo.jpg" />
@@ -11,11 +11,7 @@
     <div class="motto">{{ 'HeroSelection.Houses.Stark.Motto' | translate }}</div>
   </div>
 
-  <div
-    class="house"
-    [ngClass]="{ selected: playerService.house === EHouse.Targaryen }"
-    (click)="selectHouse(EHouse.Targaryen)"
-  >
+  <div class="house" [class.selected]="selectedHouse === EHouse.Targaryen" (click)="selectHouse(EHouse.Targaryen)">
     <div class="house-title">{{ 'HeroSelection.Houses.Targaryen.HouseName' | translate }}</div>
 
     <img src="assets/img/bg/targaryen-logo.jpg" />
@@ -23,7 +19,7 @@
     <div class="motto">{{ 'HeroSelection.Houses.Targaryen.Motto' | translate }}</div>
   </div>
 
-  <div class="house disabled">
+  <div class="house" [class.selected]="selectedHouse === EHouse.Lannister" (click)="selectHouse(EHouse.Lannister)">
     <div class="house-title">{{ 'HeroSelection.Houses.Lannister.HouseName' | translate }}</div>
 
     <img src="assets/img/bg/lannister-logo.jpg" />
@@ -36,8 +32,8 @@
   <div class="player-info">
     <span>{{ 'HeroSelection.PlayerInfo' | translate }}:</span>
 
-    <input type="text" [(ngModel)]="playerService.name" />
+    <input type="text" [(ngModel)]="playerName" maxlength="20" />
   </div>
 
-  <img class="play-button" src="assets/img/play.png" [ngClass]="{ allow: isAllowPlay() }" />
+  <img class="play-button" src="assets/img/play.png" [class.allow]="isAllowPlayGame()" (click)="startGame()" />
 </div>

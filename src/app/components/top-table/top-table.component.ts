@@ -1,12 +1,13 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { getRandomMenuBgImage } from 'src/app/helpers/getRandomMenuBgImage';
 import { SoundsService } from 'src/app/services/sounds.service';
 import { Router } from '@angular/router';
 import { EKeyLocalStorage } from 'src/app/enums/EKeyLocalStorage';
+import { GameService } from 'src/app/services/game.service';
 
 interface ITableItem {
   name: string;
-  points: number;
+  score: number;
   date: Date;
 }
 
@@ -15,25 +16,30 @@ interface ITableItem {
   templateUrl: './top-table.component.html',
   styleUrls: ['./top-table.component.scss']
 })
-export class TopTableComponent {
-  constructor(private router: Router, public soundsService: SoundsService) {}
+export class TopTableComponent implements OnInit {
+  constructor(private _router: Router, private _gameService: GameService, private _soundsService: SoundsService) {}
 
   public bgImageName = getRandomMenuBgImage();
   public sortByNameState: 'desc' | 'asc' = null;
-  public sortByPointsState: 'desc' | 'asc' = null;
+  public sortByScoreState: 'desc' | 'asc' = null;
   public sortByDateState: 'desc' | 'asc' = null;
-  public tableData = this.initTableData();
+  public tableData: ITableItem[] = [];
+
+  ngOnInit() {
+    const topTableData: ITableItem[] = JSON.parse(localStorage.getItem(EKeyLocalStorage.TopTableData));
+
+    if (topTableData !== null) this.tableData = topTableData;
+  }
 
   @HostListener('document:keydown.escape')
   onKeydownEscapeHandler() {
-    this.soundsService.dragonStompy.restart();
-    this.router.navigateByUrl('');
+    this._gameService.navigateToMainMenu();
   }
 
-  public sortByName() {
-    this.soundsService.past.restart();
+  public sortByName(): void {
+    this._soundsService.past.restart();
 
-    this.sortByPointsState = null;
+    this.sortByScoreState = null;
     this.sortByDateState = null;
 
     if (this.sortByNameState === null || this.sortByNameState === 'desc') {
@@ -45,26 +51,26 @@ export class TopTableComponent {
     }
   }
 
-  public sortByPoints() {
-    this.soundsService.past.restart();
+  public sortByScore(): void {
+    this._soundsService.past.restart();
 
     this.sortByNameState = null;
     this.sortByDateState = null;
 
-    if (this.sortByPointsState === null || this.sortByPointsState === 'desc') {
-      this.tableData.sort((a, b) => a.points - b.points);
-      this.sortByPointsState = 'asc';
+    if (this.sortByScoreState === null || this.sortByScoreState === 'desc') {
+      this.tableData.sort((a, b) => a.score - b.score);
+      this.sortByScoreState = 'asc';
     } else {
-      this.tableData.sort((a, b) => b.points - a.points);
-      this.sortByPointsState = 'desc';
+      this.tableData.sort((a, b) => b.score - a.score);
+      this.sortByScoreState = 'desc';
     }
   }
 
-  public sortByDate() {
-    this.soundsService.past.restart();
+  public sortByDate(): void {
+    this._soundsService.past.restart();
 
     this.sortByNameState = null;
-    this.sortByPointsState = null;
+    this.sortByScoreState = null;
 
     if (this.sortByDateState === null || this.sortByDateState === 'desc') {
       this.tableData.sort((a, b) => a.date.getTime() - b.date.getTime());
@@ -73,11 +79,5 @@ export class TopTableComponent {
       this.tableData.sort((a, b) => b.date.getTime() - a.date.getTime());
       this.sortByDateState = 'desc';
     }
-  }
-
-  private initTableData(): ITableItem[] {
-    const topTableDate = localStorage.getItem(EKeyLocalStorage.TopTableDate);
-
-    return topTableDate === null ? [] : JSON.parse(topTableDate);
   }
 }

@@ -16,10 +16,10 @@
     "Title": "Таблица рекордов",
     "ColumnTitles": {
       "Name": "Имя",
-      "Points": "Баллы",
+      "Score": "Очки",
       "Date": "Дата"
     },
-    "EmptyTableText": "На данный момент таблица пуста"
+    "NoteEmptyTable": "На данный момент таблица пуста"
   },
   "HeroSelection": {
     "Title": "Выберите дом",
@@ -38,5 +38,28 @@
       }
     },
     "PlayerInfo": "Ваше имя"
+  },
+  "Game": {
+    "NotePlayerNotExists": "Вы не выбрали дом, за который будете играть",
+    "GameDialog": {
+      "GameOverText": "Игра окончена",
+      "SaveText": "Сохранить текущие достижения, как",
+      "ButtonNames": {
+        "Continue": "Продолжить",
+        "Save": "Сохранить",
+        "Exit": "Выйти",
+        "Restart": "Заново",
+        "Ok": "Ок",
+        "Cancel": "Закрыть"
+      }
+    }
+  },
+  "Load": {
+    "Title": "Доступные сохранения",
+    "NoteEmptySaveGameData": "Нет доступных сохранений",
+    "ButtonNames": {
+      "Delete": "Удалить",
+      "Load": "Загрузить"
+    }
   }
 }

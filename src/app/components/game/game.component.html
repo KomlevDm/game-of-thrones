@@ -1,0 +1,79 @@
+<div class="content" *ngIf="gameService.player; else note">
+  <div class="info-panel">
+    <div class="hero-state">
+      <div class="lives">
+        <img *ngFor="let item of getLivesAsArray()" src="assets/img/game/life.png" />
+      </div>
+
+      <div class="shield" [class.active]="gameService.player.isActivatedShield || gameService.player.isBlockedShield">
+        <img src="assets/img/game/shield.png" />
+      </div>
+    </div>
+
+    <div class="score">
+      <h1>{{ gameService.player.score }}</h1>
+    </div>
+  </div>
+
+  <div class="game-field">
+    <ng-template #gameField></ng-template>
+
+    <div
+      class="player"
+      [style.left.px]="gameService.player.positionInPx.left"
+      [style.top.px]="gameService.player.positionInPx.top"
+      [style.width.px]="gameService.player.sizeInPx.width"
+      [style.transform]="gameService.player.direction"
+      [class.shield]="gameService.player.isActivatedShield"
+    >
+      <img class="shield" src="assets/img/game/sphere-shield.png" />
+      <img class="hero" src="assets/img/game/players/{{ gameService.player.house }}.gif" />
+    </div>
+  </div>
+
+  <game-dialog [state$]="stateGameDialog$" [mode$]="gameDialogMode$"></game-dialog>
+</div>
+
+<!-- Templates -->
+<ng-template #note>
+  <back-arrow navigationUrl="/hero-selection"></back-arrow>
+
+  <div class="note">
+    {{ 'Game.NotePlayerNotExists' | translate }}
+  </div>
+</ng-template>
+
+<ng-template
+  #attack
+  let-name="name"
+  let-left="leftInPx"
+  let-top="topInPx"
+  let-width="sizeInPx"
+  let-transform="animationDirection"
+>
+  <div
+    class="attack"
+    [style.left.px]="left"
+    [style.top.px]="top"
+    [style.width.px]="width"
+    [style.transform]="transform"
+  >
+    <img src="assets/img/game/attacks/{{ name }}" />
+  </div>
+</ng-template>
+
+<ng-template
+  #monster
+  let-name="name"
+  let-left="positionInPx.left"
+  let-top="positionInPx.top"
+  let-width="sizeInPx.width"
+>
+  <img
+    [style.left.px]="left"
+    [style.top.px]="top"
+    [style.width.px]="width"
+    class="monster"
+    src="assets/img/game/monsters/{{ name }}.gif"
+  />
+</ng-template>

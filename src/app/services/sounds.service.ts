@@ -18,7 +18,11 @@ interface IExtHTMLAudioElement extends HTMLAudioElement {
 
 @Injectable({ providedIn: 'root' })
 export class SoundsService {
+  static instance: SoundsService;
+
   constructor() {
+    SoundsService.instance = this;
+
     Audio.prototype.stop = function() {
       this.pause();
       this.currentTime = 0;
@@ -29,39 +33,49 @@ export class SoundsService {
       this.currentTime = 0;
       this.play();
     };
+
+    const togglerBgSound = localStorage.getItem(EKeyLocalStorage.TogglerBgSound);
+    this._bgSound.toggler = null ? true : JSON.parse(togglerBgSound);
   }
 
-  private bgSound: IBgSound = {
+  private readonly _bgSound: IBgSound = {
     soundNames: Object.values(BACKGROUND_AUDIO.mainMenu),
     currentSoundIndex: 0,
     currentSound: null,
-    toggler: this.initTogglerBgSound()
+    toggler: true
   };
 
+  public startGame: IExtHTMLAudioElement = null;
   public dragonFlame: IExtHTMLAudioElement = null;
   public blade: IExtHTMLAudioElement = null;
-  public tomahawk: IExtHTMLAudioElement = null;
   public shortTomahawk: IExtHTMLAudioElement = null;
-  public pierceWithSword: IExtHTMLAudioElement = null;
   public past: IExtHTMLAudioElement = null;
   public dragonStompy: IExtHTMLAudioElement = null;
   public dragonRoar: IExtHTMLAudioElement = null;
-  public swordBattle: IExtHTMLAudioElement = null;
+  public lionRoar: IExtHTMLAudioElement = null;
+  public wolfRipsApartEnemy: IExtHTMLAudioElement = null;
+  public shield: IExtHTMLAudioElement = null;
+  public starkAttack: IExtHTMLAudioElement = null;
+  public targaryenAttack: IExtHTMLAudioElement = null;
+  public lannisterAttack: IExtHTMLAudioElement = null;
+  public coinsRinging: IExtHTMLAudioElement = null;
+  public gameOver: IExtHTMLAudioElement = null;
+  public death: IExtHTMLAudioElement = null;
 
-  public get togglerBgSound() {
-    return this.bgSound.toggler;
+  public get togglerBgSound(): boolean {
+    return this._bgSound.toggler;
   }
 
-  public init() {
+  public init(): void {
+    this.startGame = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.startGame}`);
+
     this.dragonFlame = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.dragonFlame}`);
     this.dragonFlame.volume = 0.5;
 
     this.blade = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.blade}`);
 
-    this.tomahawk = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.tomahawk}`);
     this.shortTomahawk = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.shortTomahawk}`);
-
-    this.pierceWithSword = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.pierceWithSword}`);
+    this.shortTomahawk.volume = 0.5;
 
     this.past = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.past}`);
 
@@ -70,35 +84,48 @@ export class SoundsService {
     this.dragonRoar = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.dragonRoar}`);
     this.dragonRoar.volume = 0.5;
 
-    this.swordBattle = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.swordBattle}`);
+    this.lionRoar = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.lionRoar}`);
+    this.lionRoar.volume = 0.5;
 
-    this.playBgSound();
+    this.wolfRipsApartEnemy = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.wolfRipsApartEnemy}`);
+
+    this.shield = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.shield}`);
+
+    this.starkAttack = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.starkAttack}`);
+
+    this.targaryenAttack = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.targaryenAttack}`);
+
+    this.lannisterAttack = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.lannisterAttack}`);
+
+    this.coinsRinging = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.coinsRinging}`);
+
+    this.gameOver = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.gameOver}`);
+
+    this.death = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.death}`);
+
+    this._playBgSound();
   }
 
-  public toggleBgSound() {
-    this.bgSound.currentSound.volume = this.bgSound.toggler ? 0 : 1;
-    this.bgSound.toggler = !this.bgSound.toggler;
-    localStorage.setItem(EKeyLocalStorage.TogglerBgSound, this.bgSound.toggler.toString());
+  public toggleBgSound(): void {
+    this._bgSound.currentSound.volume = this._bgSound.toggler ? 0 : 1;
+    this._bgSound.toggler = !this._bgSound.toggler;
+    localStorage.setItem(EKeyLocalStorage.TogglerBgSound, this._bgSound.toggler.toString());
   }
 
-  private playBgSound() {
-    this.bgSound.currentSound = new Audio(
-      `${PATH_TO_AUDIO}/${this.bgSound.soundNames[this.bgSound.currentSoundIndex]}`
+  private _playBgSound(): void {
+    this._bgSound.currentSound = new Audio(
+      `${PATH_TO_AUDIO}/${this._bgSound.soundNames[this._bgSound.currentSoundIndex]}`
     );
-    this.bgSound.currentSound.volume = Number(this.bgSound.toggler);
-    this.bgSound.currentSound.play();
+    this._bgSound.currentSound.volume = Number(this._bgSound.toggler);
+    this._bgSound.currentSound.autoplay = true;
 
-    this.bgSound.currentSound.onended = () => {
-      this.bgSound.currentSoundIndex =
-        this.bgSound.currentSoundIndex === this.bgSound.soundNames.length - 1 ? 0 : this.bgSound.currentSoundIndex + 1;
+    this._bgSound.currentSound.onended = () => {
+      this._bgSound.currentSoundIndex =
+        this._bgSound.currentSoundIndex === this._bgSound.soundNames.length - 1
+          ? 0
+          : this._bgSound.currentSoundIndex + 1;
 
-      this.playBgSound();
+      this._playBgSound();
     };
-  }
-
-  private initTogglerBgSound(): boolean {
-    const togglerBgSound = localStorage.getItem(EKeyLocalStorage.TogglerBgSound);
-
-    return togglerBgSound === null ? true : JSON.parse(togglerBgSound);
   }
 }

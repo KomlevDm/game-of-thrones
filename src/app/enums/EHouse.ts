@@ -1,5 +1,5 @@
 export enum EHouse {
-  Stark,
-  Targaryen,
-  Lannister
+  Stark = 'stark',
+  Targaryen = 'targaryen',
+  Lannister = 'lannister'
 }

@@ -1,0 +1,27 @@
+<back-arrow></back-arrow>
+
+<div class="main-title">{{ 'Load.Title' | translate }}</div>
+
+<div class="content" *ngIf="saveGameData.length !== 0; else note">
+  <div class="save-game" *ngFor="let sg of saveGameData; let i = index">
+    <div class="title" [title]="sg.name">{{ sg.name }}</div>
+
+    <div class="date">{{ sg.date | date: 'HH:mm dd.MM.yyyy' }}</div>
+
+    <img src="assets/img/bg/{{ sg.player.house }}-logo.jpg" />
+
+    <div class="button delete" (click)="deleteSaveGame(i)" (mouseenter)="gameService.mouseenterButton()">
+      {{ 'Load.ButtonNames.Delete' | translate }}
+    </div>
+
+    <div class="button" (click)="loadSaveGame(sg)" (mouseenter)="gameService.mouseenterButton()">
+      {{ 'Load.ButtonNames.Load' | translate }}
+    </div>
+  </div>
+</div>
+
+<ng-template #note>
+  <div class="note">
+    {{ 'Load.NoteEmptySaveGameData' | translate }}
+  </div>
+</ng-template>

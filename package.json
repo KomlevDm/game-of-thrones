@@ -21,12 +21,14 @@
     "@angular/router": "~8.2.14",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
+    "@types/uuid": "^3.4.6",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
+    "uuid": "^3.4.0",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.803.21",
+    "@angular-devkit/build-angular": "^0.803.23",
     "@angular/cli": "~8.3.21",
     "@angular/compiler-cli": "~8.2.14",
     "@angular/language-service": "~8.2.14",

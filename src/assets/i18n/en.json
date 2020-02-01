@@ -16,10 +16,10 @@
     "Title": "Top",
     "ColumnTitles": {
       "Name": "Name",
-      "Points": "Points",
+      "Score": "Score",
       "Date": "Date"
     },
-    "EmptyTableText": "The table is currently empty"
+    "NoteEmptyTable": "The table is currently empty"
   },
   "HeroSelection": {
     "Title": "Select home",
@@ -38,5 +38,28 @@
       }
     },
     "PlayerInfo": "Your name"
+  },
+  "Game": {
+    "NotePlayerNotExists": "You have not chosen a house for which you will play",
+    "GameDialog": {
+      "GameOverText": "Game over",
+      "SaveText": "Save current achievements as",
+      "ButtonNames": {
+        "Continue": "Continue",
+        "Save": "Save",
+        "Exit": "Exit",
+        "Restart": "Restart",
+        "Ok": "Ok",
+        "Cancel": "Cancel"
+      }
+    }
+  },
+  "Load": {
+    "Title": "Available saves",
+    "NoteEmptySaveGameData": "No saves available",
+    "ButtonNames": {
+      "Delete": "Delete",
+      "Load": "Load"
+    }
   }
 }
