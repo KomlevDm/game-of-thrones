@@ -133,6 +133,10 @@ export abstract class Player {
     return this._attackObjects;
   }
 
+  public get fabricAttackNodeElement(): FabricAttackNodeElementType {
+    return this._attack.fabricAttackNodeElement;
+  }
+
   public get direction(): EDirection {
     return this._direction;
   }
@@ -221,6 +225,7 @@ export abstract class Player {
     if (this._isDead) return;
 
     this._lives -= 1;
+    SoundsService.instance.death.play();
 
     if (this._lives === 0) this._isDead = true;
   }

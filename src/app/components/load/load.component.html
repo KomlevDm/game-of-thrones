@@ -10,11 +10,11 @@
 
     <img src="assets/img/bg/{{ sg.player.house }}-logo.jpg" />
 
-    <div class="button delete" (click)="deleteSaveGame(i)" (mouseenter)="mouseenterButton()">
+    <div class="button delete" (click)="deleteSaveGame(i)" (mouseenter)="gameService.mouseenterButton()">
       {{ 'Load.ButtonNames.Delete' | translate }}
     </div>
 
-    <div class="button" (click)="loadSaveGame(sg)" (mouseenter)="mouseenterButton()">
+    <div class="button" (click)="loadSaveGame(sg)" (mouseenter)="gameService.mouseenterButton()">
       {{ 'Load.ButtonNames.Load' | translate }}
     </div>
   </div>

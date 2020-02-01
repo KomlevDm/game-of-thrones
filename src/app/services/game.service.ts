@@ -42,7 +42,11 @@ export class GameService {
   }
 
   public restartGame(): void {
+    this._player.attackObjects.forEach(a => a.attackNodeElement.destroy());
+    const fabricAttackNodeElement = this.player.fabricAttackNodeElement;
+
     this._player = this._createInstancePlayer(this._player.house, { name: this._player.name });
+    this.player.initFabricAttack(fabricAttackNodeElement);
 
     this._monsterService.restartGenerateMonster();
 
@@ -96,6 +100,10 @@ export class GameService {
   public navigateToMainMenu(): void {
     this._soundsService.dragonStompy.restart();
     this._router.navigateByUrl('/');
+  }
+
+  public mouseenterButton(): void {
+    this._soundsService.blade.restart();
   }
 
   public cleanGameInfo(): void {

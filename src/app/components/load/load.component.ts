@@ -1,5 +1,4 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { SoundsService } from 'src/app/services/sounds.service';
 import { IPlayerSettings } from 'src/app/classes/player/Player';
 import { EKeyLocalStorage } from 'src/app/enums/EKeyLocalStorage';
 import { GameService } from 'src/app/services/game.service';
@@ -17,7 +16,7 @@ export interface ISaveGameData {
   styleUrls: ['./load.component.scss']
 })
 export class LoadComponent implements OnInit {
-  constructor(private _gameService: GameService, private _soundsService: SoundsService) {}
+  constructor(public gameService: GameService) {}
 
   public saveGameData: ISaveGameData[] = [];
 
@@ -31,7 +30,7 @@ export class LoadComponent implements OnInit {
 
   @HostListener('document:keydown.escape')
   onKeydownEscapeHandler() {
-    this._gameService.navigateToMainMenu();
+    this.gameService.navigateToMainMenu();
   }
 
   public deleteSaveGame(index: number): void {
@@ -41,10 +40,6 @@ export class LoadComponent implements OnInit {
   }
 
   public loadSaveGame(saveGame: ISaveGameData): void {
-    this._gameService.loadGame(saveGame);
-  }
-
-  public mouseenterButton(): void {
-    this._soundsService.blade.restart();
+    this.gameService.loadGame(saveGame);
   }
 }

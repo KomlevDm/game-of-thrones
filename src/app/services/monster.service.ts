@@ -34,7 +34,7 @@ export class MonsterService {
   private _monsterObjects: IMonsterObject[] = [];
   private _fabricMonsterNodeElement: FabricMonsterNodeElementType = null;
   private _fabricAttackNodeElement: FabricAttackNodeElementType = null;
-  private _togglerGenerationMonsters = true;
+  private _togglerGenerationMonsters = false;
   private _subGenerationMonsters: Subscription = null;
 
   public get monsterObjects(): IMonsterObject[] {
@@ -52,8 +52,9 @@ export class MonsterService {
   public startGenerateMonsters(): void {
     if (!this._fabricMonsterNodeElement) return;
 
-    if (this._subGenerationMonsters) this._togglerGenerationMonsters = true;
-    else {
+    this._togglerGenerationMonsters = true;
+
+    if (!this._subGenerationMonsters) {
       this._subGenerationMonsters = timer(0, this._periodGenerateMonstersInMs)
         .pipe(filter(() => this._togglerGenerationMonsters))
         .subscribe(() => {
@@ -75,13 +76,16 @@ export class MonsterService {
 
   public drawMonsters(): void {
     for (let i = 0; i < this._monsterObjects.length; i++) {
-      this._monsterObjects[i].monster.step();
-      if (this._monsterObjects[i].monster instanceof FlyingMonster) this._randomVerticalStep(this._monsterObjects[i]);
-      this._monsterObjects[i].monster.drawAttackNodeElements();
+      const monsterObject = this._monsterObjects[i];
 
-      if (this._monsterObjects[i].monster.isDead) {
-        this._monsterObjects[i].monsterNodeElement.destroy();
-        this._monsterObjects[i].subAttack.unsubscribe();
+      monsterObject.monster.step();
+      if (monsterObject.monster instanceof FlyingMonster) this._randomVerticalStep(monsterObject);
+      monsterObject.monster.drawAttackNodeElements();
+
+      if (monsterObject.monster.isDead) {
+        monsterObject.subAttack.unsubscribe();
+        monsterObject.monster.attackNodeElements.forEach(a => a.destroy());
+        monsterObject.monsterNodeElement.destroy();
         this._monsterObjects.splice(i, 1);
         i -= 1;
       }
@@ -93,16 +97,21 @@ export class MonsterService {
   }
 
   public restartGenerateMonster(): void {
-    this._monsterObjects.forEach(m => m.monsterNodeElement.destroy());
+    this._monsterObjects.forEach(m => {
+      m.subAttack.unsubscribe();
+      m.monster.attackNodeElements.forEach(a => a.destroy());
+      m.monsterNodeElement.destroy();
+    });
     this._monsterObjects = [];
     this._togglerGenerationMonsters = true;
   }
 
   public cleanMonsterInfo(): void {
+    this._monsterObjects.forEach(m => m.subAttack.unsubscribe());
     this._monsterObjects = [];
     this._fabricMonsterNodeElement = null;
     this._fabricAttackNodeElement = null;
-    this._togglerGenerationMonsters = true;
+    this._togglerGenerationMonsters = false;
 
     if (this._subGenerationMonsters) {
       this._subGenerationMonsters.unsubscribe();

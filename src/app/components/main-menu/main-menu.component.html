@@ -18,7 +18,7 @@
       <div class="buttons">
         <div
           class="button"
-          (mouseenter)="mouseenterButtonMenu()"
+          (mouseenter)="gameService.mouseenterButton()"
           routerLink="/hero-selection"
           (click)="soundsService.dragonStompy.restart()"
         >
@@ -27,7 +27,7 @@
 
         <div
           class="button"
-          (mouseenter)="mouseenterButtonMenu()"
+          (mouseenter)="gameService.mouseenterButton()"
           routerLink="/load"
           (click)="soundsService.dragonStompy.restart()"
         >
@@ -36,14 +36,14 @@
 
         <div
           class="button"
-          (mouseenter)="mouseenterButtonMenu()"
+          (mouseenter)="gameService.mouseenterButton()"
           routerLink="/top-table"
           (click)="soundsService.dragonStompy.restart()"
         >
           {{ 'MainMenu.Buttons.Top' | translate }}
         </div>
 
-        <div class="button" (mouseenter)="mouseenterButtonMenu()" (click)="openToggleLanguageDialog()">
+        <div class="button" (mouseenter)="gameService.mouseenterButton()" (click)="openToggleLanguageDialog()">
           {{ 'MainMenu.Buttons.Language' | translate }}
         </div>
       </div>

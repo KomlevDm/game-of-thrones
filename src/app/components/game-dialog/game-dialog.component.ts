@@ -15,30 +15,29 @@ export enum EGameDialogMode {
   styleUrls: ['./game-dialog.component.scss']
 })
 export class GameDialogComponent {
-  constructor(private _gameService: GameService, public soundsService: SoundsService) {}
+  constructor(public gameService: GameService, public soundsService: SoundsService) {}
 
   @Input() state$: BehaviorSubject<boolean>;
   @Input() mode$: BehaviorSubject<EGameDialogMode>;
 
   public EMode = EGameDialogMode;
-  public saveGameName = this._gameService.saveGameName || 'No name';
-
-  public mouseenterButtonMenu(): void {
-    this.soundsService.blade.restart();
-  }
+  public saveGameName = this.gameService.saveGameName || 'No name';
 
   public restartGame(): void {
-    this._gameService.restartGame();
+    this.mode$.next(EGameDialogMode.Game);
+    this.gameService.restartGame();
     this.close();
   }
 
   public close(): void {
+    if (this.mode$.value === EGameDialogMode.GameOver) return;
+
     this.soundsService.past.restart();
     this.state$.next(false);
   }
 
   public save(): void {
-    this._gameService.saveGame(this.saveGameName);
+    this.gameService.saveGame(this.saveGameName);
     this.mode$.next(EGameDialogMode.Game);
   }
 }

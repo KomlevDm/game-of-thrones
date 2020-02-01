@@ -4,17 +4,17 @@
   <ng-container [ngSwitch]="mode$ | async">
     <ng-container *ngSwitchCase="EMode.Game">
       <div class="buttons">
-        <div class="button" (mouseenter)="mouseenterButtonMenu()" (click)="close()">
+        <div class="button" (mouseenter)="gameService.mouseenterButton()" (click)="close()">
           {{ 'Game.GameDialog.ButtonNames.Continue' | translate }}
         </div>
 
-        <div class="button" (mouseenter)="mouseenterButtonMenu()" (click)="mode$.next(EMode.Save)">
+        <div class="button" (mouseenter)="gameService.mouseenterButton()" (click)="mode$.next(EMode.Save)">
           {{ 'Game.GameDialog.ButtonNames.Save' | translate }}
         </div>
 
         <div
           class="button"
-          (mouseenter)="mouseenterButtonMenu()"
+          (mouseenter)="gameService.mouseenterButton()"
           routerLink="/"
           (click)="soundsService.dragonStompy.restart()"
         >
@@ -27,13 +27,13 @@
       <h1>{{ 'Game.GameDialog.GameOverText' | translate }}</h1>
 
       <div class="buttons">
-        <div class="button" (mouseenter)="mouseenterButtonMenu()" (click)="restartGame()">
+        <div class="button" (mouseenter)="gameService.mouseenterButton()" (click)="restartGame()">
           {{ 'Game.GameDialog.ButtonNames.Restart' | translate }}
         </div>
 
         <div
           class="button"
-          (mouseenter)="mouseenterButtonMenu()"
+          (mouseenter)="gameService.mouseenterButton()"
           routerLink="/"
           (click)="soundsService.dragonStompy.restart()"
         >
@@ -48,11 +48,11 @@
       <input type="text" [(ngModel)]="saveGameName" maxlength="20" />
 
       <div class="buttons horizontal">
-        <div class="button" (mouseenter)="mouseenterButtonMenu()" (click)="save()">
+        <div class="button" (mouseenter)="gameService.mouseenterButton()" (click)="save()">
           {{ 'Game.GameDialog.ButtonNames.Ok' | translate }}
         </div>
 
-        <div class="button" (mouseenter)="mouseenterButtonMenu()" (click)="mode$.next(EMode.Game)">
+        <div class="button" (mouseenter)="gameService.mouseenterButton()" (click)="mode$.next(EMode.Game)">
           {{ 'Game.GameDialog.ButtonNames.Cancel' | translate }}
         </div>
       </div>

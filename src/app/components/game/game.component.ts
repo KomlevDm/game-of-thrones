@@ -52,22 +52,22 @@ export class GameComponent implements OnInit, OnDestroy {
   @ViewChild('monster', { static: false }) monsterNodeElementTemplate: TemplateRef<Monster>;
 
   ngOnInit() {
-    if (this.gameService.player) {
-      this.gameService.player.initFabricAttack(this._fabricAttackNodeElement.bind(this));
-
-      this._monsterService.initFabricsMonster(
-        this._fabricMonsterNodeElement.bind(this),
-        this._fabricAttackNodeElement.bind(this)
-      );
-      this._monsterService.startGenerateMonsters();
-
-      this.gameLoop();
-    }
+    if (!this.gameService.player) return;
 
     this.stateGameDialog$.pipe(takeUntil(this._destroyedComponent$)).subscribe(dialogState => {
       if (dialogState) this._pauseGame();
       else this._continueGame();
     });
+
+    this.gameService.player.initFabricAttack(this._fabricAttackNodeElement.bind(this));
+
+    this._monsterService.initFabricsMonster(
+      this._fabricMonsterNodeElement.bind(this),
+      this._fabricAttackNodeElement.bind(this)
+    );
+    this._monsterService.startGenerateMonsters();
+
+    this.gameLoop();
   }
 
   ngOnDestroy() {
@@ -108,7 +108,9 @@ export class GameComponent implements OnInit, OnDestroy {
         break;
 
       case 'Escape':
-        if (this.gameService.player && !this._isGameOver) this._toggleGameDialog();
+        if (this._isGameOver) break;
+
+        if (this.gameService.player) this._toggleGameDialog();
         else {
           this._soundsService.dragonStompy.restart();
           this._router.navigateByUrl('/hero-selection');
@@ -149,11 +151,19 @@ export class GameComponent implements OnInit, OnDestroy {
 
   @HostListener('window:focus')
   onWindowFocusHandler() {
-    this._continueGame();
+    if (this.gameService.player && !this._isGameOver && !this.stateGameDialog$.value) this._continueGame();
   }
 
   @HostListener('window:blur')
   onWindowBlurHandler() {
+    if (this.gameService.player) this._pauseGame();
+  }
+
+  public gameOver(): void {
+    this._soundsService.gameOver.restart();
+    this._isGameOver = true;
+    this._toggleGameDialog();
+    this.gameDialogMode$.next(EGameDialogMode.GameOver);
     this._pauseGame();
   }
 
@@ -224,7 +234,13 @@ export class GameComponent implements OnInit, OnDestroy {
     return monsterNodeElement;
   }
 
-  private _calculateCollisions() {
+  private _calculateCollisions(): void {
+    this._collisionsPlayerAttacksWithMonsters();
+
+    this._collisionsMonstersAttacksWithPlayer();
+  }
+
+  private _collisionsPlayerAttacksWithMonsters(): void {
     const player = this.gameService.player;
 
     for (let i = 0; i < player.attackObjects.length; i++) {
@@ -242,8 +258,9 @@ export class GameComponent implements OnInit, OnDestroy {
           player.attackObjects.splice(i, 1);
           i -= 1;
 
-          this._monsterService.monsterObjects[j].monster.deleteLife();
-          if (this._monsterService.monsterObjects[j].monster.isDead) {
+          monster.deleteLife();
+
+          if (monster.isDead) {
             player.increaseScore(monster.cost);
             this._soundsService.coinsRinging.restart();
 
@@ -258,6 +275,10 @@ export class GameComponent implements OnInit, OnDestroy {
         }
       }
     }
+  }
+
+  private _collisionsMonstersAttacksWithPlayer(): void {
+    const player = this.gameService.player;
 
     for (let i = 0; i < this._monsterService.monsterObjects.length; i++) {
       const monster = this._monsterService.monsterObjects[i].monster;
@@ -270,8 +291,14 @@ export class GameComponent implements OnInit, OnDestroy {
         player.positionInPx.left + player.sizeInPx.width / 2 <
           monster.positionInPx.left + (monster.sizeInPx.width * 3) / 4
       ) {
-        player.deleteLife();
-        if (player.isDead) console.log('Смерть!!!');
+        this._monsterService.monsterObjects[i].subAttack.unsubscribe();
+        monster.attackNodeElements.forEach(a => a.destroy());
+        this._monsterService.monsterObjects[i].monsterNodeElement.destroy();
+        this._monsterService.monsterObjects.splice(i, 1);
+        i -= 1;
+
+        if (!player.isActivatedShield) player.deleteLife();
+        if (player.isDead) this.gameOver();
       }
 
       for (let j = 0; j < monster.attackNodeElements.length; j++) {
@@ -287,8 +314,8 @@ export class GameComponent implements OnInit, OnDestroy {
           monster.attackNodeElements.splice(j, 1);
           j -= 1;
 
-          player.deleteLife();
-          if (player.isDead) console.log('Смерть!!!');
+          if (!player.isActivatedShield) player.deleteLife();
+          if (player.isDead) this.gameOver();
         }
       }
     }

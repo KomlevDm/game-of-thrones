@@ -16,7 +16,7 @@ export class Targaryen extends FlyingPlayer {
       shield: settings.shield,
       attack: {
         name: 'fire-sphere.gif',
-        deltaPositionInPx: { left: 20, top: -16 },
+        deltaPositionInPx: { left: 20, top: 94 },
         sound: SoundsService.instance.targaryenAttack.restart.bind(SoundsService.instance.targaryenAttack)
       }
     });

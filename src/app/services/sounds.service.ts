@@ -48,21 +48,19 @@ export class SoundsService {
   public startGame: IExtHTMLAudioElement = null;
   public dragonFlame: IExtHTMLAudioElement = null;
   public blade: IExtHTMLAudioElement = null;
-  public tomahawk: IExtHTMLAudioElement = null;
   public shortTomahawk: IExtHTMLAudioElement = null;
-  public pierceWithSword: IExtHTMLAudioElement = null;
   public past: IExtHTMLAudioElement = null;
   public dragonStompy: IExtHTMLAudioElement = null;
   public dragonRoar: IExtHTMLAudioElement = null;
-  public swordBattle: IExtHTMLAudioElement = null;
   public lionRoar: IExtHTMLAudioElement = null;
   public wolfRipsApartEnemy: IExtHTMLAudioElement = null;
-  public zombieBite: IExtHTMLAudioElement = null;
   public shield: IExtHTMLAudioElement = null;
   public starkAttack: IExtHTMLAudioElement = null;
   public targaryenAttack: IExtHTMLAudioElement = null;
   public lannisterAttack: IExtHTMLAudioElement = null;
   public coinsRinging: IExtHTMLAudioElement = null;
+  public gameOver: IExtHTMLAudioElement = null;
+  public death: IExtHTMLAudioElement = null;
 
   public get togglerBgSound(): boolean {
     return this._bgSound.toggler;
@@ -76,11 +74,8 @@ export class SoundsService {
 
     this.blade = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.blade}`);
 
-    this.tomahawk = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.tomahawk}`);
     this.shortTomahawk = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.shortTomahawk}`);
     this.shortTomahawk.volume = 0.5;
-
-    this.pierceWithSword = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.pierceWithSword}`);
 
     this.past = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.past}`);
 
@@ -89,14 +84,10 @@ export class SoundsService {
     this.dragonRoar = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.dragonRoar}`);
     this.dragonRoar.volume = 0.5;
 
-    this.swordBattle = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.swordBattle}`);
-
     this.lionRoar = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.lionRoar}`);
     this.lionRoar.volume = 0.5;
 
     this.wolfRipsApartEnemy = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.wolfRipsApartEnemy}`);
-
-    this.zombieBite = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.zombieBite}`);
 
     this.shield = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.shield}`);
 
@@ -107,6 +98,10 @@ export class SoundsService {
     this.lannisterAttack = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.lannisterAttack}`);
 
     this.coinsRinging = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.coinsRinging}`);
+
+    this.gameOver = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.gameOver}`);
+
+    this.death = new Audio(`${PATH_TO_AUDIO}/${ACTION_AUDIO.death}`);
 
     this._playBgSound();
   }
