@@ -19,6 +19,8 @@ import { MonsterService } from 'src/app/services/monster.service';
 import { FlyingPlayer } from 'src/app/classes/player/FlyingPlayer';
 import { GoingPlayer } from 'src/app/classes/player/GoingPlayer';
 import { Monster } from 'src/app/classes/monster/Monster';
+import { ITableItem } from '../top-table/top-table.component';
+import { EKeyLocalStorage } from 'src/app/enums/EKeyLocalStorage';
 
 @Component({
   selector: 'game',
@@ -67,7 +69,7 @@ export class GameComponent implements OnInit, OnDestroy {
     );
     this._monsterService.startGenerateMonsters();
 
-    this.gameLoop();
+    this._gameLoop();
   }
 
   ngOnDestroy() {
@@ -159,15 +161,11 @@ export class GameComponent implements OnInit, OnDestroy {
     if (this.gameService.player) this._pauseGame();
   }
 
-  public gameOver(): void {
-    this._soundsService.gameOver.restart();
-    this._isGameOver = true;
-    this._toggleGameDialog();
-    this.gameDialogMode$.next(EGameDialogMode.GameOver);
-    this._pauseGame();
+  public getLivesAsArray(): void[] {
+    return new Array(this.gameService.player.lives);
   }
 
-  public gameLoop(): void {
+  private _gameLoop(): void {
     if (!this._pauseGameToggler) {
       if (this._isKeydownArrowUp) {
         if (this.gameService.player instanceof FlyingPlayer) this.gameService.player.stepToUp();
@@ -192,11 +190,33 @@ export class GameComponent implements OnInit, OnDestroy {
       this._calculateCollisions();
     }
 
-    this._requestIdAnimationFrame = requestAnimationFrame(this.gameLoop.bind(this));
+    this._requestIdAnimationFrame = requestAnimationFrame(this._gameLoop.bind(this));
   }
 
-  public getLivesAsArray(): void[] {
-    return new Array(this.gameService.player.lives);
+  private _gameOver(): void {
+    this._soundsService.gameOver.restart();
+    this._isGameOver = true;
+    this._toggleGameDialog();
+    this.gameDialogMode$.next(EGameDialogMode.GameOver);
+    this._saveResultGameInTopTable();
+    this._pauseGame();
+  }
+
+  private _saveResultGameInTopTable(): void {
+    const currentTopTableData: ITableItem = {
+      name: this.gameService.player.name,
+      score: this.gameService.player.score,
+      date: new Date()
+    };
+
+    const topTableDataFromLocalStorage: ITableItem[] = JSON.parse(localStorage.getItem(EKeyLocalStorage.TopTableData));
+
+    if (topTableDataFromLocalStorage === null) {
+      localStorage.setItem(EKeyLocalStorage.TopTableData, JSON.stringify([currentTopTableData]));
+    } else {
+      topTableDataFromLocalStorage.push(currentTopTableData);
+      localStorage.setItem(EKeyLocalStorage.TopTableData, JSON.stringify(topTableDataFromLocalStorage));
+    }
   }
 
   private _toggleGameDialog(): void {
@@ -298,7 +318,7 @@ export class GameComponent implements OnInit, OnDestroy {
         i -= 1;
 
         if (!player.isActivatedShield) player.deleteLife();
-        if (player.isDead) this.gameOver();
+        if (player.isDead) this._gameOver();
       }
 
       for (let j = 0; j < monster.attackNodeElements.length; j++) {
@@ -315,7 +335,7 @@ export class GameComponent implements OnInit, OnDestroy {
           j -= 1;
 
           if (!player.isActivatedShield) player.deleteLife();
-          if (player.isDead) this.gameOver();
+          if (player.isDead) this._gameOver();
         }
       }
     }

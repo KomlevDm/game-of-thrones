@@ -4,56 +4,64 @@
   display   : block;
   min-width : $widthScreen;
   max-width : $widthScreen;
-  height    : 700px;
+  height    : 0;
   position  : relative;
-  border    : 10px double white;
-  transition: height 2s linear;
+  border    : none;
+  transition: all 3s linear;
 
-  .logo {
-    background: {
-      image : url(../assets/img/bg/logo.png);
-      repeat: no-repeat;
-      size  : cover;
-    }
-
-    height         : 137px;
-    display        : flex;
-    align-items    : center;
-    justify-content: center;
-    width          : 226px;
-    align-self     : center;
-    position       : absolute;
-    z-index        : 1;
-    top            : -300px;
-    opacity        : 0;
-    left           : calc(50% - 113px);
-    transition     : all .4s linear;
+  .wrap-logo {
+    position  : absolute;
+    text-align: center;
+    opacity   : 0;
+    left      : calc(50% - 113px);
+    top       : -300px;
+    transition: all 0.4s linear;
 
     &.display {
-      top    : -44px;
+      top    : -78px;
       opacity: 1;
       z-index: 3;
     }
 
-    h1 {
-      font-size: 30px;
-      text-shadow:
-        -1px -2px 0px #000000,
-        -1px -2px 3px #ffffff,
-        -1px -2px 3px #ffffff,
-        -1px -2px 3px #ffffff;
-      background-image   : url(../assets/img/game/attacks/fire-sphere.gif);
-      background-size    : cover;
-      color              : transparent;
-      background-clip    : text;
-      letter-spacing     : 1px;
-      background-position: 0;
-      padding-left       : 18px;
-      padding-right      : 16px;
-      white-space        : nowrap;
-      text-overflow      : ellipsis;
-      overflow-x         : hidden;
-      font-family        : serif;
+    .fire-sphere {
+      width        : 30px;
+      border-radius: 50%;
+    }
+
+    .logo {
+      background: {
+        image : url(../assets/img/bg/logo.png);
+        repeat: no-repeat;
+        size  : cover;
+      }
+
+      height         : 137px;
+      display        : flex;
+      align-items    : center;
+      justify-content: center;
+      width          : 225px;
+
+      h1 {
+        font-size: 30px;
+        text-shadow:
+          -1px -2px 0px #000000,
+          -1px -2px 3px #ffffff,
+          -1px -2px 3px #ffffff,
+          -1px -2px 3px #ffffff;
+        background-image   : url(../assets/img/game/attacks/fire-sphere.gif);
+        background-size    : cover;
+        color              : transparent;
+        background-clip    : text;
+        letter-spacing     : 1px;
+        background-position: 0;
+        padding-left       : 18px;
+        padding-right      : 16px;
+        white-space        : nowrap;
+        text-overflow      : ellipsis;
+        overflow-x         : hidden;
+        font-family        : serif;
+        transition         : all 0.1s linear;
+      }
     }
   }
 
