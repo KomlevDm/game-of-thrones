@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { EKeyLocalStorage } from 'src/app/enums/EKeyLocalStorage';
 import { GameService } from 'src/app/services/game.service';
 
-interface ITableItem {
+export interface ITableItem {
   name: string;
   score: number;
   date: Date;
@@ -28,7 +28,14 @@ export class TopTableComponent implements OnInit {
   ngOnInit() {
     const topTableData: ITableItem[] = JSON.parse(localStorage.getItem(EKeyLocalStorage.TopTableData));
 
-    if (topTableData !== null) this.tableData = topTableData;
+    if (topTableData !== null) {
+      this.tableData = topTableData.map(elem => ({
+        ...elem,
+        date: new Date(elem.date)
+      }));
+
+      this.sortByScore();
+    }
   }
 
   @HostListener('document:keydown.escape')

@@ -6,9 +6,11 @@ const PATH_TO_AUDIO = '../../assets/audio';
 
 interface IBgSound {
   soundNames: string[];
-  currentSound: HTMLAudioElement;
-  currentSoundIndex: number;
-  toggler: boolean;
+  currentSound: {
+    element: HTMLAudioElement;
+    index: number;
+  };
+  isMuted: boolean;
 }
 
 interface IExtHTMLAudioElement extends HTMLAudioElement {
@@ -34,15 +36,17 @@ export class SoundsService {
       this.play();
     };
 
-    const togglerBgSound = localStorage.getItem(EKeyLocalStorage.TogglerBgSound);
-    this._bgSound.toggler = null ? true : JSON.parse(togglerBgSound);
+    const isMutedBgSound = localStorage.getItem(EKeyLocalStorage.IsMutedBgSound);
+    this._bgSound.isMuted = isMutedBgSound === null ? false : JSON.parse(isMutedBgSound);
   }
 
   private readonly _bgSound: IBgSound = {
     soundNames: Object.values(BACKGROUND_AUDIO.mainMenu),
-    currentSoundIndex: 0,
-    currentSound: null,
-    toggler: true
+    currentSound: {
+      element: null,
+      index: 0
+    },
+    isMuted: false
   };
 
   public startGame: IExtHTMLAudioElement = null;
@@ -62,8 +66,8 @@ export class SoundsService {
   public gameOver: IExtHTMLAudioElement = null;
   public death: IExtHTMLAudioElement = null;
 
-  public get togglerBgSound(): boolean {
-    return this._bgSound.toggler;
+  public get isMutedBgSound(): boolean {
+    return this._bgSound.isMuted;
   }
 
   public init(): void {
@@ -107,23 +111,23 @@ export class SoundsService {
   }
 
   public toggleBgSound(): void {
-    this._bgSound.currentSound.volume = this._bgSound.toggler ? 0 : 1;
-    this._bgSound.toggler = !this._bgSound.toggler;
-    localStorage.setItem(EKeyLocalStorage.TogglerBgSound, this._bgSound.toggler.toString());
+    this._bgSound.isMuted = !this._bgSound.isMuted;
+    this._bgSound.currentSound.element.muted = this._bgSound.isMuted;
+    localStorage.setItem(EKeyLocalStorage.IsMutedBgSound, this._bgSound.isMuted.toString());
   }
 
   private _playBgSound(): void {
-    this._bgSound.currentSound = new Audio(
-      `${PATH_TO_AUDIO}/${this._bgSound.soundNames[this._bgSound.currentSoundIndex]}`
+    this._bgSound.currentSound.element = new Audio(
+      `${PATH_TO_AUDIO}/${this._bgSound.soundNames[this._bgSound.currentSound.index]}`
     );
-    this._bgSound.currentSound.volume = Number(this._bgSound.toggler);
-    this._bgSound.currentSound.autoplay = true;
+    this._bgSound.currentSound.element.muted = this._bgSound.isMuted;
+    this._bgSound.currentSound.element.autoplay = true;
 
-    this._bgSound.currentSound.onended = () => {
-      this._bgSound.currentSoundIndex =
-        this._bgSound.currentSoundIndex === this._bgSound.soundNames.length - 1
+    this._bgSound.currentSound.element.onended = () => {
+      this._bgSound.currentSound.index =
+        this._bgSound.currentSound.index === this._bgSound.soundNames.length - 1
           ? 0
-          : this._bgSound.currentSoundIndex + 1;
+          : this._bgSound.currentSound.index + 1;
 
       this._playBgSound();
     };

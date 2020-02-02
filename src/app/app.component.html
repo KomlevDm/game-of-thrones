@@ -1,5 +1,9 @@
-<div class="logo" [class.display]="router.url === '/game' && gameService.player">
-  <h1>{{ gameService.player?.name }}</h1>
+<div class="wrap-logo" [class.display]="!isStartApp || (gameService.player && router.url === '/game')">
+  <img src="assets/img/game/attacks/fire-sphere.gif" class="fire-sphere" />
+
+  <div class="logo">
+    <h1 (click)="start()">{{ gameService.player?.name || 'Start' }}</h1>
+  </div>
 </div>
 
 <div class="wrap-animation" [@routeAnimations]="o && o.activatedRouteData && o.activatedRouteData['animation']">

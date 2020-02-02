@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 import { SoundsService } from './services/sounds.service';
 import { slideInAnimation } from './route-animation';
 import { GameService } from './services/game.service';
@@ -10,18 +10,20 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss'],
   animations: [slideInAnimation]
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   constructor(private _soundsService: SoundsService, public router: Router, public gameService: GameService) {}
 
-  private readonly _startAnimationTimeoutInMs = 1000;
+  public isStartApp = false;
 
   @HostBinding('style.height') appComponentHeight: string;
+  @HostBinding('style.border') appComponentBorder: string;
 
-  ngOnInit() {
+  public start(): void {
+    if (this.isStartApp) return;
+
+    this.isStartApp = true;
     this._soundsService.init();
-
-    // setTimeout(() => {
-    //   this.appComponentHeight = '700px';
-    // }, this._startAnimationTimeoutInMs);
+    this.appComponentHeight = '700px';
+    this.appComponentBorder = '10px double white';
   }
 }
