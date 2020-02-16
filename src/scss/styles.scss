@@ -52,28 +52,23 @@
   display: none !important;
 }
 
-html {
-  height: 100%;
-  width : 100%;
-}
-
 body {
-  height          : inherit;
-  width           : inherit;
   font-family     : "Game of Thrones";
   user-select     : none;
   color           : white;
-  display         : flex;
-  align-items     : center;
-  justify-content : center;
   background-color: black;
   cursor          : url(../assets/img/cursor.png), auto;
 
   .spinner {
-    width        : 100px;
-    height       : 100px;
+    $size: 100px;
+
+    width        : $size;
+    height       : $size;
     border-radius: 50%;
     perspective  : 800px;
+    position     : absolute;
+    top          : calc(50% - #{$size}/2);
+    left         : calc(50% - #{$size}/2);
 
     .inner {
       position     : absolute;

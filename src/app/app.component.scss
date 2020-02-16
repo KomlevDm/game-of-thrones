@@ -1,26 +1,25 @@
 @import "../scss/variables";
 
 :host {
-  display   : block;
-  min-width : $widthScreen;
-  max-width : $widthScreen;
-  height    : 0;
-  position  : relative;
-  border    : none;
-  transition: all 3s linear;
+  position: relative;
+  display : block;
+  width   : $widthScreen + 2*$borderWidthScreen;
+  margin  : 10px auto 0;
 
   .wrap-logo {
-    position  : absolute;
+    $widthWrapLogo: 225px;
+
+    position  : relative;
     text-align: center;
     opacity   : 0;
-    left      : calc(50% - 113px);
-    top       : -300px;
     transition: all 0.4s linear;
+    transform : translateY(-$widthWrapLogo);
+    margin-top: -180px;
 
     &.display {
-      top    : -78px;
-      opacity: 1;
-      z-index: 3;
+      opacity  : 1;
+      z-index  : 3;
+      transform: translateY(182px);
     }
 
     .fire-sphere {
@@ -39,7 +38,8 @@
       display        : flex;
       align-items    : center;
       justify-content: center;
-      width          : 225px;
+      width          : $widthWrapLogo;
+      margin         : -4px auto 0;
 
       h1 {
         font-size: 30px;
@@ -65,9 +65,20 @@
     }
   }
 
-  .wrap-animation {
-    height  : inherit;
-    position: relative;
-    overflow: hidden;
+  .wrap-router-outlet {
+    overflow  : hidden;
+    display   : block;
+    min-width : $widthScreen;
+    max-width : $widthScreen;
+    height    : 0;
+    position  : relative;
+    border    : none;
+    transition: all 3s linear;
+    margin    : 78px auto 0;
+
+    &.start-app {
+      height: $heightScreen;
+      border: $borderWidthScreen double white;
+    }
   }
 }
