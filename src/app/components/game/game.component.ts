@@ -42,7 +42,6 @@ export class GameComponent implements OnInit, OnDestroy {
   private _isKeydownSpace = false;
   private _isKeydownControlLeft = false;
   private _pauseGameToggler = false;
-  private _isGameOver = false;
   private _requestIdAnimationFrame: number;
   private _destroyedComponent$ = new Subject();
 
@@ -110,10 +109,11 @@ export class GameComponent implements OnInit, OnDestroy {
         break;
 
       case 'Escape':
-        if (this._isGameOver) break;
+        if (this.gameService.player) {
+          if (this.gameService.player.isDead) return;
 
-        if (this.gameService.player) this._toggleGameDialog();
-        else {
+          this._toggleGameDialog();
+        } else {
           this._soundsService.dragonStompy.restart();
           this._router.navigateByUrl('/hero-selection');
         }
@@ -153,7 +153,9 @@ export class GameComponent implements OnInit, OnDestroy {
 
   @HostListener('window:focus')
   onWindowFocusHandler() {
-    if (this.gameService.player && !this._isGameOver && !this.stateGameDialog$.value) this._continueGame();
+    if (this.gameService.player && !this.gameService.player.isDead && !this.stateGameDialog$.value) {
+      this._continueGame();
+    }
   }
 
   @HostListener('window:blur')
@@ -195,7 +197,6 @@ export class GameComponent implements OnInit, OnDestroy {
 
   private _gameOver(): void {
     this._soundsService.gameOver.restart();
-    this._isGameOver = true;
     this._toggleGameDialog();
     this.gameDialogMode$.next(EGameDialogMode.GameOver);
     this._saveResultGameInTopTable();

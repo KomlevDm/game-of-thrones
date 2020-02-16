@@ -69,12 +69,12 @@
 
             &.desc {
               opacity  : 1;
-              transform: rotate(180deg);
+              transform: rotate(0);
             }
 
             &.asc {
               opacity  : 1;
-              transform: rotate(0deg);
+              transform: rotate(180deg);
             }
           }
         }

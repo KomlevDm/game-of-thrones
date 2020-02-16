@@ -29,12 +29,12 @@ export class TopTableComponent implements OnInit {
     const topTableData: ITableItem[] = JSON.parse(localStorage.getItem(EKeyLocalStorage.TopTableData));
 
     if (topTableData !== null) {
-      this.tableData = topTableData.map(elem => ({
-        ...elem,
-        date: new Date(elem.date)
-      }));
-
-      this.sortByScore();
+      this.tableData = topTableData
+        .map(elem => ({
+          ...elem,
+          date: new Date(elem.date)
+        }))
+        .sort((a, b) => b.score - a.score);
     }
   }
 

@@ -1,4 +1,4 @@
-import { Component, HostBinding } from '@angular/core';
+import { Component } from '@angular/core';
 import { SoundsService } from './services/sounds.service';
 import { slideInAnimation } from './route-animation';
 import { GameService } from './services/game.service';
@@ -15,15 +15,10 @@ export class AppComponent {
 
   public isStartApp = false;
 
-  @HostBinding('style.height') appComponentHeight: string;
-  @HostBinding('style.border') appComponentBorder: string;
-
   public start(): void {
     if (this.isStartApp) return;
 
     this.isStartApp = true;
     this._soundsService.init();
-    this.appComponentHeight = '700px';
-    this.appComponentBorder = '10px double white';
   }
 }

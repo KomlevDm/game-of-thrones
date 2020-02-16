@@ -4,6 +4,7 @@ import { FabricAttackNodeElementType } from '../../types/FabricAttackNodeElement
 import { IAttack } from '../../interfaces/IAttack';
 import { IAttackNodeElementSettings } from '../../interfaces/IAttackNodeElementSettings';
 import { ISize } from 'src/app/interfaces/ISize';
+import { EDirection } from 'src/app/enums/EDirection';
 
 export interface IMonsterSettings {
   name: string;
@@ -91,7 +92,8 @@ export abstract class Monster {
       name: this._attack.name,
       leftInPx: this._positionInPx.left - this._attack.deltaPositionInPx.left,
       topInPx: this._positionInPx.top + this._attack.deltaPositionInPx.top,
-      sizeInPx: this._attack.sizeInPx
+      sizeInPx: this._attack.sizeInPx,
+      animationDirection: EDirection.Left
     };
 
     this._attackNodeElements.push(this._attack.fabricAttackNodeElement(attackNodeElementSettings));
