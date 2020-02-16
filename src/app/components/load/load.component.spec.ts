@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { LoadComponent } from './load.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('LoadComponent', () => {
   let component: LoadComponent;
@@ -8,9 +10,10 @@ describe('LoadComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoadComponent ]
-    })
-    .compileComponents();
+      declarations: [LoadComponent],
+      imports: [TranslateModule.forRoot(), RouterTestingModule],
+      schemas: [NO_ERRORS_SCHEMA]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
