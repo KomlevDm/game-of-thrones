@@ -1,0 +1,119 @@
+@import "../../../scss/mixins";
+
+:host {
+  .overlay {
+    position        : absolute;
+    top             : 0;
+    right           : 0;
+    bottom          : 0;
+    left            : 0;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  .content {
+    $width : 430px;
+    $height: 350px;
+
+    position        : absolute;
+    top             : calc(50% - #{$height}/2);
+    left            : calc(50% - #{$width}/2);
+    width           : $width;
+    height          : $height;
+    display         : flex;
+    align-items     : center;
+    flex-direction  : column;
+    padding         : 45px 35px;
+    box-sizing      : border-box;
+    border          : 4px double white;
+    box-shadow      : 0 0 5px 2px rgba(255, 255, 255, 0.5);
+    background-image: url(../../../assets/img/bg/rock.jpg);
+    background-size : cover;
+    transition      : top 0.2s linear;
+
+    &.hide {
+      top: -$height;
+    }
+
+    h1 {
+      text-shadow   : 2px 3px 0px #000000, 2px 3px 0px #000000;
+      font-size     : 18px;
+      letter-spacing: 5px;
+      text-align    : center;
+      line-height   : 36px;
+      margin-bottom : 25px;
+      margin-top    : -5px;
+    }
+
+    input {
+      border          : none;
+      box-shadow      : 0 0 5px 5px rgba(255, 255, 255, 0.5);
+      padding         : 4px 15px;
+      width           : 305px;
+      font-weight     : bold;
+      letter-spacing  : 2px;
+      font-size       : 30px;
+      background-color: rgba(255, 255, 255, 0.5);
+      text-shadow     : 1px 1px 0px #ffffff;
+      margin          : 5px auto 50px;
+      text-align      : center;
+      font-family     : serif;
+
+      &::selection {
+        background: #a70d12;
+      }
+    }
+
+    .buttons {
+      display        : flex;
+      flex-direction : column;
+      align-items    : center;
+      justify-content: space-around;
+      height         : 100%;
+      width          : 80%;
+
+      &.horizontal {
+        flex-direction: row;
+        height        : unset;
+
+        .button {
+          &:not(:last-child) {
+            margin-bottom: 0;
+            margin-right : 70px;
+          }
+        }
+      }
+
+      .button {
+        @include glass-button-background;
+        position       : relative;
+        display        : flex;
+        align-items    : center;
+        justify-content: center;
+        padding        : 18px;
+        font-size      : 23px;
+        letter-spacing : 5px;
+        text-shadow    : 2px 3px 0px #000000, 2px 3px 0px #000000;
+        transition     : background-color 0.1s linear, transform 0.1s linear;
+        width          : 100%;
+
+        &:hover,
+        &:active,
+        &:focus {
+          background-position: -200% 0, 0 0, 0 0, 0 100%, 0 4px,
+            0 calc(100% - 4px);
+          transform       : scale(1.1);
+          transition      : background-position 0.8s linear, transform 0.1s linear;
+          background-color: rgba(255, 17, 0, 0.2);
+        }
+
+        &:active {
+          top: 3px;
+        }
+
+        &:not(:last-child) {
+          margin-bottom: 30px;
+        }
+      }
+    }
+  }
+}

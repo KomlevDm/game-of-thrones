@@ -1,0 +1,77 @@
+@import "../../../scss/mixins";
+
+:host {
+  .overlay {
+    position        : absolute;
+    top             : 0;
+    right           : 0;
+    bottom          : 0;
+    left            : 0;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  .content {
+    $width : 500px;
+    $height: 280px;
+
+    position        : absolute;
+    top             : calc(50% - #{$height}/2);
+    left            : calc(50% - #{$width}/2);
+    width           : $width;
+    height          : $height;
+    display         : flex;
+    flex-direction  : column;
+    padding         : 35px 20px 55px;
+    box-sizing      : border-box;
+    border          : 4px double white;
+    box-shadow      : 0 0 5px 2px rgba(255, 255, 255, 0.5);
+    background-image: url(../../../assets/img/bg/rock.jpg);
+    background-size : cover;
+    transition      : top 0.2s linear;
+
+    &.hide {
+      top: -$height;
+    }
+
+    h1 {
+      text-shadow   : 2px 3px 0px #000000, 2px 3px 0px #000000;
+      font-size     : 18px;
+      letter-spacing: 5px;
+      text-align    : center;
+      line-height   : 36px;
+    }
+
+    .active-panel {
+      flex-grow      : 1;
+      display        : flex;
+      align-items    : flex-end;
+      justify-content: space-around;
+
+      .button {
+        @include glass-button-background;
+        position  : relative;
+        padding   : 25px 15px 17px 25px;
+        transition: all 0.1s linear;
+
+        &:active {
+          top: 3px;
+        }
+
+        &.selected {
+          background-color: rgba(255, 17, 0, 0.2);
+        }
+
+        h2 {
+          font-size          : 21px;
+          text-shadow        : -2px -3px 0px #000000, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff;
+          background-image   : url(../../../assets/img/game/attacks/fire-sphere.gif);
+          background-size    : cover;
+          color              : transparent;
+          background-clip    : text;
+          letter-spacing     : 6px;
+          background-position: 0;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+@keyframes rotate-pulsar-to-right {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  50% {
+    transform: rotate(180deg) scale(1.5);
+  }
+
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+@keyframes rotate-pulsar-to-left {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  50% {
+    transform: rotate(-180deg) scale(1.5);
+  }
+
+  100% {
+    transform: rotate(-360deg) scale(1);
+  }
+}

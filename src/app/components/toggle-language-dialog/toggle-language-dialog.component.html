@@ -1,0 +1,23 @@
+<div class="overlay" [hidden]="!(state$ | async)" (click)="close()"></div>
+
+<div [class.hide]="!(state$ | async)" class="content">
+  <h1>{{ 'ToggleLanguageDialog.Title' | translate }}</h1>
+
+  <div class="active-panel">
+    <div
+      class="button"
+      [class.selected]="translateService.currentLang === ELanguage.Ru"
+      (click)="toggleLanguage(ELanguage.Ru)"
+    >
+      <h2>Русский</h2>
+    </div>
+
+    <div
+      class="button"
+      [class.selected]="translateService.currentLang === ELanguage.En"
+      (click)="toggleLanguage(ELanguage.En)"
+    >
+      <h2>English</h2>
+    </div>
+  </div>
+</div>

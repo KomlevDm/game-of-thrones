@@ -1,0 +1,58 @@
+<div class="wrap" [style.backgroundImage]="'url(assets/img/bg/' + bgImageName + ')'">
+  <div class="content">
+    <div class="title">
+      <h1 class="text">{{ 'Title' | translate }}</h1>
+    </div>
+
+    <div class="menu-wrap">
+      <img src="../../../assets/img/game/attacks/fire-sphere.gif" class="fire-sphere" (mouseenter)="mouseenterFireSphere()" />
+
+      <div class="logo">
+        <h1>{{ 'MainMenu.Title' | translate }}</h1>
+      </div>
+
+      <div class="buttons">
+        <div
+          class="button"
+          (mouseenter)="gameService.mouseenterButton()"
+          routerLink="/hero-selection"
+          (click)="soundsService.dragonStompy.restart()"
+        >
+          {{ 'MainMenu.Buttons.Play' | translate }}
+        </div>
+
+        <div
+          class="button"
+          (mouseenter)="gameService.mouseenterButton()"
+          routerLink="/load"
+          (click)="soundsService.dragonStompy.restart()"
+        >
+          {{ 'MainMenu.Buttons.Load' | translate }}
+        </div>
+
+        <div
+          class="button"
+          (mouseenter)="gameService.mouseenterButton()"
+          routerLink="/top-table"
+          (click)="soundsService.dragonStompy.restart()"
+        >
+          {{ 'MainMenu.Buttons.Top' | translate }}
+        </div>
+
+        <div class="button" (mouseenter)="gameService.mouseenterButton()" (click)="openToggleLanguageDialog()">
+          {{ 'MainMenu.Buttons.Language' | translate }}
+        </div>
+      </div>
+    </div>
+
+    <div class="active-panel">
+      <div class="volume" (click)="soundsService.toggleBgSound()" [class.disabled]="soundsService.isMutedBgSound"></div>
+
+      <a class="github-link" href="https://github.com/KomlevDm/game-of-thrones" target="_blank">
+        <img src="../../../assets/img/github.png" alt="github" />
+      </a>
+    </div>
+
+    <toggle-language-dialog [state$]="stateToggleLanguageDialog$"></toggle-language-dialog>
+  </div>
+</div>

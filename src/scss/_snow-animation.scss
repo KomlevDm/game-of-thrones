@@ -1,0 +1,19 @@
+@keyframes snow-animation-to-right {
+  0% {
+    background-position: 0 0, 0 0, 0 0;
+  }
+
+  100% {
+    background-position: 300px 600px, 300px 300px, 300px 300px;
+  }
+}
+
+@keyframes snow-animation-to-left {
+  0% {
+    background-position: 0 0, 0 0, 0 0;
+  }
+
+  100% {
+    background-position: -3000px 600px, -3000px 300px, -3000px 300px;
+  }
+}
