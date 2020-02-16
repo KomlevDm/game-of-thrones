@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { GameDialogComponent } from './game-dialog.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('GameDialogComponent', () => {
   let component: GameDialogComponent;
@@ -8,7 +10,9 @@ describe('GameDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [GameDialogComponent]
+      declarations: [GameDialogComponent],
+      imports: [TranslateModule.forRoot(), RouterTestingModule],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 
