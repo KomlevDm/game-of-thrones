@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { IPlayerSettings } from 'src/app/classes/player/Player';
 import { EKeyLocalStorage } from 'src/app/enums/EKeyLocalStorage';
 import { GameService } from 'src/app/services/game.service';
@@ -13,7 +13,8 @@ export interface ISaveGameData {
 @Component({
   selector: 'load',
   templateUrl: './load.component.html',
-  styleUrls: ['./load.component.scss']
+  styleUrls: ['./load.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoadComponent implements OnInit {
   constructor(public gameService: GameService) {}
@@ -39,7 +40,7 @@ export class LoadComponent implements OnInit {
     localStorage.setItem(EKeyLocalStorage.SaveGameData, JSON.stringify(this.saveGameData));
   }
 
-  public loadSaveGame(saveGame: ISaveGameData): void {
-    this.gameService.loadGame(saveGame);
+  public trackBySessionId(index: number, item: ISaveGameData): string {
+    return item.sessionId;
   }
 }

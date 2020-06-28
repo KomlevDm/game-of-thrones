@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { SoundsService } from 'src/app/services/sounds.service';
 import { getRandomMenuBgImage } from 'src/app/helpers/getRandomMenuBgImage';
@@ -7,7 +7,8 @@ import { GameService } from 'src/app/services/game.service';
 @Component({
   selector: 'main-menu',
   templateUrl: './main-menu.component.html',
-  styleUrls: ['./main-menu.component.scss']
+  styleUrls: ['./main-menu.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainMenuComponent {
   constructor(public soundsService: SoundsService, public gameService: GameService) {}

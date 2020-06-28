@@ -6,7 +6,9 @@ import {
   ViewChild,
   ViewContainerRef,
   TemplateRef,
-  EmbeddedViewRef
+  EmbeddedViewRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { GameService } from 'src/app/services/game.service';
 import { SoundsService } from 'src/app/services/sounds.service';
@@ -25,13 +27,15 @@ import { EKeyLocalStorage } from 'src/app/enums/EKeyLocalStorage';
 @Component({
   selector: 'game',
   templateUrl: './game.component.html',
-  styleUrls: ['./game.component.scss']
+  styleUrls: ['./game.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameComponent implements OnInit, OnDestroy {
   constructor(
     private _router: Router,
     private _soundsService: SoundsService,
     private _monsterService: MonsterService,
+    private _cdr: ChangeDetectorRef,
     public gameService: GameService
   ) {}
 
@@ -55,7 +59,7 @@ export class GameComponent implements OnInit, OnDestroy {
   ngOnInit() {
     if (!this.gameService.player) return;
 
-    this.stateGameDialog$.pipe(takeUntil(this._destroyedComponent$)).subscribe(dialogState => {
+    this.stateGameDialog$.pipe(takeUntil(this._destroyedComponent$)).subscribe((dialogState) => {
       if (dialogState) this._pauseGame();
       else this._continueGame();
     });
@@ -193,6 +197,8 @@ export class GameComponent implements OnInit, OnDestroy {
     }
 
     this._requestIdAnimationFrame = requestAnimationFrame(this._gameLoop.bind(this));
+
+    this._cdr.markForCheck();
   }
 
   private _gameOver(): void {
@@ -207,7 +213,7 @@ export class GameComponent implements OnInit, OnDestroy {
     const currentTopTableData: ITableItem = {
       name: this.gameService.player.name,
       score: this.gameService.player.score,
-      date: new Date()
+      date: new Date(),
     };
 
     const topTableDataFromLocalStorage: ITableItem[] = JSON.parse(localStorage.getItem(EKeyLocalStorage.TopTableData));
@@ -286,7 +292,7 @@ export class GameComponent implements OnInit, OnDestroy {
             this._soundsService.coinsRinging.restart();
 
             this._monsterService.monsterObjects[j].subAttack.unsubscribe();
-            this._monsterService.monsterObjects[j].monster.attackNodeElements.forEach(a => a.destroy());
+            this._monsterService.monsterObjects[j].monster.attackNodeElements.forEach((a) => a.destroy());
             this._monsterService.monsterObjects[j].monsterNodeElement.destroy();
             this._monsterService.monsterObjects.splice(j, 1);
             j -= 1;
@@ -313,7 +319,7 @@ export class GameComponent implements OnInit, OnDestroy {
           monster.positionInPx.left + (monster.sizeInPx.width * 3) / 4
       ) {
         this._monsterService.monsterObjects[i].subAttack.unsubscribe();
-        monster.attackNodeElements.forEach(a => a.destroy());
+        monster.attackNodeElements.forEach((a) => a.destroy());
         this._monsterService.monsterObjects[i].monsterNodeElement.destroy();
         this._monsterService.monsterObjects.splice(i, 1);
         i -= 1;

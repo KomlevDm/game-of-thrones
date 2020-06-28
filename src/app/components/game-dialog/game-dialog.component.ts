@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { SoundsService } from 'src/app/services/sounds.service';
 import { GameService } from 'src/app/services/game.service';
@@ -6,13 +6,14 @@ import { GameService } from 'src/app/services/game.service';
 export enum EGameDialogMode {
   Game,
   Save,
-  GameOver
+  GameOver,
 }
 
 @Component({
   selector: 'game-dialog',
   templateUrl: './game-dialog.component.html',
-  styleUrls: ['./game-dialog.component.scss']
+  styleUrls: ['./game-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameDialogComponent {
   constructor(public gameService: GameService, public soundsService: SoundsService) {}

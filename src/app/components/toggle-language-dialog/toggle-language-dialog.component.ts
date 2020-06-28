@@ -1,4 +1,4 @@
-import { Component, Input, HostListener } from '@angular/core';
+import { Component, Input, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 import { ELanguage } from 'src/app/enums/ELanguage';
@@ -8,7 +8,8 @@ import { SoundsService } from 'src/app/services/sounds.service';
 @Component({
   selector: 'toggle-language-dialog',
   templateUrl: './toggle-language-dialog.component.html',
-  styleUrls: ['./toggle-language-dialog.component.scss']
+  styleUrls: ['./toggle-language-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToggleLanguageDialogComponent {
   constructor(private _soundsService: SoundsService, public translateService: TranslateService) {}

@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { SoundsService } from 'src/app/services/sounds.service';
 import { EHouse } from 'src/app/enums/EHouse';
 import { GameService } from 'src/app/services/game.service';
@@ -7,10 +7,11 @@ import { Player } from 'src/app/classes/player/Player';
 @Component({
   selector: 'hero-selection',
   templateUrl: './hero-selection.component.html',
-  styleUrls: ['./hero-selection.component.scss']
+  styleUrls: ['./hero-selection.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeroSelectionComponent {
-  constructor(private _gameService: GameService, public soundsService: SoundsService) {}
+  constructor(public gameService: GameService, public soundsService: SoundsService) {}
 
   public EHouse = EHouse;
   public selectedHouse: EHouse = null;
@@ -18,7 +19,7 @@ export class HeroSelectionComponent {
 
   @HostListener('document:keydown.escape')
   onKeydownEscapeHandler() {
-    this._gameService.navigateToMainMenu();
+    this.gameService.navigateToMainMenu();
   }
 
   public selectHouse(house: EHouse): void {
@@ -47,9 +48,5 @@ export class HeroSelectionComponent {
 
   public isAllowPlayGame(): boolean {
     return this.selectedHouse !== null && Boolean(this.playerName);
-  }
-
-  public startGame(): void {
-    this._gameService.startGame(this.playerName, this.selectedHouse);
   }
 }

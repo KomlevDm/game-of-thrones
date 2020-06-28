@@ -35,5 +35,10 @@
     <input type="text" [(ngModel)]="playerName" maxlength="20" />
   </div>
 
-  <img class="play-button" src="../../../assets/img/play.png" [class.allow]="isAllowPlayGame()" (click)="startGame()" />
+  <img
+    class="play-button"
+    src="../../../assets/img/play.png"
+    [class.allow]="isAllowPlayGame()"
+    (click)="gameService.startGame(playerName, selectedHouse)"
+  />
 </div>

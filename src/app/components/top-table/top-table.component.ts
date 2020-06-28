@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { getRandomMenuBgImage } from 'src/app/helpers/getRandomMenuBgImage';
 import { SoundsService } from 'src/app/services/sounds.service';
 import { Router } from '@angular/router';
@@ -14,7 +14,8 @@ export interface ITableItem {
 @Component({
   selector: 'top-table',
   templateUrl: './top-table.component.html',
-  styleUrls: ['./top-table.component.scss']
+  styleUrls: ['./top-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TopTableComponent implements OnInit {
   constructor(private _router: Router, private _gameService: GameService, private _soundsService: SoundsService) {}
@@ -30,9 +31,9 @@ export class TopTableComponent implements OnInit {
 
     if (topTableData !== null) {
       this.tableData = topTableData
-        .map(elem => ({
+        .map((elem) => ({
           ...elem,
-          date: new Date(elem.date)
+          date: new Date(elem.date),
         }))
         .sort((a, b) => b.score - a.score);
     }
