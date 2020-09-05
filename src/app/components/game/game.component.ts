@@ -52,9 +52,9 @@ export class GameComponent implements OnInit, OnDestroy {
   public stateGameDialog$ = new BehaviorSubject(false);
   public gameDialogMode$ = new BehaviorSubject(EGameDialogMode.Game);
 
-  @ViewChild('gameField', { static: false, read: ViewContainerRef }) gameField: ViewContainerRef;
-  @ViewChild('attack', { static: false }) attackNodeElementTemplate: TemplateRef<IAttackNodeElementSettings>;
-  @ViewChild('monster', { static: false }) monsterNodeElementTemplate: TemplateRef<Monster>;
+  @ViewChild('gameField', { read: ViewContainerRef }) gameField: ViewContainerRef;
+  @ViewChild('attack') attackNodeElementTemplate: TemplateRef<IAttackNodeElementSettings>;
+  @ViewChild('monster') monsterNodeElementTemplate: TemplateRef<Monster>;
 
   ngOnInit() {
     if (!this.gameService.player) return;
