@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { SoundsService } from './services/sounds.service';
-import { slideInAnimation } from './route-animation';
+import { routeAnimation } from './route-animation';
 import { GameService } from './services/game.service';
 import { Router } from '@angular/router';
 
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  animations: [slideInAnimation]
+  animations: [routeAnimation],
 })
 export class AppComponent {
   constructor(private _soundsService: SoundsService, public router: Router, public gameService: GameService) {}

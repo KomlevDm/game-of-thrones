@@ -2,10 +2,10 @@
 @import "../../../scss/mixins";
 
 :host {
-  @include rest-host($bgImgUrl: '../../../assets/img/bg/night-king.jpg');
+  @include rest-host($bgImgUrl: '/../../../assets/img/bg/night-king.jpg');
 
   .main-title {
-    @include main-title($bgImgUrl: '../../../assets/img/game/attacks/fire-sphere.gif');
+    @include main-title($bgImgUrl: '/../../../assets/img/game/attacks/fire-sphere.gif');
   }
 
   table.top-table {
@@ -100,6 +100,6 @@
   }
 
   .note {
-    @include note($bgImgUrl: '../../../assets/img/bg/rock.jpg');
+    @include note($bgImgUrl: '/../../../assets/img/bg/rock.jpg');
   }
 }

@@ -20,10 +20,14 @@
 
     <div
       class="player"
-      [style.left.px]="gameService.player.positionInPx.left"
-      [style.top.px]="gameService.player.positionInPx.top"
       [style.width.px]="gameService.player.sizeInPx.width"
-      [style.transform]="gameService.player.direction"
+      [style.transform]="
+        getObjectPosition(
+          gameService.player.positionInPx.left,
+          gameService.player.positionInPx.top,
+          gameService.player.direction
+        )
+      "
       [class.shield]="gameService.player.isActivatedShield"
     >
       <img class="shield" src="../../../assets/img/game/sphere-shield.png" />
@@ -44,36 +48,29 @@
 </ng-template>
 
 <ng-template
-  #attack
+  #attackTemplate
   let-name="name"
-  let-left="leftInPx"
-  let-top="topInPx"
+  let-x="leftInPx"
+  let-y="topInPx"
   let-width="sizeInPx"
-  let-transform="animationDirection"
+  let-direction="animationDirection"
 >
-  <div
-    class="attack"
-    [style.left.px]="left"
-    [style.top.px]="top"
-    [style.width.px]="width"
-    [style.transform]="transform"
-  >
+  <div class="attack" [style.width.px]="width" [style.transform]="getObjectPosition(x, y, direction)">
     <img src="../../../assets/img/game/attacks/{{ name }}" />
   </div>
 </ng-template>
 
 <ng-template
-  #monster
+  #monsterTemplate
   let-name="name"
-  let-left="positionInPx.left"
-  let-top="positionInPx.top"
+  let-x="positionInPx.left"
+  let-y="positionInPx.top"
   let-width="sizeInPx.width"
 >
   <img
-    [style.left.px]="left"
-    [style.top.px]="top"
-    [style.width.px]="width"
     class="monster"
+    [style.width.px]="width"
+    [style.transform]="getObjectPosition(x, y)"
     src="../../../assets/img/game/monsters/{{ name }}.gif"
   />
 </ng-template>

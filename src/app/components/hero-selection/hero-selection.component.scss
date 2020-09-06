@@ -2,10 +2,10 @@
 @import "../../../scss/mixins";
 
 :host {
-  @include rest-host($bgImgUrl: '../../../assets/img/bg/throne.jpg');
+  @include rest-host($bgImgUrl: '/../../../assets/img/bg/throne.jpg');
 
   .main-title {
-    @include main-title($bgImgUrl: '../../../assets/img/game/attacks/fire-sphere.gif');
+    @include main-title($bgImgUrl: '/../../../assets/img/game/attacks/fire-sphere.gif');
   }
 
   .houses {

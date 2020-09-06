@@ -1,4 +1,4 @@
 export enum EDirection {
   Left = 'scale(-1, 1)',
-  Right = 'unset'
+  Right = 'scale(1, 1)'
 }

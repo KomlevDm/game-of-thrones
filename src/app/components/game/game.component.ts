@@ -23,6 +23,10 @@ import { GoingPlayer } from 'src/app/classes/player/GoingPlayer';
 import { Monster } from 'src/app/classes/monster/Monster';
 import { ITableItem } from '../top-table/top-table.component';
 import { EKeyLocalStorage } from 'src/app/enums/EKeyLocalStorage';
+import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
+import { EDirection } from '../../enums/EDirection';
+import { IWorkerResponse } from '../../interfaces/IWorkerResponse';
+import { IWorkerData } from '../../interfaces/IWorkerData';
 
 @Component({
   selector: 'game',
@@ -36,6 +40,7 @@ export class GameComponent implements OnInit, OnDestroy {
     private _soundsService: SoundsService,
     private _monsterService: MonsterService,
     private _cdr: ChangeDetectorRef,
+    private _domSanitizer: DomSanitizer,
     public gameService: GameService
   ) {}
 
@@ -48,13 +53,14 @@ export class GameComponent implements OnInit, OnDestroy {
   private _pauseGameToggler = false;
   private _requestIdAnimationFrame: number;
   private _destroyedComponent$ = new Subject();
+  private _worker = new Worker('../../app.worker.ts', { type: 'module' });
 
   public stateGameDialog$ = new BehaviorSubject(false);
   public gameDialogMode$ = new BehaviorSubject(EGameDialogMode.Game);
 
   @ViewChild('gameField', { read: ViewContainerRef }) gameField: ViewContainerRef;
-  @ViewChild('attack') attackNodeElementTemplate: TemplateRef<IAttackNodeElementSettings>;
-  @ViewChild('monster') monsterNodeElementTemplate: TemplateRef<Monster>;
+  @ViewChild('attackTemplate') attackNodeElementTemplate: TemplateRef<IAttackNodeElementSettings>;
+  @ViewChild('monsterTemplate') monsterNodeElementTemplate: TemplateRef<Monster>;
 
   ngOnInit() {
     if (!this.gameService.player) return;
@@ -71,6 +77,48 @@ export class GameComponent implements OnInit, OnDestroy {
       this._fabricAttackNodeElement.bind(this)
     );
     this._monsterService.startGenerateMonsters();
+
+    this._worker.onmessage = ({ data }: { data: IWorkerResponse }) => {
+      const player = this.gameService.player;
+      const monsterObjects = this._monsterService.monsterObjects;
+      const { playerLostLives, playerAttacksIndexes, monstersIndexes, monstersAttacksIndexes } = data;
+
+      for (let i = 0; i < playerLostLives; i++) {
+        if (!player.isActivatedShield) player.deleteLife();
+        if (player.isDead) this._gameOver();
+      }
+      for (let i = 0; i < playerAttacksIndexes.length; i++) {
+        player.attackObjects[playerAttacksIndexes[i] - i].attackNodeElement.destroy();
+        player.attackObjects.splice(playerAttacksIndexes[i] - i, 1);
+      }
+
+      monstersIndexes.forEach((mi) => monsterObjects[mi].monster.deleteLife());
+      monstersAttacksIndexes.forEach((mai) => {
+        if (!monsterObjects[mai.monsterIndex].monster.isDead) {
+          monsterObjects[mai.monsterIndex].monster.attackNodeElements[mai.attackIndex].destroy();
+        }
+      });
+      monstersAttacksIndexes.forEach((mai) => {
+        if (!monsterObjects[mai.monsterIndex].monster.isDead) {
+          monsterObjects[mai.monsterIndex].monster.attackNodeElements = monsterObjects[
+            mai.monsterIndex
+          ].monster.attackNodeElements.filter((ane) => !ane.destroyed);
+        }
+      });
+      for (let i = 0; i < monsterObjects.length; i++) {
+        const monsterObject = monsterObjects[i];
+
+        if (monsterObject.monster.isDead) {
+          player.increaseScore(monsterObject.monster.cost);
+          this._soundsService.coinsRinging.restart();
+
+          monsterObject.subAttack.unsubscribe();
+          monsterObject.monster.attackNodeElements.forEach((ane) => ane.destroy());
+          monsterObject.monsterNodeElement.destroy();
+          monsterObjects.splice(i, 1);
+        }
+      }
+    };
 
     this._gameLoop();
   }
@@ -171,6 +219,10 @@ export class GameComponent implements OnInit, OnDestroy {
     return new Array(this.gameService.player.lives);
   }
 
+  public getObjectPosition(x: number, y: number, direction?: EDirection): SafeStyle {
+    return this._domSanitizer.bypassSecurityTrustStyle(`translate(${x}px, ${y}px) ${direction || ''}`);
+  }
+
   private _gameLoop(): void {
     if (!this._pauseGameToggler) {
       if (this._isKeydownArrowUp) {
@@ -193,7 +245,7 @@ export class GameComponent implements OnInit, OnDestroy {
       this.gameService.player.drawAttackNodeElements();
       this._monsterService.drawMonsters();
 
-      this._calculateCollisions();
+      this._worker.postMessage(this._getDataCollisions());
     }
 
     this._requestIdAnimationFrame = requestAnimationFrame(this._gameLoop.bind(this));
@@ -261,90 +313,31 @@ export class GameComponent implements OnInit, OnDestroy {
     return monsterNodeElement;
   }
 
-  private _calculateCollisions(): void {
-    this._collisionsPlayerAttacksWithMonsters();
+  private _getDataCollisions(): IWorkerData {
+    return {
+      player: {
+        positionInPx: this.gameService.player.positionInPx,
+        sizeInPx: this.gameService.player.sizeInPx,
+      },
 
-    this._collisionsMonstersAttacksWithPlayer();
-  }
+      playerAttacks: this.gameService.player.attackObjects.map((ao) => ({
+        leftInPx: ao.attackNodeElement.context.leftInPx,
+        topInPx: ao.attackNodeElement.context.topInPx,
+        sizeInPx: ao.attackNodeElement.context.sizeInPx,
+      })),
 
-  private _collisionsPlayerAttacksWithMonsters(): void {
-    const player = this.gameService.player;
+      monsters: this._monsterService.monsterObjects.map((mo) => ({
+        positionInPx: mo.monster.positionInPx,
+        sizeInPx: mo.monster.sizeInPx,
+      })),
 
-    for (let i = 0; i < player.attackObjects.length; i++) {
-      for (let j = 0; j < this._monsterService.monsterObjects.length; j++) {
-        const attack = player.attackObjects[i].attackNodeElement.context;
-        const monster = this._monsterService.monsterObjects[j].monster;
-
-        if (
-          attack.topInPx + attack.sizeInPx / 2 > monster.positionInPx.top &&
-          attack.topInPx + attack.sizeInPx / 2 < monster.positionInPx.top + monster.sizeInPx.height &&
-          attack.leftInPx + attack.sizeInPx / 2 > monster.positionInPx.left + monster.sizeInPx.width / 3 &&
-          attack.leftInPx + attack.sizeInPx / 2 < monster.positionInPx.left + (monster.sizeInPx.width * 2) / 3
-        ) {
-          player.attackObjects[i].attackNodeElement.destroy();
-          player.attackObjects.splice(i, 1);
-          i -= 1;
-
-          monster.deleteLife();
-
-          if (monster.isDead) {
-            player.increaseScore(monster.cost);
-            this._soundsService.coinsRinging.restart();
-
-            this._monsterService.monsterObjects[j].subAttack.unsubscribe();
-            this._monsterService.monsterObjects[j].monster.attackNodeElements.forEach((a) => a.destroy());
-            this._monsterService.monsterObjects[j].monsterNodeElement.destroy();
-            this._monsterService.monsterObjects.splice(j, 1);
-            j -= 1;
-          }
-
-          break;
-        }
-      }
-    }
-  }
-
-  private _collisionsMonstersAttacksWithPlayer(): void {
-    const player = this.gameService.player;
-
-    for (let i = 0; i < this._monsterService.monsterObjects.length; i++) {
-      const monster = this._monsterService.monsterObjects[i].monster;
-
-      if (
-        player.positionInPx.top + player.sizeInPx.height / 2 > monster.positionInPx.top + monster.sizeInPx.height / 4 &&
-        player.positionInPx.top + player.sizeInPx.height / 2 <
-          monster.positionInPx.top + (monster.sizeInPx.height * 3) / 4 &&
-        player.positionInPx.left + player.sizeInPx.width / 2 > monster.positionInPx.left + monster.sizeInPx.width / 4 &&
-        player.positionInPx.left + player.sizeInPx.width / 2 <
-          monster.positionInPx.left + (monster.sizeInPx.width * 3) / 4
-      ) {
-        this._monsterService.monsterObjects[i].subAttack.unsubscribe();
-        monster.attackNodeElements.forEach((a) => a.destroy());
-        this._monsterService.monsterObjects[i].monsterNodeElement.destroy();
-        this._monsterService.monsterObjects.splice(i, 1);
-        i -= 1;
-
-        if (!player.isActivatedShield) player.deleteLife();
-        if (player.isDead) this._gameOver();
-      }
-
-      for (let j = 0; j < monster.attackNodeElements.length; j++) {
-        const attack = monster.attackNodeElements[j].context;
-
-        if (
-          attack.topInPx + attack.sizeInPx / 2 > player.positionInPx.top &&
-          attack.topInPx + attack.sizeInPx / 2 < player.positionInPx.top + player.sizeInPx.height &&
-          attack.leftInPx + attack.sizeInPx / 2 > player.positionInPx.left + player.sizeInPx.width / 3 &&
-          attack.leftInPx + attack.sizeInPx / 2 < player.positionInPx.left + (player.sizeInPx.width * 2) / 3
-        ) {
-          monster.attackNodeElements[j].destroy();
-          monster.attackNodeElements.splice(j, 1);
-          j -= 1;
-
-          if (!player.isActivatedShield) player.deleteLife();
-          if (player.isDead) this._gameOver();
-        }
-      }
-    }
+      monstersAttacks: this._monsterService.monsterObjects.map((mo) => {
+        return mo.monster.attackNodeElements.map((ane) => ({
+          leftInPx: ane.context.leftInPx,
+          topInPx: ane.context.topInPx,
+          sizeInPx: ane.context.sizeInPx,
+        }));
+      }),
+    };
   }
 }

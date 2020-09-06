@@ -6,10 +6,6 @@
   </div>
 </div>
 
-<div
-  class="wrap-router-outlet"
-  [@routeAnimations]="o && o.activatedRouteData && o.activatedRouteData['animation']"
-  [class.start-app]="isStartApp"
->
+<div class="wrap-router-outlet" [@routeAnimation]="o.isActivated && o.activatedRoute" [class.start-app]="isStartApp">
   <router-outlet #o="outlet"></router-outlet>
 </div>

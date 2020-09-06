@@ -128,6 +128,6 @@
   }
 
   .note {
-    @include note($bgImgUrl: '../../../assets/img/bg/rock.jpg');
+    @include note($bgImgUrl: '/../../../assets/img/bg/rock.jpg');
   }
 }

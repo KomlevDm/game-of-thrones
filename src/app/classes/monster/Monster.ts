@@ -33,7 +33,7 @@ export abstract class Monster {
       sizeInPx: attack.sizeInPx || 30,
       deltaPositionInPx: attack.deltaPositionInPx,
       stepSizeInPx: 10,
-      fabricAttackNodeElement: null
+      fabricAttackNodeElement: null,
     };
   }
 
@@ -43,7 +43,8 @@ export abstract class Monster {
   private readonly _stepSizeInPx: number;
   private readonly _cost: number;
   private readonly _attack: IAttack;
-  private readonly _attackNodeElements: EmbeddedViewRef<IAttackNodeElementSettings>[] = [];
+
+  private _attackNodeElements: EmbeddedViewRef<IAttackNodeElementSettings>[] = [];
 
   private _lives: number;
   private _isDead = false;
@@ -71,6 +72,9 @@ export abstract class Monster {
   public get attackNodeElements(): EmbeddedViewRef<IAttackNodeElementSettings>[] {
     return this._attackNodeElements;
   }
+  public set attackNodeElements(value: EmbeddedViewRef<IAttackNodeElementSettings>[]) {
+    this._attackNodeElements = value;
+  }
 
   public get isDead(): boolean {
     return this._isDead;
@@ -93,7 +97,7 @@ export abstract class Monster {
       leftInPx: this._positionInPx.left - this._attack.deltaPositionInPx.left,
       topInPx: this._positionInPx.top + this._attack.deltaPositionInPx.top,
       sizeInPx: this._attack.sizeInPx,
-      animationDirection: EDirection.Left
+      animationDirection: EDirection.Left,
     };
 
     this._attackNodeElements.push(this._attack.fabricAttackNodeElement(attackNodeElementSettings));
