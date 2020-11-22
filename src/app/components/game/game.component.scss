@@ -1,32 +1,32 @@
-@import "../../../scss/mixins";
+@import '../../../scss/mixins';
 
 :host {
-  display         : block;
-  height          : inherit;
-  position        : relative;
+  display: block;
+  height: inherit;
+  position: relative;
   background-image: url(../../../assets/img/bg/night-dragon.jpg);
 
   .content {
-    display         : flex;
-    flex-direction  : column;
-    height          : inherit;
+    display: flex;
+    flex-direction: column;
+    height: inherit;
     background-image: url(../../../assets/img/bg/game/snow-forest.jpg);
-    background-size : cover;
-    animation       : game-bg-animation 10s infinite linear;
+    background-size: cover;
+    animation: game-bg-animation 10s infinite linear;
 
     .info-panel {
-      height         : 50px;
-      display        : flex;
-      align-items    : center;
+      height: 50px;
+      display: flex;
+      align-items: center;
       justify-content: space-between;
-      padding        : 0 5px;
+      padding: 0 5px;
 
       .hero-state {
-        display        : flex;
-        align-items    : center;
-        padding-top    : 2px;
+        display: flex;
+        align-items: center;
+        padding-top: 2px;
         justify-content: space-between;
-        width          : 390px;
+        width: 390px;
 
         .lives {
           img {
@@ -39,7 +39,7 @@
         }
 
         .shield {
-          filter    : none;
+          filter: none;
           transition: filter 0.3s linear;
 
           &.active {
@@ -54,36 +54,32 @@
 
       .score {
         h1 {
-          font-size          : 21px;
-          text-shadow        : -2px -3px 0px #000000, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff;
-          background-image   : url(../../../assets/img/game/attacks/fire-sphere.gif);
-          background-size    : cover;
-          color              : transparent;
-          background-clip    : text;
-          letter-spacing     : 5px;
+          font-size: 21px;
+          text-shadow: -2px -3px 0px #000000, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff;
+          background-image: url(../../../assets/img/game/attacks/fire-sphere.gif);
+          background-size: cover;
+          color: transparent;
+          background-clip: text;
+          letter-spacing: 5px;
           background-position: 0;
-          margin-top         : 7px;
+          margin-top: 7px;
         }
       }
     }
 
     .game-field {
-      background-image: url(../../../assets/img/bg/snowflake-1.png),
-        url(../../../assets/img/bg/snowflake-2.png),
-        url(../../../assets/img/bg/snowflake-3.png);
-      animation: snow-animation-to-left 20s linear infinite;
       flex-grow: 1;
-      position : relative;
+      position: relative;
 
       .player {
-        position       : absolute;
-        display        : flex;
-        align-items    : center;
+        position: absolute;
+        display: flex;
+        align-items: center;
         justify-content: center;
 
         &.shield {
           img.shield {
-            opacity  : 1;
+            opacity: 1;
             animation: rotate-pulsar-to-right 0.5s linear infinite;
           }
 
@@ -93,26 +89,26 @@
         }
 
         img.shield {
-          position  : absolute;
-          width     : 90%;
-          opacity   : 0;
+          position: absolute;
+          width: 90%;
+          opacity: 0;
           transition: opacity 0.3s linear;
         }
 
         img.hero {
-          width     : 100%;
-          opacity   : 1;
+          width: 100%;
+          opacity: 1;
           transition: opacity 0.3s linear;
         }
       }
 
       .attack {
         position: absolute;
-        z-index : 1;
+        z-index: 1;
 
         img {
-          width        : 100%;
-          animation    : rotate-pulsar-to-right 0.5s linear infinite;
+          width: 100%;
+          animation: rotate-pulsar-to-right 0.5s linear infinite;
           border-radius: 50%;
         }
       }

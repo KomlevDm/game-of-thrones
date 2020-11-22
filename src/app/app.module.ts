@@ -18,6 +18,7 @@ import { GameComponent } from './components/game/game.component';
 import { GameDialogComponent } from './components/game-dialog/game-dialog.component';
 import { LoadComponent } from './components/load/load.component';
 import { BackArrowComponent } from './components/back-arrow/back-arrow.component';
+import { StartPageModule } from './pages/start-page/start-page.module';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -33,7 +34,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     GameComponent,
     GameDialogComponent,
     LoadComponent,
-    BackArrowComponent
+    BackArrowComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -46,11 +47,12 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    })
+        deps: [HttpClient],
+      },
+    }),
+    StartPageModule,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {
   constructor(private _translateService: TranslateService) {

@@ -1,0 +1,42 @@
+:host {
+  .wrap-logo {
+    position: relative;
+    text-align: center;
+    transition: all 0.4s linear;
+
+    .fire-sphere {
+      width: 30px;
+      border-radius: 50%;
+    }
+
+    .logo {
+      background-image: url(./img/logo.png);
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: 137px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 225px;
+      margin: -4px auto 0;
+
+      h1 {
+        font-size: 30px;
+        text-shadow: -1px -2px 0px #000000, -1px -2px 3px #ffffff, -1px -2px 3px #ffffff, -1px -2px 3px #ffffff;
+        background-image: url(../../../assets/img/game/attacks/fire-sphere.gif);
+        background-size: cover;
+        color: transparent;
+        background-clip: text;
+        letter-spacing: 1px;
+        background-position: 0;
+        padding-left: 18px;
+        padding-right: 16px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow-x: hidden;
+        font-family: serif;
+        transition: all 0.1s linear;
+      }
+    }
+  }
+}

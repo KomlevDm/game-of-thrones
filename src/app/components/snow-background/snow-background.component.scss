@@ -1,0 +1,30 @@
+:host {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+
+  @for $i from 1 through 3 {
+    @keyframes snow-animation-#{$i} {
+      0% {
+        transform: translate(0, 0);
+      }
+
+      100% {
+        transform: translate($i * 300px, $i * 600px);
+      }
+    }
+
+    .snow-#{$i} {
+      position: absolute;
+      top: -2000px;
+      right: 0;
+      bottom: 0;
+      left: -2000px;
+      background-image: url(./img/snow-#{$i}.png);
+      animation: snow-animation-#{$i} 40s linear infinite;
+    }
+  }
+}

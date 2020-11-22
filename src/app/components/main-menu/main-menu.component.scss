@@ -1,121 +1,114 @@
-@import "../../../scss/mixins";
+@import '../../../scss/mixins';
 
 :host {
-  display : block;
-  height  : inherit;
+  display: block;
+  height: inherit;
   position: relative;
 
   .wrap {
-    display : block;
+    display: block;
     position: relative;
-    height  : inherit;
+    height: inherit;
     overflow: hidden;
 
     background: {
-      image : url(../../../assets/img/bg/throne.jpg);
+      image: url(../../../assets/img/bg/throne.jpg);
       repeat: no-repeat;
-      size  : cover;
+      size: cover;
     }
 
     .moving-map {
-      position  : absolute;
-      opacity   : 0.15;
-      width     : 100%;
+      position: absolute;
+      opacity: 0.15;
+      width: 100%;
       min-height: 100%;
     }
 
     .content {
-      background-image: url(../../../assets/img/bg/snowflake-1.png),
-        url(../../../assets/img/bg/snowflake-2.png),
-        url(../../../assets/img/bg/snowflake-3.png);
-      height   : inherit;
-      animation: snow-animation-to-right 20s linear infinite;
-
       .title {
         position: absolute;
-        top     : 35px;
-        right   : 50px;
+        top: 35px;
+        right: 50px;
 
         h1.text {
-          font-size          : 58px;
-          text-shadow        : -2px -3px 0px #000000, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff;
-          background-image   : url(../../../assets/img/game/attacks/fire-sphere.gif);
-          background-size    : cover;
-          color              : transparent;
-          background-clip    : text;
-          letter-spacing     : 10px;
+          font-size: 58px;
+          text-shadow: -2px -3px 0px #000000, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff;
+          background-image: url(../../../assets/img/game/attacks/fire-sphere.gif);
+          background-size: cover;
+          color: transparent;
+          background-clip: text;
+          letter-spacing: 10px;
           background-position: 0;
         }
       }
 
       .menu-wrap {
-        position      : absolute;
-        width         : 320px;
-        left          : 6%;
-        top           : 4%;
-        display       : flex;
+        position: absolute;
+        width: 320px;
+        left: 6%;
+        top: 4%;
+        display: flex;
         flex-direction: column;
 
         .fire-sphere {
-          width        : 30px;
+          width: 30px;
           border-radius: 50%;
           margin-bottom: 3px;
-          align-self   : center;
+          align-self: center;
         }
 
         .logo {
           background: {
-            image : url(../../../assets/img/bg/logo.png);
+            image: url(../../../assets/img/bg/logo.png);
             repeat: no-repeat;
-            size  : cover;
+            size: cover;
           }
 
-          height         : 140px;
-          display        : flex;
-          align-items    : center;
+          height: 140px;
+          display: flex;
+          align-items: center;
           justify-content: center;
-          width          : 230px;
-          margin-bottom  : 10px;
-          align-self     : center;
+          width: 230px;
+          margin-bottom: 10px;
+          align-self: center;
 
           h1 {
-            font-size          : 21px;
-            text-shadow        : -2px -3px 0px #000000, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff;
-            background-image   : url(../../../assets/img/game/attacks/fire-sphere.gif);
-            background-size    : cover;
-            color              : transparent;
-            background-clip    : text;
-            letter-spacing     : 12px;
+            font-size: 21px;
+            text-shadow: -2px -3px 0px #000000, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff;
+            background-image: url(../../../assets/img/game/attacks/fire-sphere.gif);
+            background-size: cover;
+            color: transparent;
+            background-clip: text;
+            letter-spacing: 12px;
             background-position: 0;
-            margin-top         : 7px;
-            margin-left        : 15px;
+            margin-top: 7px;
+            margin-left: 15px;
           }
         }
 
         .buttons {
-          display       : flex;
+          display: flex;
           flex-direction: column;
-          padding       : 10px;
+          padding: 10px;
 
           .button {
             @include glass-button-background;
-            position       : relative;
-            display        : flex;
-            align-items    : center;
+            position: relative;
+            display: flex;
+            align-items: center;
             justify-content: center;
-            padding        : 18px;
-            font-size      : 23px;
-            letter-spacing : 5px;
-            text-shadow    : 2px 3px 0px #000000, 2px 3px 0px #000000;
-            transition     : background-color 0.1s linear, transform 0.1s linear;
+            padding: 18px;
+            font-size: 23px;
+            letter-spacing: 5px;
+            text-shadow: 2px 3px 0px #000000, 2px 3px 0px #000000;
+            transition: background-color 0.1s linear, transform 0.1s linear;
 
             &:hover,
             &:active,
             &:focus {
-              background-position: -200% 0, 0 0, 0 0, 0 100%, 0 4px,
-                0 calc(100% - 4px);
-              transform       : scale(1.1);
-              transition      : background-position 0.8s linear, transform 0.1s linear;
+              background-position: -200% 0, 0 0, 0 0, 0 100%, 0 4px, 0 calc(100% - 4px);
+              transform: scale(1.1);
+              transition: background-position 0.8s linear, transform 0.1s linear;
               background-color: rgba(255, 17, 0, 0.2);
             }
 
@@ -132,22 +125,29 @@
             }
 
             &:last-child {
-              clip-path: polygon(0 0, 0 calc(100% - 15px), 30px 100%, calc(100% - 30px) 100%, 100% calc(100% - 15px), 100% 0)
+              clip-path: polygon(
+                0 0,
+                0 calc(100% - 15px),
+                30px 100%,
+                calc(100% - 30px) 100%,
+                100% calc(100% - 15px),
+                100% 0
+              );
             }
           }
         }
       }
 
       .active-panel {
-        position       : absolute;
-        bottom         : 0px;
-        right          : -80px;
-        display        : flex;
-        align-items    : center;
+        position: absolute;
+        bottom: 0px;
+        right: -80px;
+        display: flex;
+        align-items: center;
         justify-content: space-between;
-        width          : 125px;
-        transition     : all 0.2s linear;
-        padding        : 0px 15px;
+        width: 125px;
+        transition: all 0.2s linear;
+        padding: 0px 15px;
 
         &:hover {
           right: -10px;
@@ -155,14 +155,14 @@
 
         .volume {
           background: {
-            image : url(../../../assets/img/sound.png);
+            image: url(../../../assets/img/sound.png);
             repeat: no-repeat;
-            size  : cover;
+            size: cover;
           }
 
-          height     : 50px;
-          width      : 50px;
-          transition : all 0.1s linear;
+          height: 50px;
+          width: 50px;
+          transition: all 0.1s linear;
 
           &.disabled {
             filter: grayscale(1);
@@ -170,8 +170,8 @@
         }
 
         .github-link {
-          width     : 60px;
-          cursor    : unset;
+          width: 60px;
+          cursor: unset;
           transition: all 1s linear;
 
           img {
