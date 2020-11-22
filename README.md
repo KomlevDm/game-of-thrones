@@ -2,8 +2,6 @@
 
 Small game based on the series Game of Thrones.
 
-Online: http://n90505hm.beget.tech/
-
 `Control keys`:
 
 | Key         | Action                                              |
