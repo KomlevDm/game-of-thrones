@@ -1,4 +1,4 @@
-@import './mixins';
+@import 'mixins';
 @import './fonts';
 @import './game-bg-animation';
 @import './rotate-animation';
@@ -23,7 +23,7 @@ html {
 }
 
 body {
-  @include host();
+  @include host($isFullScreen: true);
 
   [hidden] {
     display: none !important;

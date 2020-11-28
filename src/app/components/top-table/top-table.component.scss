@@ -1,27 +1,27 @@
-@import "../../../scss/variables";
-@import "../../../scss/mixins";
+@import 'variables';
+@import 'mixins';
 
 :host {
   @include rest-host($bgImgUrl: '/../../../assets/img/bg/night-king.jpg');
 
-  .main-title {
-    @include main-title($bgImgUrl: '/../../../assets/img/game/attacks/fire-sphere.gif');
-  }
+  // .main-title {
+  //   @include main-title($bgImgUrl: '/../../../assets/img/game/attacks/fire-sphere.gif');
+  // }
 
   table.top-table {
-    position        : relative;
-    overflow-y      : auto;
-    display         : block;
-    border-collapse : separate;
-    border-spacing  : 0;
-    font-size       : 13px;
-    letter-spacing  : 1px;
-    text-align      : center;
-    border          : 1px ridge white;
-    box-shadow      : 0 0 5px 2px rgba(255, 255, 255, 0.5);
-    max-height      : 500px;
+    position: relative;
+    overflow-y: auto;
+    display: block;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-align: center;
+    border: 1px ridge white;
+    box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.5);
+    max-height: 500px;
     background-image: url(../../../assets/img/bg/rock.jpg);
-    background-size : cover;
+    background-size: cover;
 
     tr {
       &:nth-child(odd) {
@@ -29,29 +29,25 @@
       }
 
       th {
-        border-bottom   : 1px ridge white;
-        padding         : 8px;
-        font-weight     : normal;
-        color           : #ffffff;
-        text-shadow     : 2px 3px 0px #000000, 2px 3px 0px #000000;
-        font-size       : 14px;
-        position        : sticky;
-        top             : 0;
-        z-index         : 1;
+        border-bottom: 1px ridge white;
+        padding: 8px;
+        font-weight: normal;
+        color: #ffffff;
+        text-shadow: 2px 3px 0px #000000, 2px 3px 0px #000000;
+        font-size: 14px;
+        position: sticky;
+        top: 0;
+        z-index: 1;
         background-color: #250c0c;
-        background-image: -webkit-linear-gradient(90deg,
-            transparent,
-            rgba(0, 0, 0, 0.7) 50%,
-            transparent,
-            transparent);
-        width           : 1%;
+        background-image: -webkit-linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.7) 50%, transparent, transparent);
+        width: 1%;
         background-image: url(../../../assets/img/bg/gold.jpg);
-        background-size : cover;
-        letter-spacing  : 5px;
+        background-size: cover;
+        letter-spacing: 5px;
 
         &:first-child {
           font-family: serif;
-          font-size  : 16px;
+          font-size: 16px;
         }
 
         &:not(:last-child) {
@@ -62,18 +58,18 @@
           position: relative;
 
           img.sort {
-            width   : 18px;
-            opacity : 0.5;
+            width: 18px;
+            opacity: 0.5;
             position: absolute;
-            right   : 5px;
+            right: 5px;
 
             &.desc {
-              opacity  : 1;
+              opacity: 1;
               transform: rotate(0);
             }
 
             &.asc {
-              opacity  : 1;
+              opacity: 1;
               transform: rotate(180deg);
             }
           }
@@ -81,10 +77,10 @@
       }
 
       td {
-        padding       : 7px 15px;
-        font-weight   : normal;
+        padding: 7px 15px;
+        font-weight: normal;
         letter-spacing: 3px;
-        text-shadow   : 2px 2px 0px #000000, 2px 3px 0px #000000;
+        text-shadow: 2px 2px 0px #000000, 2px 3px 0px #000000;
 
         &:not(:last-child) {
           border-right: 1px ridge #9e9e9e;
@@ -92,8 +88,8 @@
 
         &:nth-child(3) {
           font-weight: bold;
-          font-size  : 16px;
-          color      : $fire;
+          font-size: 16px;
+          color: $fire;
         }
       }
     }

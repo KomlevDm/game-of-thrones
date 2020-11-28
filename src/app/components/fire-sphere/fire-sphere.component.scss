@@ -1,0 +1,15 @@
+@import 'mixins';
+
+:host {
+  @include host();
+
+  .fire-sphere {
+    border-radius: 50%;
+    pointer-events: none;
+    width: 100%;
+
+    &::-webkit-media-controls {
+      display: none;
+    }
+  }
+}

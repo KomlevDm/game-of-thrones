@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { MainMenuComponent } from './components/main-menu/main-menu.component';
 import { ToggleLanguageDialogComponent } from './components/toggle-language-dialog/toggle-language-dialog.component';
 import { CommonModule } from '@angular/common';
 import { ELanguage } from './enums/ELanguage';
@@ -27,7 +26,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 @NgModule({
   declarations: [
     AppComponent,
-    MainMenuComponent,
     ToggleLanguageDialogComponent,
     TopTableComponent,
     HeroSelectionComponent,

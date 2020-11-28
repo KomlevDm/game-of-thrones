@@ -1,9 +1,10 @@
-@import '../scss/mixins';
+@import 'mixins';
 
 :host {
-  @include host();
+  @include host($isFullScreen: true);
 
   .wrap-router-outlet {
-    @include host();
+    @include host($isFullScreen: true);
+    overflow: hidden;
   }
 }

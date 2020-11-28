@@ -1,11 +1,3 @@
-<!-- <div class="wrap-logo" [class.display]="!isStartApp || (gameService.player && router.url === '/game')">
-  <img src="../assets/img/game/attacks/fire-sphere.gif" class="fire-sphere" />
-
-  <div class="logo">
-    <h1 (click)="start()">{{ gameService.player?.name || 'Start' }}</h1>
-  </div>
-</div> -->
-
 <div class="wrap-router-outlet" [@routeAnimation]="outlet.isActivated && outlet.activatedRoute">
-  <router-outlet #outlet></router-outlet>
+  <router-outlet #outlet="outlet"></router-outlet>
 </div>

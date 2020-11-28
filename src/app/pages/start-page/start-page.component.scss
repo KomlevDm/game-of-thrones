@@ -1,7 +1,15 @@
-@import '../../../scss/mixins';
+@import 'mixins';
 
 :host {
-  @include host(flex);
+  @include host(flex, true);
   align-items: center;
   justify-content: center;
+
+  logo {
+    transition: transform 0.2s linear;
+
+    &.decrease {
+      transform: scale(0);
+    }
+  }
 }

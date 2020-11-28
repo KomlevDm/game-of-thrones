@@ -5,12 +5,12 @@ import { getRandomMenuBgImage } from 'src/app/helpers/getRandomMenuBgImage';
 import { GameService } from 'src/app/services/game.service';
 
 @Component({
-  selector: 'main-menu',
-  templateUrl: './main-menu.component.html',
-  styleUrls: ['./main-menu.component.scss'],
+  selector: 'menu-page',
+  templateUrl: './menu-page.component.html',
+  styleUrls: ['./menu-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainMenuComponent {
+export class MenuPageComponent {
   constructor(public soundsService: SoundsService, public gameService: GameService) {}
 
   public stateToggleLanguageDialog$ = new BehaviorSubject(false);

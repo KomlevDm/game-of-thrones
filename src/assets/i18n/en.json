@@ -1,4 +1,45 @@
 {
+  "Game": {
+    "GameDialog": {
+      "ButtonNames": {
+        "Continue": "Continue",
+        "Save": "Save",
+        "Exit": "Exit",
+        "Restart": "Restart",
+        "Ok": "Ok",
+        "Cancel": "Cancel"
+      },
+      "GameOverText": "Game over",
+      "SaveText": "Save current achievements as"
+    },
+    "NotePlayerNotExists": "You have not chosen a house for which you will play"
+  },
+  "HeroSelection": {
+    "Title": "Select home",
+    "Houses": {
+      "Stark": {
+        "HouseName": "Stark",
+        "Motto": "Winter is Coming"
+      },
+      "Targaryen": {
+        "HouseName": "Targaryen",
+        "Motto": "Fire and Blood"
+      },
+      "Lannister": {
+        "HouseName": "Lannister",
+        "Motto": "Hear me Roar"
+      }
+    },
+    "PlayerInfo": "Your name"
+  },
+  "Load": {
+    "Title": "Available saves",
+    "ButtonNames": {
+      "Delete": "Delete",
+      "Load": "Load"
+    },
+    "NoteEmptySaveGameData": "No saves available"
+  },
   "Title": "Game Of Thrones",
   "MainMenu": {
     "Title": "Menu",
@@ -21,45 +62,5 @@
     },
     "NoteEmptyTable": "The table is currently empty"
   },
-  "HeroSelection": {
-    "Title": "Select home",
-    "Houses": {
-      "Stark": {
-        "HouseName": "Stark",
-        "Motto": "Winter is Coming"
-      },
-      "Targaryen": {
-        "HouseName": "Targaryen",
-        "Motto": "Fire and Blood"
-      },
-      "Lannister": {
-        "HouseName": "Lannister",
-        "Motto": "Hear me Roar"
-      }
-    },
-    "PlayerInfo": "Your name"
-  },
-  "Game": {
-    "NotePlayerNotExists": "You have not chosen a house for which you will play",
-    "GameDialog": {
-      "GameOverText": "Game over",
-      "SaveText": "Save current achievements as",
-      "ButtonNames": {
-        "Continue": "Continue",
-        "Save": "Save",
-        "Exit": "Exit",
-        "Restart": "Restart",
-        "Ok": "Ok",
-        "Cancel": "Cancel"
-      }
-    }
-  },
-  "Load": {
-    "Title": "Available saves",
-    "NoteEmptySaveGameData": "No saves available",
-    "ButtonNames": {
-      "Delete": "Delete",
-      "Load": "Load"
-    }
-  }
+  "Start": "Start"
 }

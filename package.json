@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "translate-extract": "ngx-translate-extract --input ./src  --clean --output ./src/assets/i18n/en.json --format=namespaced-json"
   },
   "private": true,
   "dependencies": {
@@ -31,6 +32,7 @@
     "@angular/cli": "^10.2.0",
     "@angular/compiler-cli": "^10.2.3",
     "@angular/language-service": "^10.2.3",
+    "@biesbjerg/ngx-translate-extract": "^7.0.3",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.19.6",
