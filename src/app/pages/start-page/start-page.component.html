@@ -1,3 +1,8 @@
 <snow-background></snow-background>
 
-<logo [class.decrease]="isDecrease" [text]="'Start' | translate" (click)="startGame()"></logo>
+<logo
+  [text]="'Start' | translate"
+  decrease
+  (startedDecrease)="soundsService.init()"
+  (endedDecrease)="startGame()"
+></logo>

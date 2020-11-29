@@ -1,6 +1,6 @@
 import { transition, trigger, query, style, animate } from '@angular/animations';
 
-const animationTimeout = '.2s';
+const animationTimeout = '0.2s';
 
 export const routeAnimation = trigger('routeAnimation', [
   transition('* => *', [

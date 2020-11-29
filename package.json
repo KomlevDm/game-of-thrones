@@ -2,11 +2,9 @@
   "name": "game-of-thrones",
   "version": "1.0.0",
   "scripts": {
-    "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
-    "lint": "ng lint",
     "translate-extract": "ngx-translate-extract --input ./src  --clean --output ./src/assets/i18n/en.json --format=namespaced-json"
   },
   "private": true,

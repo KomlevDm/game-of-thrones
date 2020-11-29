@@ -9,16 +9,9 @@ import { SoundsService } from '../../services/sounds.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StartPageComponent {
-  constructor(private router: Router, private soundsService: SoundsService) {}
-
-  public isDecrease = false;
+  constructor(private router: Router, public soundsService: SoundsService) {}
 
   public startGame(): void {
-    this.isDecrease = true;
-    this.soundsService.init();
-
-    setTimeout(() => {
-      this.router.navigate(['menu']);
-    }, 200);
+    this.router.navigate(['menu']);
   }
 }
