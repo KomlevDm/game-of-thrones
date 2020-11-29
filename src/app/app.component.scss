@@ -3,8 +3,8 @@
 :host {
   @include host($isFullScreen: true);
 
-  .wrap-router-outlet {
-    @include host($isFullScreen: true);
-    overflow: hidden;
+  wrap-router-outlet {
+    width: 100%;
+    height: 100%;
   }
 }

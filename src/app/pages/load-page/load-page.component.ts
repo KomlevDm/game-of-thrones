@@ -11,12 +11,12 @@ export interface ISaveGameData {
 }
 
 @Component({
-  selector: 'load',
-  templateUrl: './load.component.html',
-  styleUrls: ['./load.component.scss'],
+  selector: 'load-page',
+  templateUrl: './load-page.component.html',
+  styleUrls: ['./load-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoadComponent implements OnInit {
+export class LoadPageComponent implements OnInit {
   constructor(public gameService: GameService) {}
 
   public saveGameData: ISaveGameData[] = [];

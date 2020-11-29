@@ -1,0 +1,16 @@
+@import 'mixins';
+@import 'variables';
+
+:host {
+  @include host(flex, true);
+  align-items: center;
+  justify-content: center;
+
+  wrap-router-outlet {
+    min-width: $widthScreen;
+    width: $widthScreen;
+    min-height: $heightScreen;
+    height: $heightScreen;
+    border: $borderWidthScreen double rgb(255, 255, 255);
+  }
+}

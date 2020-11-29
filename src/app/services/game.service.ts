@@ -5,11 +5,11 @@ import { Stark } from '../classes/player/Stark';
 import { Targaryen } from '../classes/player/Targaryen';
 import { Lannister } from '../classes/player/Lannister';
 import { EKeyLocalStorage } from '../enums/EKeyLocalStorage';
-import { ISaveGameData } from '../components/load/load.component';
 import { v1 as uuid } from 'uuid';
 import { Router } from '@angular/router';
 import { SoundsService } from './sounds.service';
 import { MonsterService } from './monster.service';
+import { ISaveGameData } from '../pages/load-page/load-page.component';
 
 @Injectable({ providedIn: 'root' })
 export class GameService {
@@ -42,7 +42,7 @@ export class GameService {
   }
 
   public restartGame(): void {
-    this._player.attackObjects.forEach(a => a.attackNodeElement.destroy());
+    this._player.attackObjects.forEach((a) => a.attackNodeElement.destroy());
     const fabricAttackNodeElement = this.player.fabricAttackNodeElement;
 
     this._player = this._createInstancePlayer(this._player.house, { name: this._player.name });
@@ -72,7 +72,7 @@ export class GameService {
       sessionId: this._gameSession,
       name,
       player: Object.create(null),
-      date: new Date().toString()
+      date: new Date().toString(),
     };
 
     for (const key in this._player) {
@@ -87,7 +87,7 @@ export class GameService {
       localStorage.setItem(EKeyLocalStorage.SaveGameData, JSON.stringify([currentGameData]));
     } else {
       const oldGameDataIndex = saveDataFromLocalStorage.findIndex(
-        elem => elem.sessionId === this._gameSession && elem.name === name
+        (elem) => elem.sessionId === this._gameSession && elem.name === name
       );
 
       if (oldGameDataIndex === -1) saveDataFromLocalStorage.push(currentGameData);
