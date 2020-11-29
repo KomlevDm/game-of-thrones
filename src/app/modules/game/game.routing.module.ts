@@ -11,15 +11,14 @@ const routes: Routes = [
         path: 'menu',
         loadChildren: () => import('../../pages/menu-page/menu-page.module').then((m) => m.MenuPageModule),
       },
-      // {
-      //   path: 'hero-selection',
-      //   component: HeroSelectionComponent,
-      //   data: { animation: 'rest' },
-      // },
+      {
+        path: 'hero-selection',
+        loadChildren: () =>
+          import('../../pages/hero-selection-page/hero-selection-page.module').then((m) => m.HeroSelectionPageModule),
+      },
       // {
       //   path: 'game',
       //   component: GameComponent,
-      //   data: { animation: 'game' },
       // },
       {
         path: 'load',
@@ -28,7 +27,6 @@ const routes: Routes = [
       // {
       //   path: 'top-table',
       //   component: TopTableComponent,
-      //   data: { animation: 'rest' },
       // },
     ],
   },

@@ -5,12 +5,12 @@ import { GameService } from 'src/app/services/game.service';
 import { Player } from 'src/app/classes/player/Player';
 
 @Component({
-  selector: 'hero-selection',
-  templateUrl: './hero-selection.component.html',
-  styleUrls: ['./hero-selection.component.scss'],
+  selector: 'hero-selection-page',
+  templateUrl: './hero-selection-page.component.html',
+  styleUrls: ['./hero-selection-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeroSelectionComponent {
+export class HeroSelectionPageComponent {
   constructor(public gameService: GameService, public soundsService: SoundsService) {}
 
   public EHouse = EHouse;
