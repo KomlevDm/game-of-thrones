@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { IPlayerSettings } from 'src/app/classes/player/Player';
-import { EKeyLocalStorage } from 'src/app/enums/EKeyLocalStorage';
+import { ELocalStorageKey } from 'src/app/enums/ELocalStorageKey';
 import { GameService } from 'src/app/services/game.service';
 
 export interface ISaveGameData {
@@ -22,7 +22,7 @@ export class LoadPageComponent implements OnInit {
   public saveGameData: ISaveGameData[] = [];
 
   ngOnInit() {
-    const saveGameData: ISaveGameData[] = JSON.parse(localStorage.getItem(EKeyLocalStorage.SaveGameData));
+    const saveGameData: ISaveGameData[] = JSON.parse(localStorage.getItem(ELocalStorageKey.SaveGameData));
 
     if (saveGameData !== null) {
       this.saveGameData = saveGameData.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -37,7 +37,7 @@ export class LoadPageComponent implements OnInit {
   public deleteSaveGame(index: number): void {
     this.saveGameData.splice(index, 1);
 
-    localStorage.setItem(EKeyLocalStorage.SaveGameData, JSON.stringify(this.saveGameData));
+    localStorage.setItem(ELocalStorageKey.SaveGameData, JSON.stringify(this.saveGameData));
   }
 
   public trackBySessionId(index: number, item: ISaveGameData): string {

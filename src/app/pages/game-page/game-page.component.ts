@@ -20,7 +20,7 @@ import { MonsterService } from 'src/app/services/monster.service';
 import { FlyingPlayer } from 'src/app/classes/player/FlyingPlayer';
 import { GoingPlayer } from 'src/app/classes/player/GoingPlayer';
 import { Monster } from 'src/app/classes/monster/Monster';
-import { EKeyLocalStorage } from 'src/app/enums/EKeyLocalStorage';
+import { ELocalStorageKey } from 'src/app/enums/ELocalStorageKey';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { EDirection } from '../../enums/EDirection';
 import { IWorkerResponse } from '../../interfaces/IWorkerResponse';
@@ -268,13 +268,13 @@ export class GamePageComponent implements OnInit, OnDestroy {
       date: new Date(),
     };
 
-    const topTableDataFromLocalStorage: ITableItem[] = JSON.parse(localStorage.getItem(EKeyLocalStorage.TopTableData));
+    const topTableDataFromLocalStorage: ITableItem[] = JSON.parse(localStorage.getItem(ELocalStorageKey.TopTableData));
 
     if (topTableDataFromLocalStorage === null) {
-      localStorage.setItem(EKeyLocalStorage.TopTableData, JSON.stringify([currentTopTableData]));
+      localStorage.setItem(ELocalStorageKey.TopTableData, JSON.stringify([currentTopTableData]));
     } else {
       topTableDataFromLocalStorage.push(currentTopTableData);
-      localStorage.setItem(EKeyLocalStorage.TopTableData, JSON.stringify(topTableDataFromLocalStorage));
+      localStorage.setItem(ELocalStorageKey.TopTableData, JSON.stringify(topTableDataFromLocalStorage));
     }
   }
 

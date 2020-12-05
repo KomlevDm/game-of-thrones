@@ -8,7 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SnowBackgroundModule } from './components/snow-background/snow-background.module';
 import { WrapRouterOutletModule } from './components/wrap-router-outlet/wrap-router-outlet.module';
-import { EKeyLocalStorage } from './enums/EKeyLocalStorage';
+import { ELocalStorageKey } from './enums/ELocalStorageKey';
 import { ELanguage } from './enums/ELanguage';
 import { StartPageModule } from './pages/start-page/start-page.module';
 
@@ -34,7 +34,7 @@ import { StartPageModule } from './pages/start-page/start-page.module';
 })
 export class AppModule {
   constructor(private _translateService: TranslateService) {
-    const currentLanguage = localStorage.getItem(EKeyLocalStorage.CurrentLanguage) || ELanguage.En;
+    const currentLanguage = localStorage.getItem(ELocalStorageKey.CurrentLanguage) || ELanguage.En;
     this._translateService.use(currentLanguage);
   }
 }

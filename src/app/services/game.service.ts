@@ -4,7 +4,7 @@ import { EHouse } from '../enums/EHouse';
 import { Stark } from '../classes/player/Stark';
 import { Targaryen } from '../classes/player/Targaryen';
 import { Lannister } from '../classes/player/Lannister';
-import { EKeyLocalStorage } from '../enums/EKeyLocalStorage';
+import { ELocalStorageKey } from '../enums/ELocalStorageKey';
 import { v1 as uuid } from 'uuid';
 import { Router } from '@angular/router';
 import { SoundsService } from './sounds.service';
@@ -81,10 +81,10 @@ export class GameService {
       }
     }
 
-    const saveDataFromLocalStorage: ISaveGameData[] = JSON.parse(localStorage.getItem(EKeyLocalStorage.SaveGameData));
+    const saveDataFromLocalStorage: ISaveGameData[] = JSON.parse(localStorage.getItem(ELocalStorageKey.SaveGameData));
 
     if (saveDataFromLocalStorage === null) {
-      localStorage.setItem(EKeyLocalStorage.SaveGameData, JSON.stringify([currentGameData]));
+      localStorage.setItem(ELocalStorageKey.SaveGameData, JSON.stringify([currentGameData]));
     } else {
       const oldGameDataIndex = saveDataFromLocalStorage.findIndex(
         (elem) => elem.sessionId === this._gameSession && elem.name === name
@@ -93,7 +93,7 @@ export class GameService {
       if (oldGameDataIndex === -1) saveDataFromLocalStorage.push(currentGameData);
       else saveDataFromLocalStorage[oldGameDataIndex] = currentGameData;
 
-      localStorage.setItem(EKeyLocalStorage.SaveGameData, JSON.stringify(saveDataFromLocalStorage));
+      localStorage.setItem(ELocalStorageKey.SaveGameData, JSON.stringify(saveDataFromLocalStorage));
     }
   }
 

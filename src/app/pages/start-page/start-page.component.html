@@ -1,6 +1,6 @@
 <logo
   [text]="'Start' | translate"
   decrease
-  (startedDecrease)="soundsService.init()"
-  (endedDecrease)="startGame()"
+  (startedDecrease)="userService.activateGame()"
+  (endedDecrease)="router.navigate(['menu'])"
 ></logo>

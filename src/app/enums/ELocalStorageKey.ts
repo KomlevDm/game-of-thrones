@@ -1,6 +1,6 @@
-export enum EKeyLocalStorage {
+export enum ELocalStorageKey {
   CurrentLanguage = 'currentLanguage',
   IsMutedBgSound = 'isMutedBgSound',
   TopTableData = 'topTableData',
-  SaveGameData = 'saveGameData'
+  SaveGameData = 'saveGameData',
 }

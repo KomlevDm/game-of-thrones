@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit, ChangeDetectionStrategy } from '@angul
 import { getRandomMenuBgImage } from 'src/app/helpers/getRandomMenuBgImage';
 import { SoundsService } from 'src/app/services/sounds.service';
 import { Router } from '@angular/router';
-import { EKeyLocalStorage } from 'src/app/enums/EKeyLocalStorage';
+import { ELocalStorageKey } from 'src/app/enums/ELocalStorageKey';
 import { GameService } from 'src/app/services/game.service';
 
 export interface ITableItem {
@@ -27,7 +27,7 @@ export class TopTablePageComponent implements OnInit {
   public tableData: ITableItem[] = [];
 
   ngOnInit() {
-    const topTableData: ITableItem[] = JSON.parse(localStorage.getItem(EKeyLocalStorage.TopTableData));
+    const topTableData: ITableItem[] = JSON.parse(localStorage.getItem(ELocalStorageKey.TopTableData));
 
     if (topTableData !== null) {
       this.tableData = topTableData

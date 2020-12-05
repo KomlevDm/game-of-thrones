@@ -2,7 +2,7 @@ import { Component, Input, HostListener, ChangeDetectionStrategy } from '@angula
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 import { ELanguage } from 'src/app/enums/ELanguage';
-import { EKeyLocalStorage } from 'src/app/enums/EKeyLocalStorage';
+import { ELocalStorageKey } from 'src/app/enums/ELocalStorageKey';
 import { SoundsService } from 'src/app/services/sounds.service';
 
 @Component({
@@ -27,7 +27,7 @@ export class ToggleLanguageDialogComponent {
     this._soundsService.blade.restart();
 
     this.translateService.use(language);
-    localStorage.setItem(EKeyLocalStorage.CurrentLanguage, language);
+    localStorage.setItem(ELocalStorageKey.CurrentLanguage, language);
   }
 
   public close(): void {

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { SoundsService } from '../../services/sounds.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'start-page',
@@ -9,9 +9,5 @@ import { SoundsService } from '../../services/sounds.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StartPageComponent {
-  constructor(private router: Router, public soundsService: SoundsService) {}
-
-  public startGame(): void {
-    this.router.navigate(['menu']);
-  }
+  constructor(public router: Router, public userService: UserService) {}
 }
