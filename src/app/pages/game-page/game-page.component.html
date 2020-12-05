@@ -1,4 +1,4 @@
-<div class="content" *ngIf="gameService.player; else note">
+<!-- <div class="content" *ngIf="gameService.player; else note">
   <div class="info-panel">
     <div class="hero-state">
       <div class="lives">
@@ -36,10 +36,10 @@
   </div>
 
   <game-dialog [state$]="stateGameDialog$" [mode$]="gameDialogMode$"></game-dialog>
-</div>
+</div> -->
 
 <!-- Templates -->
-<ng-template #note>
+<!-- <ng-template #note>
   <back-arrow navigationUrl="/hero-selection"></back-arrow>
 
   <div class="note">
@@ -73,4 +73,4 @@
     [style.transform]="getObjectPosition(x, y)"
     src="../../../assets/img/game/monsters/{{ name }}.gif"
   />
-</ng-template>
+</ng-template> -->

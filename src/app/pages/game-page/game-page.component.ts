@@ -15,26 +15,26 @@ import { SoundsService } from 'src/app/services/sounds.service';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { EGameDialogMode } from '../game-dialog/game-dialog.component';
 import { IAttackNodeElementSettings } from 'src/app/interfaces/IAttackNodeElementSettings';
 import { MonsterService } from 'src/app/services/monster.service';
 import { FlyingPlayer } from 'src/app/classes/player/FlyingPlayer';
 import { GoingPlayer } from 'src/app/classes/player/GoingPlayer';
 import { Monster } from 'src/app/classes/monster/Monster';
-import { ITableItem } from '../top-table/top-table.component';
 import { EKeyLocalStorage } from 'src/app/enums/EKeyLocalStorage';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { EDirection } from '../../enums/EDirection';
 import { IWorkerResponse } from '../../interfaces/IWorkerResponse';
 import { IWorkerData } from '../../interfaces/IWorkerData';
+// import { EGameDialogMode } from '../../components/game-dialog/game-dialog.component';
+import { ITableItem } from '../top-table-page/top-table-page.component';
 
 @Component({
-  selector: 'game',
-  templateUrl: './game.component.html',
-  styleUrls: ['./game.component.scss'],
+  selector: 'game-page',
+  templateUrl: './game-page.component.html',
+  styleUrls: ['./game-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GameComponent implements OnInit, OnDestroy {
+export class GamePageComponent implements OnInit, OnDestroy {
   constructor(
     private _router: Router,
     private _soundsService: SoundsService,
@@ -56,7 +56,7 @@ export class GameComponent implements OnInit, OnDestroy {
   private _worker = new Worker('../../app.worker.ts', { type: 'module' });
 
   public stateGameDialog$ = new BehaviorSubject(false);
-  public gameDialogMode$ = new BehaviorSubject(EGameDialogMode.Game);
+  // public gameDialogMode$ = new BehaviorSubject(EGameDialogMode.Game);
 
   @ViewChild('gameField', { read: ViewContainerRef }) gameField: ViewContainerRef;
   @ViewChild('attackTemplate') attackNodeElementTemplate: TemplateRef<IAttackNodeElementSettings>;
@@ -256,7 +256,7 @@ export class GameComponent implements OnInit, OnDestroy {
   private _gameOver(): void {
     this._soundsService.gameOver.restart();
     this._toggleGameDialog();
-    this.gameDialogMode$.next(EGameDialogMode.GameOver);
+    // this.gameDialogMode$.next(EGameDialogMode.GameOver);
     this._saveResultGameInTopTable();
     this._pauseGame();
   }
@@ -283,7 +283,7 @@ export class GameComponent implements OnInit, OnDestroy {
       this._soundsService.past.restart();
       this.stateGameDialog$.next(false);
     } else {
-      this.gameDialogMode$.next(EGameDialogMode.Game);
+      // this.gameDialogMode$.next(EGameDialogMode.Game);
       this._soundsService.shortTomahawk.restart();
       this.stateGameDialog$.next(true);
     }

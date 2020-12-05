@@ -16,10 +16,10 @@ const routes: Routes = [
         loadChildren: () =>
           import('../../pages/hero-selection-page/hero-selection-page.module').then((m) => m.HeroSelectionPageModule),
       },
-      // {
-      //   path: 'game',
-      //   component: GameComponent,
-      // },
+      {
+        path: 'game',
+        loadChildren: () => import('../../pages/game-page/game-page.module').then((m) => m.GamePageModule),
+      },
       {
         path: 'load',
         loadChildren: () => import('../../pages/load-page/load-page.module').then((m) => m.LoadPageModule),
