@@ -24,10 +24,11 @@ const routes: Routes = [
         path: 'load',
         loadChildren: () => import('../../pages/load-page/load-page.module').then((m) => m.LoadPageModule),
       },
-      // {
-      //   path: 'top-table',
-      //   component: TopTableComponent,
-      // },
+      {
+        path: 'top-table',
+        loadChildren: () =>
+          import('../../pages/top-table-page/top-table-page.module').then((m) => m.TopTablePageModule),
+      },
     ],
   },
 ];

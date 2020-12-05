@@ -12,12 +12,12 @@ export interface ITableItem {
 }
 
 @Component({
-  selector: 'top-table',
-  templateUrl: './top-table.component.html',
-  styleUrls: ['./top-table.component.scss'],
+  selector: 'top-table-page',
+  templateUrl: './top-table-page.component.html',
+  styleUrls: ['./top-table-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TopTableComponent implements OnInit {
+export class TopTablePageComponent implements OnInit {
   constructor(private _router: Router, private _gameService: GameService, private _soundsService: SoundsService) {}
 
   public bgImageName = getRandomMenuBgImage();
