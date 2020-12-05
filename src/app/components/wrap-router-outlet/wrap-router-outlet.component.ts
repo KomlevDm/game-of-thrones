@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ViewChild, HostBinding } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewChild, HostBinding, Input } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { transition, trigger, query, style, animate } from '@angular/animations';
 
@@ -17,6 +17,9 @@ import { transition, trigger, query, style, animate } from '@angular/animations'
   ],
 })
 export class WrapRouterOutletComponent {
+  @Input()
+  public isSpinner = false;
+
   @ViewChild(RouterOutlet, { static: true })
   private routerOutlet: RouterOutlet;
 
