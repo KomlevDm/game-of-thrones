@@ -4,13 +4,13 @@
   display: block;
   height: inherit;
   position: relative;
-  background-image: url(../../../assets/img/bg/night-dragon.jpg);
+  background-image: url(/assets/img/bg/night-dragon.jpg);
 
   .content {
     display: flex;
     flex-direction: column;
     height: inherit;
-    background-image: url(../../../assets/img/bg/game/snow-forest.jpg);
+    background-image: url(/assets/img/bg/snow-forest.jpg);
     background-size: cover;
     animation: game-bg-animation 10s infinite linear;
 

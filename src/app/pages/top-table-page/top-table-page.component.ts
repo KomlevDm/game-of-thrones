@@ -1,5 +1,4 @@
 import { Component, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { getRandomMenuBgImage } from 'src/app/helpers/getRandomMenuBgImage';
 import { SoundsService } from 'src/app/services/sounds.service';
 import { Router } from '@angular/router';
 import { ELocalStorageKey } from 'src/app/enums/ELocalStorageKey';
@@ -20,7 +19,6 @@ export interface ITableItem {
 export class TopTablePageComponent implements OnInit {
   constructor(private _router: Router, private _gameService: GameService, private _soundsService: SoundsService) {}
 
-  public bgImageName = getRandomMenuBgImage();
   public sortByNameState: 'desc' | 'asc' = null;
   public sortByScoreState: 'desc' | 'asc' = null;
   public sortByDateState: 'desc' | 'asc' = null;

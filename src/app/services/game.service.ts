@@ -102,10 +102,6 @@ export class GameService {
     this._router.navigateByUrl('/');
   }
 
-  public mouseenterButton(): void {
-    this._soundsService.blade.restart();
-  }
-
   public cleanGameInfo(): void {
     this._player = null;
     this._gameSession = null;

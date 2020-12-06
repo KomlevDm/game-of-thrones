@@ -1,0 +1,38 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 125px;
+  transition: all 0.2s linear;
+  padding: 0px 15px;
+
+  .volume {
+    background: {
+      image: url(/assets/pages/menu-page/footer-panel/img/sound.png);
+      repeat: no-repeat;
+      size: cover;
+    }
+
+    height: 50px;
+    width: 50px;
+    transition: all 0.1s linear;
+
+    &.disabled {
+      filter: grayscale(1);
+    }
+  }
+
+  .github-link {
+    width: 60px;
+    cursor: unset;
+    transition: all 1s linear;
+
+    img {
+      width: 100%;
+    }
+
+    &:hover {
+      filter: hue-rotate(180deg);
+    }
+  }
+}

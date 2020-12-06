@@ -33,8 +33,8 @@ import { StartPageModule } from './pages/start-page/start-page.module';
   bootstrap: [AppComponent],
 })
 export class AppModule {
-  constructor(private _translateService: TranslateService) {
+  constructor(translateService: TranslateService) {
     const currentLanguage = localStorage.getItem(ELocalStorageKey.CurrentLanguage) || ELanguage.En;
-    this._translateService.use(currentLanguage);
+    translateService.use(currentLanguage);
   }
 }

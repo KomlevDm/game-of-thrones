@@ -1,36 +1,46 @@
 @import 'mixins';
 
 :host {
+  $transition: 0.2s linear;
+
+  @include host(flex, true);
+  justify-content: center;
+  align-items: center;
+  transition: z-index $transition;
+  z-index: -1;
+
+  &.show {
+    z-index: 0;
+  }
+
   .overlay {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    @include absolute();
     background-color: rgba(0, 0, 0, 0.4);
+    transition: opacity $transition;
+    opacity: 0;
+
+    &.show {
+      opacity: 1;
+    }
   }
 
   .content {
-    $width: 500px;
-    $height: 280px;
-
-    position: absolute;
-    top: calc(50% - #{$height}/ 2);
-    left: calc(50% - #{$width}/ 2);
-    width: $width;
-    height: $height;
+    position: relative;
+    width: 500px;
+    height: 280px;
     display: flex;
     flex-direction: column;
     padding: 35px 20px 55px;
     box-sizing: border-box;
     border: 4px double white;
     box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.5);
-    background-image: url(../../../assets/img/bg/rock.jpg);
+    background-image: url(/assets/img/bg/rock.jpg);
     background-size: cover;
-    transition: top 0.2s linear;
+    transition: transform $transition;
+    transform: scale(0);
 
-    &.hide {
-      top: -$height;
+    &.show {
+      transform: scale(1);
     }
 
     h1 {
@@ -50,7 +60,9 @@
       .button {
         @include glass-button-background;
         position: relative;
-        padding: 25px 15px 17px 25px;
+        width: 200px;
+        text-align: center;
+        padding: 22px 0 20px 0;
         transition: all 0.1s linear;
 
         &:active {
@@ -63,13 +75,8 @@
 
         h2 {
           font-size: 21px;
-          text-shadow: -2px -3px 0px #000000, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff;
-          // background-image   : url(../../../assets/img/game/attacks/fire-sphere.gif);
-          background-size: cover;
-          color: transparent;
-          background-clip: text;
-          letter-spacing: 6px;
-          background-position: 0;
+          text-shadow: 2px 3px 0px #000000, 2px 3px 0px #000000;
+          letter-spacing: 5px;
         }
       }
     }

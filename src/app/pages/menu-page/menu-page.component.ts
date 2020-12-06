@@ -1,8 +1,7 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, HostBinding } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { SoundsService } from 'src/app/services/sounds.service';
-import { getRandomMenuBgImage } from 'src/app/helpers/getRandomMenuBgImage';
-import { GameService } from 'src/app/services/game.service';
+import { BG_IMAGE_LIST } from '../../../assets/img/bg/bg-image-list';
 
 @Component({
   selector: 'menu-page',
@@ -11,17 +10,22 @@ import { GameService } from 'src/app/services/game.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuPageComponent {
-  constructor(public soundsService: SoundsService, public gameService: GameService) {}
+  constructor(public soundsService: SoundsService) {}
+
+  @HostBinding('style.backgroundImage')
+  private backgroundImage = `url(/assets/img/bg/${this.getRandomBgImage()})`;
 
   public stateToggleLanguageDialog$ = new BehaviorSubject(false);
-  public bgImageName = getRandomMenuBgImage();
-
-  public mouseenterFireSphere(): void {
-    this.soundsService.dragonFlame.play();
-  }
 
   public openToggleLanguageDialog(): void {
     this.soundsService.shortTomahawk.restart();
     this.stateToggleLanguageDialog$.next(true);
+  }
+
+  private getRandomBgImage(): string {
+    const bgImageNames = Object.values(BG_IMAGE_LIST.menu);
+    const randomIndex = Math.round(-0.5 + Math.random() * bgImageNames.length);
+
+    return bgImageNames[randomIndex];
   }
 }
