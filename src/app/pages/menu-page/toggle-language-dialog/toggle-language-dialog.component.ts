@@ -6,6 +6,7 @@ import {
   OnInit,
   HostBinding,
   ChangeDetectorRef,
+  OnDestroy,
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -20,7 +21,7 @@ import { SoundsService } from 'src/app/services/sounds.service';
   styleUrls: ['./toggle-language-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToggleLanguageDialogComponent implements OnInit {
+export class ToggleLanguageDialogComponent implements OnInit, OnDestroy {
   constructor(
     private soundsService: SoundsService,
     private cdr: ChangeDetectorRef,
@@ -37,11 +38,16 @@ export class ToggleLanguageDialogComponent implements OnInit {
   @Input()
   public state$: BehaviorSubject<boolean>;
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.state$.pipe(takeUntil(this.destroyer$)).subscribe((state) => {
       this.state = state;
       this.cdr.detectChanges();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroyer$.next();
+    this.destroyer$.complete();
   }
 
   public toggleLanguage(language: ELanguage): void {
