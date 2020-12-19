@@ -9,7 +9,7 @@ import { v1 as uuid } from 'uuid';
 import { Router } from '@angular/router';
 import { SoundsService } from './sounds.service';
 import { MonsterService } from './monster.service';
-import { ISaveGameData } from '../pages/load-page/load-page.component';
+import { ISaveGameData } from '../pages/load-page/interfaces/ISaveGameData';
 
 @Injectable({ providedIn: 'root' })
 export class GameService {
@@ -95,11 +95,6 @@ export class GameService {
 
       localStorage.setItem(ELocalStorageKey.SaveGameData, JSON.stringify(saveDataFromLocalStorage));
     }
-  }
-
-  public navigateToMainMenu(): void {
-    this._soundsService.dragonStompy.restart();
-    this._router.navigateByUrl('/');
   }
 
   public cleanGameInfo(): void {

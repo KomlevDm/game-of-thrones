@@ -2,7 +2,7 @@
 
 <div class="main-title">{{ 'TopTablePage.Title' | translate }}</div>
 
-<table class="top-table" *ngIf="tableData.length; else note">
+<table class="top-table" *ngIf="tableData.length; else emptyMessageTemplate">
   <tbody>
     <tr>
       <th>
@@ -44,9 +44,7 @@
 </table>
 
 <!--#region Templates-->
-<ng-template #note>
-  <div class="note">
-    {{ 'TopTablePage.EmptyTableMessage' | translate }}
-  </div>
+<ng-template #emptyMessageTemplate>
+  <empty-message [text]="'TopTablePage.EmptyTableMessage' | translate"></empty-message>
 </ng-template>
 <!--#endregion Templates-->

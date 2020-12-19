@@ -56,7 +56,7 @@
   },
   "Load": {
     "Title": "Доступные сохранения",
-    "NoteEmptySaveGameData": "Нет доступных сохранений",
+    "EmptyDataMessage": "Нет доступных сохранений",
     "ButtonNames": {
       "Delete": "Удалить",
       "Load": "Загрузить"

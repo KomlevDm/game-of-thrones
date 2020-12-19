@@ -1,4 +1,4 @@
-import { Component, HostListener, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { SoundsService } from 'src/app/services/sounds.service';
 import { EHouse } from 'src/app/enums/EHouse';
 import { GameService } from 'src/app/services/game.service';
@@ -16,11 +16,6 @@ export class HeroSelectionPageComponent {
   public EHouse = EHouse;
   public selectedHouse: EHouse = null;
   public playerName = Player.defaultName;
-
-  @HostListener('document:keydown.escape')
-  onKeydownEscapeHandler() {
-    this.gameService.navigateToMainMenu();
-  }
 
   public selectHouse(house: EHouse): void {
     this.selectedHouse = house;

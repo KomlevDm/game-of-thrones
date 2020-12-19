@@ -1,0 +1,18 @@
+:host {
+  position: absolute;
+  top: 40%;
+  left: calc(50% - 250px);
+  width: 500px;
+  padding: 35px;
+  box-sizing: border-box;
+  border: 1px ridge #fff;
+  box-shadow: 0 0 5px 2px #ffffff80;
+  background-image: url(/assets/img/bg/rock.jpg);
+  background-size: cover;
+  font-size: 18px;
+  letter-spacing: 7px;
+  text-align: center;
+  line-height: 36px;
+  text-shadow: 2px 3px 0px #000, 2px 3px 0px #000;
+  font-weight: bold;
+}

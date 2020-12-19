@@ -1,14 +1,8 @@
-import { Component, OnInit, HostListener, ChangeDetectionStrategy } from '@angular/core';
-import { IPlayerSettings } from 'src/app/classes/player/Player';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ELocalStorageKey } from 'src/app/enums/ELocalStorageKey';
-import { GameService } from 'src/app/services/game.service';
-
-export interface ISaveGameData {
-  sessionId: string;
-  name: string;
-  player: IPlayerSettings;
-  date: string;
-}
+import { GameService } from '../../services/game.service';
+import { SoundsService } from '../../services/sounds.service';
+import { ISaveGameData } from './interfaces/ISaveGameData';
 
 @Component({
   selector: 'load-page',
@@ -17,26 +11,20 @@ export interface ISaveGameData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoadPageComponent implements OnInit {
-  constructor(public gameService: GameService) {}
+  constructor(public soundsService: SoundsService, public gameService: GameService) {}
 
   public saveGameData: ISaveGameData[] = [];
 
   ngOnInit() {
     const saveGameData: ISaveGameData[] = JSON.parse(localStorage.getItem(ELocalStorageKey.SaveGameData));
 
-    if (saveGameData !== null) {
+    if (saveGameData) {
       this.saveGameData = saveGameData.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     }
   }
 
-  @HostListener('document:keydown.escape')
-  onKeydownEscapeHandler() {
-    this.gameService.navigateToMainMenu();
-  }
-
   public deleteSaveGame(index: number): void {
     this.saveGameData.splice(index, 1);
-
     localStorage.setItem(ELocalStorageKey.SaveGameData, JSON.stringify(this.saveGameData));
   }
 
