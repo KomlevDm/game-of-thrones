@@ -9,7 +9,7 @@ export const BG_IMAGE_LIST = {
     throne: 'throne.jpg',
   },
   game: {
-    snowForest: 'snow-forest.jpg',
+    snowForest: 'snow-forest.webp',
     caves: 'caves.jpg',
     nightMountains: 'night-mountains.jpg',
   },
