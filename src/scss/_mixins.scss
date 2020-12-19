@@ -7,14 +7,6 @@
   }
 }
 
-@mixin absolute($top: 0, $right: 0, $bottom: 0, $left: 0) {
-  position: absolute;
-  top: $top;
-  right: $right;
-  bottom: $bottom;
-  left: $left;
-}
-
 @mixin rest-host($bgImgUrl) {
   display: block;
   position: relative;
@@ -26,9 +18,17 @@
   background-size: cover;
 }
 
+@mixin absolute($top: 0, $right: 0, $bottom: 0, $left: 0) {
+  position: absolute;
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+}
+
 @mixin main-title() {
   font-size: 30px;
-  text-shadow: -2px -3px 0px #000000, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff;
+  text-shadow: -2px -3px 0px #000, -2px -3px 3px #fff, -2px -3px 3px #fff, -2px -3px 3px #fff;
   background-image: url(/assets/img/bg/ice-and-fire.webp);
   background-size: cover;
   color: transparent;
@@ -41,43 +41,32 @@
 }
 
 @mixin glass-button-background {
-  background-color: rgba(252, 252, 252, 0.2);
-  background-image: linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0) 30%,
-      rgba(255, 255, 255, 0.95),
-      rgba(255, 255, 255, 0) 70%
-    ),
-    linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0.74),
-      rgba(255, 255, 255, 0) 20%,
-      rgba(255, 255, 255, 0) 70%,
-      rgba(255, 255, 255, 0.43)
-    ),
-    linear-gradient(to right, rgba(12, 12, 12, 0.78), #cacaca 45%, rgba(125, 125, 125, 0.5)),
-    linear-gradient(to right, #7d7d7d, rgba(169, 169, 169, 0.73) 45%, rgba(0, 0, 0, 0.59)),
-    linear-gradient(to right, black, white 45%, black), linear-gradient(to right, black, white 45%, rgba(4, 4, 4, 0.88));
+  background-color: #fcfcfc33;
+  background-image: linear-gradient(45deg, #ffffff00 30%, #fffffff2, #ffffff00 70%),
+    linear-gradient(to right, #ffffffbd, #ffffff00 20%, #ffffff00 70%, #ffffff6e),
+    linear-gradient(to right, #0c0c0cc7, #cacaca 45%, #7d7d7d80),
+    linear-gradient(to right, #7d7d7d, #a9a9a9ba 45%, #00000096), linear-gradient(to right, #000, #fff 45%, #000),
+    linear-gradient(to right, #000, #fff 45%, #040404e0);
   background-repeat: no-repeat;
   background-size: 200% 100%, auto, 100% 2px, 100% 2px, 100% 1px, 100% 1px;
   background-position: 200% 0, 0 0, 0 0, 0 100%, 0 4px, 0 calc(100% - 4px);
 }
 
-@mixin note($bgImgUrl, $width: 500px) {
+@mixin note() {
   position: absolute;
-  top: 35%;
-  left: calc(50% - #{$width}/ 2);
-  width: $width;
+  top: 40%;
+  left: calc(50% - 250px);
+  width: 500px;
   padding: 35px;
   box-sizing: border-box;
-  border: 1px ridge white;
-  box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.5);
-  background-image: url($bgImgUrl);
+  border: 1px ridge #fff;
+  box-shadow: 0 0 5px 2px #ffffff80;
+  background-image: url(/assets/img/bg/rock.jpg);
   background-size: cover;
   font-size: 18px;
   letter-spacing: 7px;
   text-align: center;
   line-height: 36px;
-  text-shadow: 2px 3px 0px #000000, 2px 3px 0px #000000;
+  text-shadow: 2px 3px 0px #000, 2px 3px 0px #000;
   font-weight: bold;
 }

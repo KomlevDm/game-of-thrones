@@ -19,7 +19,7 @@
       "Score": "Очки",
       "Date": "Дата"
     },
-    "NoteEmptyTable": "На данный момент таблица пуста"
+    "EmptyTableMessage": "На данный момент таблица пуста"
   },
   "HeroSelection": {
     "Title": "Выберите дом",

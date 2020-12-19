@@ -1,14 +1,10 @@
-import { Component, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { SoundsService } from 'src/app/services/sounds.service';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, OnInit, TrackByFunction } from '@angular/core';
 import { ELocalStorageKey } from 'src/app/enums/ELocalStorageKey';
-import { GameService } from 'src/app/services/game.service';
-
-export interface ITableItem {
-  name: string;
-  score: number;
-  date: Date;
-}
+import { SoundsService } from 'src/app/services/sounds.service';
+import { ESort } from '../../enums/ESort';
+import { SortFunctionType } from '../../types/SortFunctionType';
+import { ESortName } from './enums/ESortName';
+import { ITableItem } from './interfaces/ITableItem';
 
 @Component({
   selector: 'top-table-page',
@@ -17,17 +13,19 @@ export interface ITableItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TopTablePageComponent implements OnInit {
-  constructor(private _router: Router, private _gameService: GameService, private _soundsService: SoundsService) {}
+  constructor(private soundsService: SoundsService) {}
 
-  public sortByNameState: 'desc' | 'asc' = null;
-  public sortByScoreState: 'desc' | 'asc' = null;
-  public sortByDateState: 'desc' | 'asc' = null;
   public tableData: ITableItem[] = [];
+  public sortRange = {
+    [ESortName.Name]: ESort.None,
+    [ESortName.Score]: ESort.Desk,
+    [ESortName.Date]: ESort.None,
+  };
 
   ngOnInit() {
     const topTableData: ITableItem[] = JSON.parse(localStorage.getItem(ELocalStorageKey.TopTableData));
 
-    if (topTableData !== null) {
+    if (topTableData) {
       this.tableData = topTableData
         .map((elem) => ({
           ...elem,
@@ -37,53 +35,43 @@ export class TopTablePageComponent implements OnInit {
     }
   }
 
-  @HostListener('document:keydown.escape')
-  onKeydownEscapeHandler() {
-    this._gameService.navigateToMainMenu();
-  }
-
   public sortByName(): void {
-    this._soundsService.past.restart();
-
-    this.sortByScoreState = null;
-    this.sortByDateState = null;
-
-    if (this.sortByNameState === null || this.sortByNameState === 'desc') {
-      this.tableData.sort((a, b) => a.name.localeCompare(b.name));
-      this.sortByNameState = 'asc';
-    } else {
-      this.tableData.sort((a, b) => b.name.localeCompare(a.name));
-      this.sortByNameState = 'desc';
-    }
+    const sortDescFn = (a, b) => b.name.localeCompare(a.name);
+    const sortAscFn = (a, b) => a.name.localeCompare(b.name);
+    this.sortBy(ESortName.Name, sortDescFn, sortAscFn);
   }
 
   public sortByScore(): void {
-    this._soundsService.past.restart();
-
-    this.sortByNameState = null;
-    this.sortByDateState = null;
-
-    if (this.sortByScoreState === null || this.sortByScoreState === 'desc') {
-      this.tableData.sort((a, b) => a.score - b.score);
-      this.sortByScoreState = 'asc';
-    } else {
-      this.tableData.sort((a, b) => b.score - a.score);
-      this.sortByScoreState = 'desc';
-    }
+    const sortDescFn = (a, b) => b.score - a.score;
+    const sortAscFn = (a, b) => a.score - b.score;
+    this.sortBy(ESortName.Score, sortDescFn, sortAscFn);
   }
 
   public sortByDate(): void {
-    this._soundsService.past.restart();
+    const sortDescFn = (a, b) => b.date.getTime() - a.date.getTime();
+    const sortAscFn = (a, b) => a.date.getTime() - b.date.getTime();
+    this.sortBy(ESortName.Date, sortDescFn, sortAscFn);
+  }
 
-    this.sortByNameState = null;
-    this.sortByScoreState = null;
+  public trackByRowIndex: TrackByFunction<ITableItem> = (index) => index;
 
-    if (this.sortByDateState === null || this.sortByDateState === 'desc') {
-      this.tableData.sort((a, b) => a.date.getTime() - b.date.getTime());
-      this.sortByDateState = 'asc';
-    } else {
-      this.tableData.sort((a, b) => b.date.getTime() - a.date.getTime());
-      this.sortByDateState = 'desc';
-    }
+  private sortBy(sortName: ESortName, sortDescFn: SortFunctionType, sortAscFn: SortFunctionType): void {
+    this.soundsService.past.restart();
+
+    Object.keys(this.sortRange).forEach((key) => {
+      if (key !== sortName) {
+        this.sortRange[key] = ESort.None;
+        return;
+      }
+
+      if (this.sortRange[key] === ESort.None || this.sortRange[key] === ESort.Desk) {
+        this.tableData.sort(sortAscFn);
+        this.sortRange[key] = ESort.Ask;
+        return;
+      }
+
+      this.tableData.sort(sortDescFn);
+      this.sortRange[key] = ESort.Desk;
+    });
   }
 }

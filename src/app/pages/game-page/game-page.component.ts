@@ -25,8 +25,8 @@ import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { EDirection } from '../../enums/EDirection';
 import { IWorkerResponse } from '../../interfaces/IWorkerResponse';
 import { IWorkerData } from '../../interfaces/IWorkerData';
+import { ITableItem } from '../top-table-page/interfaces/ITableItem';
 // import { EGameDialogMode } from '../../components/game-dialog/game-dialog.component';
-import { ITableItem } from '../top-table-page/top-table-page.component';
 
 @Component({
   selector: 'game-page',

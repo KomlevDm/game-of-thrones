@@ -2,49 +2,51 @@
 
 <div class="main-title">{{ 'TopTablePage.Title' | translate }}</div>
 
-<!-- <table class="top-table" *ngIf="tableData.length !== 0; else note">
-  <tr>
-    <th>
-      <div class="title">№</div>
-    </th>
+<table class="top-table" *ngIf="tableData.length; else note">
+  <tbody>
+    <tr>
+      <th>
+        <div class="title">№</div>
+      </th>
 
-    <th>
-      <div class="title">
-        {{ 'TopTablePage.ColumnTitles.Name' | translate }}
-        <img class="sort {{ sortByNameState }}" src="../../../assets/img/sort.png" (click)="sortByName()" />
-      </div>
-    </th>
+      <th>
+        <div class="title">
+          {{ 'TopTablePage.ColumnTitles.Name' | translate }}
+          <img class="sort {{ sortRange.name }}" src="/assets/img/sort.png" (click)="sortByName()" />
+        </div>
+      </th>
 
-    <th>
-      <div class="title">
-        {{ 'TopTablePage.ColumnTitles.Score' | translate }}
-        <img class="sort {{ sortByScoreState }}" src="../../../assets/img/sort.png" (click)="sortByScore()" />
-      </div>
-    </th>
+      <th>
+        <div class="title">
+          {{ 'TopTablePage.ColumnTitles.Score' | translate }}
+          <img class="sort {{ sortRange.score }}" src="/assets/img/sort.png" (click)="sortByScore()" />
+        </div>
+      </th>
 
-    <th>
-      <div class="title">
-        {{ 'TopTablePage.ColumnTitles.Date' | translate }}
-        <img class="sort {{ sortByDateState }}" src="../../../assets/img/sort.png" (click)="sortByDate()" />
-      </div>
-    </th>
-  </tr>
+      <th>
+        <div class="title">
+          {{ 'TopTablePage.ColumnTitles.Date' | translate }}
+          <img class="sort {{ sortRange.date }}" src="/assets/img/sort.png" (click)="sortByDate()" />
+        </div>
+      </th>
+    </tr>
 
-  <tr *ngFor="let row of tableData; index as i">
-    <td>{{ i + 1 }}</td>
+    <tr *ngFor="let row of tableData; trackBy: trackByRowIndex; let i = index">
+      <td>{{ i + 1 }}</td>
 
-    <td>{{ row.name }}</td>
+      <td>{{ row.name }}</td>
 
-    <td>{{ row.score }}</td>
+      <td>{{ row.score }}</td>
 
-    <td>{{ row.date | date: 'HH:mm:ss \u2012 dd.MM.yyyy' }}</td>
-  </tr>
-</table> -->
+      <td>{{ row.date | date: 'HH:mm:ss \u2012 dd.MM.yyyy' }}</td>
+    </tr>
+  </tbody>
+</table>
 
 <!--#region Templates-->
 <ng-template #note>
   <div class="note">
-    {{ 'TopTablePage.NoteEmptyTable' | translate }}
+    {{ 'TopTablePage.EmptyTableMessage' | translate }}
   </div>
 </ng-template>
 <!--#endregion Templates-->

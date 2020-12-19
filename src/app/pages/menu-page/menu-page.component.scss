@@ -11,7 +11,7 @@
     top: 35px;
     right: 50px;
     font-size: 58px;
-    text-shadow: -2px -3px 0px #000000, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff, -2px -3px 3px #ffffff;
+    text-shadow: -2px -3px 0px #000, -2px -3px 3px #fff, -2px -3px 3px #fff, -2px -3px 3px #fff;
     background-image: url(/assets/img/bg/ice-and-fire.webp);
     background-size: cover;
     color: transparent;
@@ -40,7 +40,7 @@
         padding: 18px;
         font-size: 23px;
         letter-spacing: 5px;
-        text-shadow: 2px 3px 0px #000000, 2px 3px 0px #000000;
+        text-shadow: 2px 3px 0px #000, 2px 3px 0px #000;
         transition: background-color 0.1s linear, transform 0.1s linear;
         overflow: hidden;
 

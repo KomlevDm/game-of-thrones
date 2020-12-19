@@ -34,5 +34,14 @@
 		"Logo": {
 			"Text": "Start"
 		}
+	},
+	"TopTablePage": {
+		"Title": "Top",
+		"ColumnTitles": {
+			"Name": "Name",
+			"Score": "Score",
+			"Date": "Date"
+		},
+		"EmptyTableMessage": "The table is currently empty"
 	}
 }
