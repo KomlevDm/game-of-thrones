@@ -6,14 +6,14 @@
 
   .main-title {
     @include main-title();
+    margin-bottom: 35px;
   }
 
   .houses {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    margin-bottom: 35px;
-    margin-top: 10px;
+    margin-bottom: 25px;
 
     .house {
       display: flex;
@@ -47,7 +47,7 @@
         letter-spacing: 5px;
         background-position: 0;
         font-weight: bold;
-        margin-bottom: 15px;
+        margin-bottom: 20px;
       }
 
       img {
@@ -69,66 +69,63 @@
     }
   }
 
-  .player-info-wrap {
+  .player-info {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 20px 50px;
 
-    .player-info {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px 50px;
-      width: fit-content;
+    span {
+      margin-top: 8px;
+      font-size: 21px;
+      text-shadow: -2px -3px 0px #000, -2px -3px 3px #fff, -2px -3px 3px #fff, -2px -3px 3px #fff;
+      background-image: url(/assets/img/bg/ice-and-fire.webp);
+      background-size: cover;
+      color: transparent;
+      background-clip: text;
+      letter-spacing: 5px;
+      background-position: 0;
+      font-weight: bold;
+      margin-right: 10px;
+    }
 
-      span {
-        margin-top: 8px;
-        font-size: 21px;
-        text-shadow: -2px -3px 0px #000, -2px -3px 3px #fff, -2px -3px 3px #fff, -2px -3px 3px #fff;
-        background-image: url(/assets/img/bg/ice-and-fire.webp);
-        background-size: cover;
-        color: transparent;
-        background-clip: text;
-        letter-spacing: 5px;
-        background-position: 0;
-        font-weight: bold;
-        margin-right: 10px;
+    input {
+      border: none;
+      align-self: stretch;
+      box-shadow: 0 0 5px 5px #ffffff80;
+      padding: 4px 15px;
+      font-family: serif;
+      width: 250px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      font-size: 30px;
+      background-color: #ffffff80;
+      text-shadow: 1px 1px 0px #fff;
+      align-self: center;
+      margin-right: 60px;
+
+      &::selection {
+        background: #a70d12;
       }
+    }
 
-      input {
-        border: none;
-        align-self: stretch;
-        box-shadow: 0 0 5px 5px #ffffff80;
-        padding: 4px 15px;
-        font-family: serif;
-        width: 250px;
-        font-weight: bold;
-        letter-spacing: 2px;
-        font-size: 30px;
-        background-color: #ffffff80;
-        text-shadow: 1px 1px 0px #fff;
-        align-self: center;
-        margin-right: 60px;
+    .play-button {
+      width: 70px;
+      transition: all 0.2s linear;
+      position: relative;
+      filter: sepia(1);
+      pointer-events: none;
 
-        &::selection {
-          background: #a70d12;
+      &.allow {
+        filter: unset;
+        pointer-events: unset;
+
+        &:active {
+          top: 3px;
         }
-      }
 
-      .play-button {
-        width: 70px;
-        transition: all 0.2s linear;
-        position: relative;
-        filter: sepia(1);
-        pointer-events: none;
-
-        &.allow {
-          filter: unset;
-          pointer-events: unset;
-
-          &:active {
-            top: 3px;
-          }
+        &:hover {
+          transform: scale(1.5);
         }
       }
     }
