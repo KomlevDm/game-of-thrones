@@ -2,7 +2,7 @@
 @import 'mixins';
 
 :host {
-  @include rest-host($bgImgUrl: '/assets/img/bg/night-king.jpg');
+  @include rest-host($bgImgUrl: '/assets/img/bg/night-king.webp');
 
   .main-title {
     @include main-title();
@@ -20,7 +20,7 @@
     border: 1px ridge #fff;
     box-shadow: 0 0 5px 2px #ffffff80;
     max-height: 500px;
-    background-image: url(/assets/img/bg/rock.jpg);
+    background-image: url(/assets/img/bg/rock.webp);
     background-size: cover;
 
     tr {
@@ -41,7 +41,7 @@
         background-color: #250c0c;
         background-image: -webkit-linear-gradient(90deg, transparent, #000000b3 50%, transparent, transparent);
         width: 1%;
-        background-image: url(/assets/img/bg/gold.jpg);
+        background-image: url(/assets/img/bg/gold.webp);
         background-size: cover;
         letter-spacing: 5px;
 

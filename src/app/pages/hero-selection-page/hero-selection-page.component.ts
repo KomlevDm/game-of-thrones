@@ -1,8 +1,9 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, HostListener } from '@angular/core';
 import { SoundsService } from 'src/app/services/sounds.service';
 import { EHouse } from 'src/app/enums/EHouse';
 import { GameService } from 'src/app/services/game.service';
 import { Player } from 'src/app/classes/player/Player';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'hero-selection-page',
@@ -15,33 +16,38 @@ export class HeroSelectionPageComponent {
 
   public EHouse = EHouse;
   public selectedHouse: EHouse = null;
-  public playerName = Player.defaultName;
+  public playerNameControl = new FormControl(Player.defaultName, Validators.required);
+  public houseRange = {
+    [EHouse.Stark]: this.soundsService.wolfRipsApartEnemy,
+    [EHouse.Targaryen]: this.soundsService.dragonRoar,
+    [EHouse.Lannister]: this.soundsService.lionRoar,
+  };
+
+  @HostListener('document:keydown.enter')
+  public onKeydownEnterHandler() {
+    this.startGame();
+  }
 
   public selectHouse(house: EHouse): void {
     this.selectedHouse = house;
 
-    switch (house) {
-      case EHouse.Stark:
-        this.soundsService.dragonRoar.stop();
-        this.soundsService.lionRoar.stop();
-        this.soundsService.wolfRipsApartEnemy.restart();
-        break;
+    Object.entries(this.houseRange).forEach(([key, value]) => {
+      if (key !== house) {
+        value.stop();
+        return;
+      }
 
-      case EHouse.Targaryen:
-        this.soundsService.wolfRipsApartEnemy.stop();
-        this.soundsService.lionRoar.stop();
-        this.soundsService.dragonRoar.restart();
-        break;
-
-      case EHouse.Lannister:
-        this.soundsService.wolfRipsApartEnemy.stop();
-        this.soundsService.dragonRoar.stop();
-        this.soundsService.lionRoar.restart();
-        break;
-    }
+      value.restart();
+    });
   }
 
   public isAllowPlayGame(): boolean {
-    return this.selectedHouse !== null && Boolean(this.playerName);
+    return this.selectedHouse !== null && Boolean(this.playerNameControl.valid);
+  }
+
+  public startGame(): void {
+    if (this.isAllowPlayGame()) {
+      this.gameService.startGame(this.playerNameControl.value, this.selectedHouse);
+    }
   }
 }

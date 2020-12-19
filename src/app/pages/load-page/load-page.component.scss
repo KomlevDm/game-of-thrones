@@ -2,7 +2,7 @@
 @import 'mixins';
 
 :host {
-  @include rest-host($bgImgUrl: '/assets/img/bg/jon-snow.jpg');
+  @include rest-host($bgImgUrl: '/assets/img/bg/jon-snow.webp');
 
   .main-title {
     @include main-title();
