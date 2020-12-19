@@ -4,9 +4,9 @@
 :host {
   @include rest-host($bgImgUrl: '/../../../assets/img/bg/night-king.jpg');
 
-  // .main-title {
-  //   @include main-title($bgImgUrl: '/../../../assets/img/game/attacks/fire-sphere.gif');
-  // }
+  .main-title {
+    @include main-title();
+  }
 
   table.top-table {
     position: relative;

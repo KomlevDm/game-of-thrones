@@ -10,5 +10,6 @@ import { SoundsService } from 'src/app/services/sounds.service';
 export class BackArrowComponent {
   constructor(public soundsService: SoundsService) {}
 
-  @Input() navigationUrl = '/';
+  @Input()
+  public navigationUrl = '/menu';
 }

@@ -1,8 +1,8 @@
-<!-- <back-arrow></back-arrow>
+<back-arrow></back-arrow>
 
-<div class="main-title">{{ 'TopTable.Title' | translate }}</div>
+<div class="main-title">{{ 'TopTablePage.Title' | translate }}</div>
 
-<table class="top-table" *ngIf="tableData.length !== 0; else note">
+<!-- <table class="top-table" *ngIf="tableData.length !== 0; else note">
   <tr>
     <th>
       <div class="title">№</div>
@@ -10,21 +10,21 @@
 
     <th>
       <div class="title">
-        {{ 'TopTable.ColumnTitles.Name' | translate }}
+        {{ 'TopTablePage.ColumnTitles.Name' | translate }}
         <img class="sort {{ sortByNameState }}" src="../../../assets/img/sort.png" (click)="sortByName()" />
       </div>
     </th>
 
     <th>
       <div class="title">
-        {{ 'TopTable.ColumnTitles.Score' | translate }}
+        {{ 'TopTablePage.ColumnTitles.Score' | translate }}
         <img class="sort {{ sortByScoreState }}" src="../../../assets/img/sort.png" (click)="sortByScore()" />
       </div>
     </th>
 
     <th>
       <div class="title">
-        {{ 'TopTable.ColumnTitles.Date' | translate }}
+        {{ 'TopTablePage.ColumnTitles.Date' | translate }}
         <img class="sort {{ sortByDateState }}" src="../../../assets/img/sort.png" (click)="sortByDate()" />
       </div>
     </th>
@@ -39,10 +39,12 @@
 
     <td>{{ row.date | date: 'HH:mm:ss \u2012 dd.MM.yyyy' }}</td>
   </tr>
-</table>
+</table> -->
 
+<!--#region Templates-->
 <ng-template #note>
   <div class="note">
-    {{ 'TopTable.NoteEmptyTable' | translate }}
+    {{ 'TopTablePage.NoteEmptyTable' | translate }}
   </div>
-</ng-template> -->
+</ng-template>
+<!--#endregion Templates-->
