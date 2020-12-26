@@ -31,18 +31,14 @@
       }
 
       .title {
+        @include ice-and-fire-font(
+          28px,
+          1px,
+          (-2px -2px 0px #000, -2px -2px 3px #fff, -2px -2px 3px #fff, -2px -2px 3px #fff)
+        );
         padding-left: 10px;
-        font-size: 28px;
-        text-shadow: -2px -2px 0px #000, -2px -2px 3px #fff, -2px -2px 3px #fff, -2px -2px 3px #fff;
-        background-image: url(/assets/img/bg/ice-and-fire.webp);
-        background-size: cover;
-        color: transparent;
-        background-clip: text;
-        letter-spacing: 1px;
-        background-position: 0;
         text-align: center;
         margin-bottom: 8px;
-        font-weight: bold;
         white-space: nowrap;
         text-overflow: ellipsis;
         font-family: serif;

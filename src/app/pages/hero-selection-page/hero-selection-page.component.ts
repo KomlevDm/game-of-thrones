@@ -12,7 +12,7 @@ import { FormControl, Validators } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeroSelectionPageComponent {
-  constructor(public gameService: GameService, public soundsService: SoundsService) {}
+  constructor(private gameService: GameService, public soundsService: SoundsService) {}
 
   public EHouse = EHouse;
   public selectedHouse: EHouse = null;

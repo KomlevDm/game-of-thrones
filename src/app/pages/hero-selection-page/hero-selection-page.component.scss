@@ -38,15 +38,7 @@
       }
 
       .house-title {
-        font-size: 21px;
-        text-shadow: -2px -3px 0px #000, -2px -3px 3px #fff, -2px -3px 3px #fff, -2px -3px 3px #fff;
-        background-image: url(/assets/img/bg/ice-and-fire.webp);
-        background-size: cover;
-        color: transparent;
-        background-clip: text;
-        letter-spacing: 5px;
-        background-position: 0;
-        font-weight: bold;
+        @include ice-and-fire-font();
         margin-bottom: 20px;
       }
 
@@ -76,16 +68,8 @@
     padding: 20px 50px;
 
     span {
+      @include ice-and-fire-font();
       margin-top: 8px;
-      font-size: 21px;
-      text-shadow: -2px -3px 0px #000, -2px -3px 3px #fff, -2px -3px 3px #fff, -2px -3px 3px #fff;
-      background-image: url(/assets/img/bg/ice-and-fire.webp);
-      background-size: cover;
-      color: transparent;
-      background-clip: text;
-      letter-spacing: 5px;
-      background-position: 0;
-      font-weight: bold;
       margin-right: 10px;
     }
 
@@ -102,7 +86,7 @@
       background-color: #ffffff80;
       text-shadow: 1px 1px 0px #fff;
       align-self: center;
-      margin-right: 60px;
+      margin-right: 35px;
 
       &::selection {
         background: #a70d12;

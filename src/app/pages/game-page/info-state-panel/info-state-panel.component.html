@@ -1,0 +1,47 @@
+<div class="state">
+  <div class="lives">
+    <span>{{ lives }}</span>
+    <img src="/assets/pages/game-page/info-state-panel/img/life.png" />
+  </div>
+
+  <div class="shield hero-power" [class.active]="isShieldActive">
+    <img src="/assets/pages/game-page/info-state-panel/img/shield.png" />
+  </div>
+
+  <div class="attack hero-power" [class.active]="isAttackActive">
+    <img src="/assets/pages/game-page/info-state-panel/img/attack.png" />
+  </div>
+
+  <div class="superpower hero-power" [class.active]="isSuperpowerActive">
+    <img src="/assets/pages/game-page/info-state-panel/img/superpower.png" />
+  </div>
+
+  <div class="teleport hero-power" [class.active]="isTeleportActive">
+    <img src="/assets/pages/game-page/info-state-panel/img/teleport.png" />
+  </div>
+</div>
+
+<div class="info">
+  {{ heroName }}
+</div>
+
+<div class="state">
+  <div class="magic">
+    <div class="hero-power" [class.active]="isRedPotionActive">
+      <img src="/assets/pages/game-page/info-state-panel/img/red-potion.png" />
+    </div>
+
+    <div class="hero-power" [class.active]="isGreenPotionActive">
+      <img src="/assets/pages/game-page/info-state-panel/img/green-potion.png" />
+    </div>
+
+    <div class="hero-power" [class.active]="isBluePotionActive">
+      <img src="/assets/pages/game-page/info-state-panel/img/blue-potion.png" />
+    </div>
+  </div>
+
+  <div class="score">
+    <span>{{ score }}</span>
+    <img src="/assets/pages/game-page/info-state-panel/img/coins.png" />
+  </div>
+</div>

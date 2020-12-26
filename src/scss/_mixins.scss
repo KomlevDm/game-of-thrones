@@ -27,17 +27,9 @@
 }
 
 @mixin main-title() {
-  font-size: 30px;
-  text-shadow: -2px -3px 0px #000, -2px -3px 3px #fff, -2px -3px 3px #fff, -2px -3px 3px #fff;
-  background-image: url(/assets/img/bg/ice-and-fire.webp);
-  background-size: cover;
-  color: transparent;
-  background-clip: text;
-  letter-spacing: 12px;
-  background-position: 0;
+  @include ice-and-fire-font(30px, 12px);
   text-align: center;
   margin-bottom: 25px;
-  font-weight: bold;
 }
 
 @mixin glass-button-background {
@@ -50,4 +42,25 @@
   background-repeat: no-repeat;
   background-size: 200% 100%, auto, 100% 2px, 100% 2px, 100% 1px, 100% 1px;
   background-position: 200% 0, 0 0, 0 0, 0 100%, 0 4px, 0 calc(100% - 4px);
+}
+
+@mixin ice-and-fire-font(
+  $fontSize: 21px,
+  $letterSpacing: 5px,
+  $textShadow: (
+    -2px -3px 0px #000,
+    -2px -3px 3px #fff,
+    -2px -3px 3px #fff,
+    -2px -3px 3px #fff,
+  )
+) {
+  background-image: url(/assets/img/bg/ice-and-fire.webp);
+  background-size: cover;
+  color: transparent;
+  background-clip: text;
+  background-position: 0;
+  font-weight: bold;
+  font-size: $fontSize;
+  letter-spacing: $letterSpacing;
+  text-shadow: $textShadow;
 }

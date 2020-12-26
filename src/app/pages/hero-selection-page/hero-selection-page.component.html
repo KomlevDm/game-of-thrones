@@ -31,7 +31,12 @@
 <div class="player-info">
   <span>{{ 'HeroSelectionPage.PlayerInfo' | translate }}:</span>
 
-  <input type="text" [formControl]="playerNameControl" maxlength="20" />
+  <input type="text" [formControl]="playerNameControl" maxlength="15" />
 
-  <img class="play-button" src="/assets/img/play.png" [class.allow]="isAllowPlayGame()" (click)="startGame()" />
+  <img
+    class="play-button"
+    src="/assets/pages/hero-selection-page/img/play.webp"
+    [class.allow]="isAllowPlayGame()"
+    (click)="startGame()"
+  />
 </div>

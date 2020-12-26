@@ -7,17 +7,10 @@
   background-size: cover;
 
   .title {
+    @include ice-and-fire-font(58px, 10px);
     position: absolute;
     top: 35px;
     right: 50px;
-    font-size: 58px;
-    text-shadow: -2px -3px 0px #000, -2px -3px 3px #fff, -2px -3px 3px #fff, -2px -3px 3px #fff;
-    background-image: url(/assets/img/bg/ice-and-fire.webp);
-    background-size: cover;
-    color: transparent;
-    background-clip: text;
-    letter-spacing: 10px;
-    background-position: 0;
   }
 
   .menu-wrap {
