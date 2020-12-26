@@ -11,7 +11,7 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { GameService } from 'src/app/services/game.service';
-import { SoundsService } from 'src/app/services/sounds.service';
+import { AudioService } from 'src/app/services/audio.service';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -26,6 +26,8 @@ import { EDirection } from '../../enums/EDirection';
 import { IWorkerResponse } from '../../interfaces/IWorkerResponse';
 import { IWorkerData } from '../../interfaces/IWorkerData';
 import { ITableItem } from '../top-table-page/interfaces/ITableItem';
+import { UserService } from '../../services/user.service';
+import { EHouse } from '../../enums/EHouse';
 // import { EGameDialogMode } from '../../components/game-dialog/game-dialog.component';
 
 @Component({
@@ -37,12 +39,16 @@ import { ITableItem } from '../top-table-page/interfaces/ITableItem';
 export class GamePageComponent implements OnInit, OnDestroy {
   constructor(
     private _router: Router,
-    private _soundsService: SoundsService,
+    private audioService: AudioService,
     private _monsterService: MonsterService,
     private _cdr: ChangeDetectorRef,
     private _domSanitizer: DomSanitizer,
-    public gameService: GameService
-  ) {}
+    public gameService: GameService,
+     userService: UserService
+  ) {
+    userService.activateGame()
+     gameService.startGame('test', EHouse.Lannister);
+  }
 
   private _isKeydownArrowUp = false;
   private _isKeydownArrowDown = false;
@@ -63,64 +69,64 @@ export class GamePageComponent implements OnInit, OnDestroy {
   @ViewChild('monsterTemplate') monsterNodeElementTemplate: TemplateRef<Monster>;
 
   ngOnInit() {
-    if (!this.gameService.player) return;
+    // if (!this.gameService.player) return;
 
-    this.stateGameDialog$.pipe(takeUntil(this._destroyedComponent$)).subscribe((dialogState) => {
-      if (dialogState) this._pauseGame();
-      else this._continueGame();
-    });
+    // this.stateGameDialog$.pipe(takeUntil(this._destroyedComponent$)).subscribe((dialogState) => {
+    //   if (dialogState) this._pauseGame();
+    //   else this._continueGame();
+    // });
 
-    this.gameService.player.initFabricAttack(this._fabricAttackNodeElement.bind(this));
+    // this.gameService.player.initFabricAttack(this._fabricAttackNodeElement.bind(this));
 
-    this._monsterService.initFabricsMonster(
-      this._fabricMonsterNodeElement.bind(this),
-      this._fabricAttackNodeElement.bind(this)
-    );
-    this._monsterService.startGenerateMonsters();
+    // this._monsterService.initFabricsMonster(
+    //   this._fabricMonsterNodeElement.bind(this),
+    //   this._fabricAttackNodeElement.bind(this)
+    // );
+    // this._monsterService.startGenerateMonsters();
 
-    this._worker.onmessage = ({ data }: { data: IWorkerResponse }) => {
-      const player = this.gameService.player;
-      const monsterObjects = this._monsterService.monsterObjects;
-      const { playerLostLives, playerAttacksIndexes, monstersIndexes, monstersAttacksIndexes } = data;
+    // this._worker.onmessage = ({ data }: { data: IWorkerResponse }) => {
+    //   const player = this.gameService.player;
+    //   const monsterObjects = this._monsterService.monsterObjects;
+    //   const { playerLostLives, playerAttacksIndexes, monstersIndexes, monstersAttacksIndexes } = data;
 
-      for (let i = 0; i < playerLostLives; i++) {
-        if (!player.isActivatedShield) player.deleteLife();
-        if (player.isDead) this._gameOver();
-      }
-      for (let i = 0; i < playerAttacksIndexes.length; i++) {
-        player.attackObjects[playerAttacksIndexes[i] - i].attackNodeElement.destroy();
-        player.attackObjects.splice(playerAttacksIndexes[i] - i, 1);
-      }
+    //   for (let i = 0; i < playerLostLives; i++) {
+    //     if (!player.isActivatedShield) player.deleteLife();
+    //     if (player.isDead) this._gameOver();
+    //   }
+    //   for (let i = 0; i < playerAttacksIndexes.length; i++) {
+    //     player.attackObjects[playerAttacksIndexes[i] - i].attackNodeElement.destroy();
+    //     player.attackObjects.splice(playerAttacksIndexes[i] - i, 1);
+    //   }
 
-      monstersIndexes.forEach((mi) => monsterObjects[mi].monster.deleteLife());
-      monstersAttacksIndexes.forEach((mai) => {
-        if (!monsterObjects[mai.monsterIndex].monster.isDead) {
-          monsterObjects[mai.monsterIndex].monster.attackNodeElements[mai.attackIndex].destroy();
-        }
-      });
-      monstersAttacksIndexes.forEach((mai) => {
-        if (!monsterObjects[mai.monsterIndex].monster.isDead) {
-          monsterObjects[mai.monsterIndex].monster.attackNodeElements = monsterObjects[
-            mai.monsterIndex
-          ].monster.attackNodeElements.filter((ane) => !ane.destroyed);
-        }
-      });
-      for (let i = 0; i < monsterObjects.length; i++) {
-        const monsterObject = monsterObjects[i];
+    //   monstersIndexes.forEach((mi) => monsterObjects[mi].monster.deleteLife());
+    //   monstersAttacksIndexes.forEach((mai) => {
+    //     if (!monsterObjects[mai.monsterIndex].monster.isDead) {
+    //       monsterObjects[mai.monsterIndex].monster.attackNodeElements[mai.attackIndex].destroy();
+    //     }
+    //   });
+    //   monstersAttacksIndexes.forEach((mai) => {
+    //     if (!monsterObjects[mai.monsterIndex].monster.isDead) {
+    //       monsterObjects[mai.monsterIndex].monster.attackNodeElements = monsterObjects[
+    //         mai.monsterIndex
+    //       ].monster.attackNodeElements.filter((ane) => !ane.destroyed);
+    //     }
+    //   });
+    //   for (let i = 0; i < monsterObjects.length; i++) {
+    //     const monsterObject = monsterObjects[i];
 
-        if (monsterObject.monster.isDead) {
-          player.increaseScore(monsterObject.monster.cost);
-          this._soundsService.coinsRinging.restart();
+    //     if (monsterObject.monster.isDead) {
+    //       player.increaseScore(monsterObject.monster.cost);
+    //       this.audioService.coinsRinging.restart();
 
-          monsterObject.subAttack.unsubscribe();
-          monsterObject.monster.attackNodeElements.forEach((ane) => ane.destroy());
-          monsterObject.monsterNodeElement.destroy();
-          monsterObjects.splice(i, 1);
-        }
-      }
-    };
+    //       monsterObject.subAttack.unsubscribe();
+    //       monsterObject.monster.attackNodeElements.forEach((ane) => ane.destroy());
+    //       monsterObject.monsterNodeElement.destroy();
+    //       monsterObjects.splice(i, 1);
+    //     }
+    //   }
+    // };
 
-    this._gameLoop();
+    // this._gameLoop();
   }
 
   ngOnDestroy() {
@@ -166,7 +172,7 @@ export class GamePageComponent implements OnInit, OnDestroy {
 
           this._toggleGameDialog();
         } else {
-          this._soundsService.dragonStompy.restart();
+          this.audioService.dragonStompy.restart();
           this._router.navigateByUrl('/hero-selection');
         }
 
@@ -254,7 +260,7 @@ export class GamePageComponent implements OnInit, OnDestroy {
   }
 
   private _gameOver(): void {
-    this._soundsService.gameOver.restart();
+    this.audioService.gameOver.restart();
     this._toggleGameDialog();
     // this.gameDialogMode$.next(EGameDialogMode.GameOver);
     this._saveResultGameInTopTable();
@@ -280,11 +286,11 @@ export class GamePageComponent implements OnInit, OnDestroy {
 
   private _toggleGameDialog(): void {
     if (this.stateGameDialog$.value) {
-      this._soundsService.past.restart();
+      this.audioService.past.restart();
       this.stateGameDialog$.next(false);
     } else {
       // this.gameDialogMode$.next(EGameDialogMode.Game);
-      this._soundsService.shortTomahawk.restart();
+      this.audioService.shortTomahawk.restart();
       this.stateGameDialog$.next(true);
     }
   }

@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ELocalStorageKey } from 'src/app/enums/ELocalStorageKey';
 import { GameService } from '../../services/game.service';
-import { SoundsService } from '../../services/sounds.service';
+import { AudioService } from '../../services/audio.service';
 import { ISaveGameData } from './interfaces/ISaveGameData';
 
 @Component({
@@ -11,7 +11,7 @@ import { ISaveGameData } from './interfaces/ISaveGameData';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoadPageComponent implements OnInit {
-  constructor(public soundsService: SoundsService, public gameService: GameService) {}
+  constructor(public audioService: AudioService, public gameService: GameService) {}
 
   public saveGameData: ISaveGameData[] = [];
 

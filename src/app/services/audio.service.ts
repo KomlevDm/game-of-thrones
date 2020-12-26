@@ -3,11 +3,11 @@ import { AUDIO_LIST } from 'src/assets/audio/audio-list';
 import { BgSound } from '../classes/sound/BgSound';
 
 @Injectable({ providedIn: 'root' })
-export class SoundsService {
-  public static instance: SoundsService;
+export class AudioService {
+  public static instance: AudioService;
 
   constructor() {
-    SoundsService.instance = this;
+    AudioService.instance = this;
 
     Audio.prototype.stop = function () {
       this.pause();

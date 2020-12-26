@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
-import { SoundsService } from 'src/app/services/sounds.service';
+import { AudioService } from 'src/app/services/audio.service';
 
 @Component({
   selector: 'back-arrow',
@@ -9,14 +9,14 @@ import { SoundsService } from 'src/app/services/sounds.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BackArrowComponent {
-  constructor(private router: Router, public soundsService: SoundsService) {}
+  constructor(private router: Router, public audioService: AudioService) {}
 
   @Input()
   public navigationUrl = '/menu';
 
   @HostListener('document:keydown.escape')
   public onKeydownEscapeHandler() {
-    this.soundsService.dragonStompy.restart();
+    this.audioService.dragonStompy.restart();
     this.router.navigateByUrl(this.navigationUrl);
   }
 }

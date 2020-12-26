@@ -26,8 +26,25 @@
 
         &.shield {
           img.shield {
-            opacity: 1;
-            animation: rotate-pulsar-to-right 0.5s linear infinite;
+            z-index: 1;
+            animation: pulsar 2s linear infinite;
+
+            @keyframes pulsar {
+              0% {
+                transform: scale(1.4);
+                opacity: 0.4;
+              }
+
+              50% {
+                transform: scale(1.5);
+                opacity: 0.6;
+              }
+
+              100% {
+                transform: scale(1.4);
+                opacity: 0.4;
+              }
+            }
           }
 
           img.hero {

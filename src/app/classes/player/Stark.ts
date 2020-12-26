@@ -1,7 +1,7 @@
 import { EHouse } from '../../enums/EHouse';
 import { GoingPlayer } from './GoingPlayer';
 import { IPlayerSettings } from './Player';
-import { SoundsService } from 'src/app/services/sounds.service';
+import { AudioService } from 'src/app/services/audio.service';
 
 export class Stark extends GoingPlayer {
   constructor(settings: IPlayerSettings) {
@@ -17,7 +17,7 @@ export class Stark extends GoingPlayer {
       attack: {
         name: 'attack-3.png',
         deltaPositionInPx: { left: 20, top: 42 },
-        sound: SoundsService.instance.starkAttack.restart.bind(SoundsService.instance.starkAttack)
+        sound: AudioService.instance.starkAttack.restart.bind(AudioService.instance.starkAttack)
       }
     });
   }

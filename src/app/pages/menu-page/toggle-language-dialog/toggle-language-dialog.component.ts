@@ -13,7 +13,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ELanguage } from 'src/app/enums/ELanguage';
 import { ELocalStorageKey } from 'src/app/enums/ELocalStorageKey';
-import { SoundsService } from 'src/app/services/sounds.service';
+import { AudioService } from 'src/app/services/audio.service';
 
 @Component({
   selector: 'toggle-language-dialog',
@@ -23,7 +23,7 @@ import { SoundsService } from 'src/app/services/sounds.service';
 })
 export class ToggleLanguageDialogComponent implements OnInit, OnDestroy {
   constructor(
-    private soundsService: SoundsService,
+    private audioService: AudioService,
     private cdr: ChangeDetectorRef,
     public translateService: TranslateService
   ) {}
@@ -51,14 +51,14 @@ export class ToggleLanguageDialogComponent implements OnInit, OnDestroy {
   }
 
   public toggleLanguage(language: ELanguage): void {
-    this.soundsService.blade.restart();
+    this.audioService.blade.restart();
 
     this.translateService.use(language);
     localStorage.setItem(ELocalStorageKey.CurrentLanguage, language);
   }
 
   public close(): void {
-    this.soundsService.past.restart();
+    this.audioService.past.restart();
     this.state$.next(false);
   }
 

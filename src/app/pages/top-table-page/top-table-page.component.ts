@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, TrackByFunction } from '@angular/core';
 import { ELocalStorageKey } from 'src/app/enums/ELocalStorageKey';
-import { SoundsService } from 'src/app/services/sounds.service';
+import { AudioService } from 'src/app/services/audio.service';
 import { ESort } from '../../enums/ESort';
 import { SortFunctionType } from '../../types/SortFunctionType';
 import { ESortName } from './enums/ESortName';
@@ -13,7 +13,7 @@ import { ITableItem } from './interfaces/ITableItem';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TopTablePageComponent implements OnInit {
-  constructor(private soundsService: SoundsService) {}
+  constructor(private audioService: AudioService) {}
 
   public tableData: ITableItem[] = [];
   public sortRange = {
@@ -56,7 +56,7 @@ export class TopTablePageComponent implements OnInit {
   public trackByRowIndex: TrackByFunction<ITableItem> = (index) => index;
 
   private sortBy(sortName: ESortName, sortDescFn: SortFunctionType, sortAscFn: SortFunctionType): void {
-    this.soundsService.past.restart();
+    this.audioService.past.restart();
 
     Object.keys(this.sortRange).forEach((key) => {
       if (key !== sortName) {

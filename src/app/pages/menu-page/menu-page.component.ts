@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { SoundsService } from 'src/app/services/sounds.service';
+import { AudioService } from 'src/app/services/audio.service';
 
 @Component({
   selector: 'menu-page',
@@ -9,12 +9,12 @@ import { SoundsService } from 'src/app/services/sounds.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuPageComponent {
-  constructor(public soundsService: SoundsService) {}
+  constructor(public audioService: AudioService) {}
 
   public stateToggleLanguageDialog$ = new BehaviorSubject(false);
 
   public openToggleLanguageDialog(): void {
-    this.soundsService.shortTomahawk.restart();
+    this.audioService.shortTomahawk.restart();
     this.stateToggleLanguageDialog$.next(true);
   }
 }

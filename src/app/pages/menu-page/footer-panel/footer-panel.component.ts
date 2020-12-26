@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SoundsService } from 'src/app/services/sounds.service';
+import { AudioService } from 'src/app/services/audio.service';
 
 @Component({
   selector: 'footer-panel',
@@ -8,5 +8,5 @@ import { SoundsService } from 'src/app/services/sounds.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FooterPanelComponent {
-  constructor(public soundsService: SoundsService) {}
+  constructor(public audioService: AudioService) {}
 }

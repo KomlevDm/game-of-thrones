@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { SoundsService } from './sounds.service';
+import { AudioService } from './audio.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  constructor(private soundsService: SoundsService) {}
+  constructor(private audioService: AudioService) {}
 
   private _isGameActivated = false;
 
@@ -12,7 +12,7 @@ export class UserService {
   }
 
   public activateGame(): void {
-    this.soundsService.init();
+    this.audioService.init();
     this._isGameActivated = true;
   }
 }

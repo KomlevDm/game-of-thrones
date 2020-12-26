@@ -1,7 +1,7 @@
 import { EHouse } from '../../enums/EHouse';
 import { GoingPlayer } from './GoingPlayer';
 import { IPlayerSettings } from './Player';
-import { SoundsService } from 'src/app/services/sounds.service';
+import { AudioService } from 'src/app/services/audio.service';
 
 export class Lannister extends GoingPlayer {
   constructor(settings: IPlayerSettings) {
@@ -17,7 +17,7 @@ export class Lannister extends GoingPlayer {
       attack: {
         name: 'attack-2.png',
         deltaPositionInPx: { left: 20, top: 40 },
-        sound: SoundsService.instance.lannisterAttack.restart.bind(SoundsService.instance.lannisterAttack)
+        sound: AudioService.instance.lannisterAttack.restart.bind(AudioService.instance.lannisterAttack)
       }
     });
   }

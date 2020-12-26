@@ -3,7 +3,7 @@ import { debounceTime, filter, tap, switchMap, takeWhile } from 'rxjs/operators'
 import { DEBOUNCE_TIME_JUMP_IN_MS, SIZE_FIELD_GAME_IN_PX } from '../../constants/gameSettings';
 import { timer, Subject } from 'rxjs';
 import { EDirection } from 'src/app/enums/EDirection';
-import { SoundsService } from 'src/app/services/sounds.service';
+import { AudioService } from 'src/app/services/audio.service';
 
 export abstract class GoingPlayer extends Player {
   constructor(settings: IPlayerSettings) {
@@ -15,7 +15,7 @@ export abstract class GoingPlayer extends Player {
         filter(() => !this._isJumpingNow),
         tap(() => (this._isJumpingNow = true)),
         switchMap(() => {
-          SoundsService.instance.past.restart();
+          AudioService.instance.past.restart();
           return timer(0, 10).pipe(takeWhile(() => this._isJumpingNow));
         })
       )

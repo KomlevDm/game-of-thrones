@@ -9,7 +9,7 @@ import { FabricAttackNodeElementType } from '../../types/FabricAttackNodeElement
 import { IAttackNodeElementSettings } from '../../interfaces/IAttackNodeElementSettings';
 import { IAttack } from '../../interfaces/IAttack';
 import { ISize } from 'src/app/interfaces/ISize';
-import { SoundsService } from 'src/app/services/sounds.service';
+import { AudioService } from 'src/app/services/audio.service';
 
 interface IShield {
   isActivatedShield: boolean;
@@ -51,7 +51,7 @@ export abstract class Player {
 
     this._shield = {
       isActivatedShield: shield && shield.isActivatedShield,
-      isBlockedShield: shield && shield.isBlockedShield
+      isBlockedShield: shield && shield.isBlockedShield,
     };
 
     this._attack = {
@@ -61,9 +61,9 @@ export abstract class Player {
       stepSizeInPx: 10,
       fabricAttackNodeElement: null,
       sound: attack.sound,
-      attack$: new Subject<EDirection>()
+      attack$: new Subject<EDirection>(),
     };
-    this._attack.attack$.pipe(debounceTime(DEBOUNCE_TIME_ATTACK_IN_MS)).subscribe(attackDirection => {
+    this._attack.attack$.pipe(debounceTime(DEBOUNCE_TIME_ATTACK_IN_MS)).subscribe((attackDirection) => {
       const attackNodeElementSettings: IAttackNodeElementSettings = {
         name: this._attack.name,
         leftInPx:
@@ -72,12 +72,12 @@ export abstract class Player {
             : this._positionInPx.left - this._attack.deltaPositionInPx.left,
         topInPx: this._positionInPx.top + this._attack.deltaPositionInPx.top,
         sizeInPx: this._attack.sizeInPx,
-        animationDirection: attackDirection
+        animationDirection: attackDirection,
       };
 
       const attackObject: IAttackObject = {
         attackNodeElement: this._attack.fabricAttackNodeElement(attackNodeElementSettings),
-        direction: attackDirection
+        direction: attackDirection,
       };
 
       this._attack.sound();
@@ -95,7 +95,7 @@ export abstract class Player {
   private readonly _attackObjects: IAttackObject[] = [];
   private readonly _timeoutsShieldInMs = {
     action: 5000,
-    block: 10000
+    block: 10000,
   };
 
   protected readonly _stepSizeInPx = 5;
@@ -206,7 +206,7 @@ export abstract class Player {
   public activateShield(): void {
     if (this._shield.isActivatedShield || this._shield.isBlockedShield) return;
 
-    SoundsService.instance.shield.restart();
+    AudioService.instance.shield.restart();
 
     this._shield.isActivatedShield = true;
 
@@ -225,7 +225,7 @@ export abstract class Player {
     if (this._isDead) return;
 
     this._lives -= 1;
-    SoundsService.instance.death.play();
+    AudioService.instance.death.play();
 
     if (this._lives === 0) this._isDead = true;
   }

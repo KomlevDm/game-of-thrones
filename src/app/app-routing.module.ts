@@ -6,13 +6,13 @@ import { StartPageComponent } from './pages/start-page/start-page.component';
 const routes: Routes = [
   {
     path: '',
-    canActivate: [ActivateGuard],
+    // canActivate: [ActivateGuard],
     component: StartPageComponent,
   },
   {
     path: '',
-    canLoad: [ActivateGuard],
-    canActivate: [ActivateGuard],
+    // canLoad: [ActivateGuard],
+    // canActivate: [ActivateGuard],
     loadChildren: () => import('./modules/game/game.module').then((m) => m.GameModule),
   },
 ];

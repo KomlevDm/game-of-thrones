@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { SoundsService } from 'src/app/services/sounds.service';
+import { AudioService } from 'src/app/services/audio.service';
 import { GameService } from 'src/app/services/game.service';
 
 export enum EGameDialogMode {
@@ -16,7 +16,7 @@ export enum EGameDialogMode {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameDialogComponent {
-  constructor(public gameService: GameService, public soundsService: SoundsService) {}
+  constructor(public gameService: GameService, public audioService: AudioService) {}
 
   @Input() state$: BehaviorSubject<boolean>;
   @Input() mode$: BehaviorSubject<EGameDialogMode>;
@@ -33,7 +33,7 @@ export class GameDialogComponent {
   public close(): void {
     if (this.mode$.value === EGameDialogMode.GameOver) return;
 
-    this.soundsService.past.restart();
+    this.audioService.past.restart();
     this.state$.next(false);
   }
 

@@ -7,7 +7,7 @@ import { Lannister } from '../classes/player/Lannister';
 import { ELocalStorageKey } from '../enums/ELocalStorageKey';
 import { v1 as uuid } from 'uuid';
 import { Router } from '@angular/router';
-import { SoundsService } from './sounds.service';
+import { AudioService } from './audio.service';
 import { MonsterService } from './monster.service';
 import { ISaveGameData } from '../pages/load-page/interfaces/ISaveGameData';
 
@@ -15,7 +15,7 @@ import { ISaveGameData } from '../pages/load-page/interfaces/ISaveGameData';
 export class GameService {
   constructor(
     private _router: Router,
-    private _soundsService: SoundsService,
+    private audioService: AudioService,
     private _monsterService: MonsterService
   ) {}
 
@@ -38,7 +38,7 @@ export class GameService {
 
     this._router.navigateByUrl('/game');
 
-    this._soundsService.startGame.play();
+    this.audioService.startGame.play();
   }
 
   public restartGame(): void {
@@ -52,7 +52,7 @@ export class GameService {
 
     this._createGameSession();
 
-    this._soundsService.startGame.play();
+    this.audioService.startGame.play();
   }
 
   public loadGame(gameData: ISaveGameData): void {
@@ -64,7 +64,7 @@ export class GameService {
 
     this._router.navigateByUrl('/game');
 
-    this._soundsService.startGame.play();
+    this.audioService.startGame.play();
   }
 
   public saveGame(name: string): void {

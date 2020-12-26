@@ -6,32 +6,32 @@
   <nav class="menu">
     <div
       class="button"
-      (mouseenter)="soundsService.blade.restart()"
+      (mouseenter)="audioService.blade.restart()"
       routerLink="/hero-selection"
-      (click)="soundsService.dragonStompy.restart()"
+      (click)="audioService.dragonStompy.restart()"
     >
       {{ 'MenuPage.Menu.Button.Play' | translate }}
     </div>
 
     <div
       class="button"
-      (mouseenter)="soundsService.blade.restart()"
+      (mouseenter)="audioService.blade.restart()"
       routerLink="/load"
-      (click)="soundsService.dragonStompy.restart()"
+      (click)="audioService.dragonStompy.restart()"
     >
       {{ 'MenuPage.Menu.Button.Load' | translate }}
     </div>
 
     <div
       class="button"
-      (mouseenter)="soundsService.blade.restart()"
+      (mouseenter)="audioService.blade.restart()"
       routerLink="/top-table"
-      (click)="soundsService.dragonStompy.restart()"
+      (click)="audioService.dragonStompy.restart()"
     >
       {{ 'MenuPage.Menu.Button.Top' | translate }}
     </div>
 
-    <div class="button" (mouseenter)="soundsService.blade.restart()" (click)="openToggleLanguageDialog()">
+    <div class="button" (mouseenter)="audioService.blade.restart()" (click)="openToggleLanguageDialog()">
       {{ 'MenuPage.Menu.Button.Language' | translate }}
     </div>
   </nav>

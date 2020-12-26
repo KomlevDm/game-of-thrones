@@ -10,11 +10,11 @@
 
     <img src="/assets/img/bg/{{ sg.player.house }}-logo.jpg" />
 
-    <div class="button delete" (click)="deleteSaveGame(i)" (mouseenter)="soundsService.blade.restart()">
+    <div class="button delete" (click)="deleteSaveGame(i)" (mouseenter)="audioService.blade.restart()">
       {{ 'LoadPage.ButtonNames.Delete' | translate }}
     </div>
 
-    <div class="button" (click)="gameService.loadGame(sg)" (mouseenter)="soundsService.blade.restart()">
+    <div class="button" (click)="gameService.loadGame(sg)" (mouseenter)="audioService.blade.restart()">
       {{ 'LoadPage.ButtonNames.Load' | translate }}
     </div>
   </div>
