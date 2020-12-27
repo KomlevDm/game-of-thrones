@@ -27,7 +27,7 @@
               "src/favicon.ico",
               "src/assets",
               {
-                "glob": "**/*.{png,mp4,webp}",
+                "glob": "**/*.{png,mp4,webp,jpg}",
                 "input": "src/app",
                 "output": "assets"
               }
