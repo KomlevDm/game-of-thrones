@@ -36,7 +36,7 @@ import { EHouse } from '../../enums/EHouse';
   styleUrls: ['./game-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GamePageComponent implements OnInit, OnDestroy {
+export class GamePageComponent  {
   constructor(
     private _router: Router,
     private audioService: AudioService,
@@ -129,221 +129,221 @@ export class GamePageComponent implements OnInit, OnDestroy {
     // this._gameLoop();
   }
 
-  ngOnDestroy() {
-    this.gameService.cleanGameInfo();
-    this._monsterService.cleanMonsterInfo();
+  // ngOnDestroy() {
+  //   this.gameService.cleanGameInfo();
+  //   this._monsterService.cleanMonsterInfo();
 
-    this._destroyedComponent$.next();
-    this._destroyedComponent$.complete();
+  //   this._destroyedComponent$.next();
+  //   this._destroyedComponent$.complete();
 
-    cancelAnimationFrame(this._requestIdAnimationFrame);
-  }
+  //   cancelAnimationFrame(this._requestIdAnimationFrame);
+  // }
 
-  @HostListener('document:keydown', ['$event'])
-  onKeydownHandler(event: KeyboardEvent) {
-    switch (event.code) {
-      case 'ArrowUp':
-        this._isKeydownArrowUp = true;
-        break;
+  // @HostListener('document:keydown', ['$event'])
+  // onKeydownHandler(event: KeyboardEvent) {
+  //   switch (event.code) {
+  //     case 'ArrowUp':
+  //       this._isKeydownArrowUp = true;
+  //       break;
 
-      case 'ArrowDown':
-        this._isKeydownArrowDown = true;
-        break;
+  //     case 'ArrowDown':
+  //       this._isKeydownArrowDown = true;
+  //       break;
 
-      case 'ArrowLeft':
-        this._isKeydownArrowLeft = true;
-        break;
+  //     case 'ArrowLeft':
+  //       this._isKeydownArrowLeft = true;
+  //       break;
 
-      case 'ArrowRight':
-        this._isKeydownArrowRight = true;
-        break;
+  //     case 'ArrowRight':
+  //       this._isKeydownArrowRight = true;
+  //       break;
 
-      case 'Space':
-        this._isKeydownSpace = true;
-        break;
+  //     case 'Space':
+  //       this._isKeydownSpace = true;
+  //       break;
 
-      case 'ControlLeft':
-        this._isKeydownControlLeft = true;
-        break;
+  //     case 'ControlLeft':
+  //       this._isKeydownControlLeft = true;
+  //       break;
 
-      case 'Escape':
-        if (this.gameService.player) {
-          if (this.gameService.player.isDead) return;
+  //     case 'Escape':
+  //       if (this.gameService.player) {
+  //         if (this.gameService.player.isDead) return;
 
-          this._toggleGameDialog();
-        } else {
-          this.audioService.dragonStompy.restart();
-          this._router.navigateByUrl('/hero-selection');
-        }
+  //         this._toggleGameDialog();
+  //       } else {
+  //         this.audioService.dragonStompy.restart();
+  //         this._router.navigateByUrl('/hero-selection');
+  //       }
 
-        break;
-    }
-  }
+  //       break;
+  //   }
+  // }
 
-  @HostListener('document:keyup', ['$event'])
-  onKeyUpHandler(event: KeyboardEvent) {
-    switch (event.code) {
-      case 'ArrowUp':
-        this._isKeydownArrowUp = false;
-        break;
+  // @HostListener('document:keyup', ['$event'])
+  // onKeyUpHandler(event: KeyboardEvent) {
+  //   switch (event.code) {
+  //     case 'ArrowUp':
+  //       this._isKeydownArrowUp = false;
+  //       break;
 
-      case 'ArrowDown':
-        this._isKeydownArrowDown = false;
-        break;
+  //     case 'ArrowDown':
+  //       this._isKeydownArrowDown = false;
+  //       break;
 
-      case 'ArrowLeft':
-        this._isKeydownArrowLeft = false;
-        break;
+  //     case 'ArrowLeft':
+  //       this._isKeydownArrowLeft = false;
+  //       break;
 
-      case 'ArrowRight':
-        this._isKeydownArrowRight = false;
-        break;
+  //     case 'ArrowRight':
+  //       this._isKeydownArrowRight = false;
+  //       break;
 
-      case 'Space':
-        this._isKeydownSpace = false;
-        break;
+  //     case 'Space':
+  //       this._isKeydownSpace = false;
+  //       break;
 
-      case 'ControlLeft':
-        this._isKeydownControlLeft = false;
-        break;
-    }
-  }
+  //     case 'ControlLeft':
+  //       this._isKeydownControlLeft = false;
+  //       break;
+  //   }
+  // }
 
-  @HostListener('window:focus')
-  onWindowFocusHandler() {
-    if (this.gameService.player && !this.gameService.player.isDead && !this.stateGameDialog$.value) {
-      this._continueGame();
-    }
-  }
+  // @HostListener('window:focus')
+  // onWindowFocusHandler() {
+  //   if (this.gameService.player && !this.gameService.player.isDead && !this.stateGameDialog$.value) {
+  //     this._continueGame();
+  //   }
+  // }
 
-  @HostListener('window:blur')
-  onWindowBlurHandler() {
-    if (this.gameService.player) this._pauseGame();
-  }
+  // @HostListener('window:blur')
+  // onWindowBlurHandler() {
+  //   if (this.gameService.player) this._pauseGame();
+  // }
 
-  public getLivesAsArray(): void[] {
-    return new Array(this.gameService.player.lives);
-  }
+  // public getLivesAsArray(): void[] {
+  //   return new Array(this.gameService.player.lives);
+  // }
 
-  public getObjectPosition(x: number, y: number, direction?: EDirection): SafeStyle {
-    return this._domSanitizer.bypassSecurityTrustStyle(`translate(${x}px, ${y}px) ${direction || ''}`);
-  }
+  // public getObjectPosition(x: number, y: number, direction?: EDirection): SafeStyle {
+  //   return this._domSanitizer.bypassSecurityTrustStyle(`translate(${x}px, ${y}px) ${direction || ''}`);
+  // }
 
-  private _gameLoop(): void {
-    if (!this._pauseGameToggler) {
-      if (this._isKeydownArrowUp) {
-        if (this.gameService.player instanceof FlyingPlayer) this.gameService.player.stepToUp();
-        if (this.gameService.player instanceof GoingPlayer) this.gameService.player.jump();
-      }
+  // private _gameLoop(): void {
+  //   if (!this._pauseGameToggler) {
+  //     if (this._isKeydownArrowUp) {
+  //       if (this.gameService.player instanceof FlyingPlayer) this.gameService.player.stepToUp();
+  //       if (this.gameService.player instanceof GoingPlayer) this.gameService.player.jump();
+  //     }
 
-      if (this._isKeydownArrowDown && this.gameService.player instanceof FlyingPlayer) {
-        this.gameService.player.stepToDown();
-      }
+  //     if (this._isKeydownArrowDown && this.gameService.player instanceof FlyingPlayer) {
+  //       this.gameService.player.stepToDown();
+  //     }
 
-      if (this._isKeydownArrowLeft) this.gameService.player.stepToLeft();
+  //     if (this._isKeydownArrowLeft) this.gameService.player.stepToLeft();
 
-      if (this._isKeydownArrowRight) this.gameService.player.stepToRight();
+  //     if (this._isKeydownArrowRight) this.gameService.player.stepToRight();
 
-      if (this._isKeydownSpace) this.gameService.player.attack();
+  //     if (this._isKeydownSpace) this.gameService.player.attack();
 
-      if (this._isKeydownControlLeft) this.gameService.player.activateShield();
+  //     if (this._isKeydownControlLeft) this.gameService.player.activateShield();
 
-      this.gameService.player.drawAttackNodeElements();
-      this._monsterService.drawMonsters();
+  //     this.gameService.player.drawAttackNodeElements();
+  //     this._monsterService.drawMonsters();
 
-      this._worker.postMessage(this._getDataCollisions());
-    }
+  //     this._worker.postMessage(this._getDataCollisions());
+  //   }
 
-    this._requestIdAnimationFrame = requestAnimationFrame(this._gameLoop.bind(this));
+  //   this._requestIdAnimationFrame = requestAnimationFrame(this._gameLoop.bind(this));
 
-    this._cdr.markForCheck();
-  }
+  //   this._cdr.markForCheck();
+  // }
 
-  private _gameOver(): void {
-    this.audioService.gameOver.restart();
-    this._toggleGameDialog();
-    // this.gameDialogMode$.next(EGameDialogMode.GameOver);
-    this._saveResultGameInTopTable();
-    this._pauseGame();
-  }
+  // private _gameOver(): void {
+  //   this.audioService.gameOver.restart();
+  //   this._toggleGameDialog();
+  //   // this.gameDialogMode$.next(EGameDialogMode.GameOver);
+  //   this._saveResultGameInTopTable();
+  //   this._pauseGame();
+  // }
 
-  private _saveResultGameInTopTable(): void {
-    const currentTopTableData: ITableItem = {
-      name: this.gameService.player.name,
-      score: this.gameService.player.score,
-      date: new Date(),
-    };
+  // private _saveResultGameInTopTable(): void {
+  //   const currentTopTableData: ITableItem = {
+  //     name: this.gameService.player.name,
+  //     score: this.gameService.player.score,
+  //     date: new Date(),
+  //   };
 
-    const topTableDataFromLocalStorage: ITableItem[] = JSON.parse(localStorage.getItem(ELocalStorageKey.TopTableData));
+  //   const topTableDataFromLocalStorage: ITableItem[] = JSON.parse(localStorage.getItem(ELocalStorageKey.TopTableData));
 
-    if (topTableDataFromLocalStorage === null) {
-      localStorage.setItem(ELocalStorageKey.TopTableData, JSON.stringify([currentTopTableData]));
-    } else {
-      topTableDataFromLocalStorage.push(currentTopTableData);
-      localStorage.setItem(ELocalStorageKey.TopTableData, JSON.stringify(topTableDataFromLocalStorage));
-    }
-  }
+  //   if (topTableDataFromLocalStorage === null) {
+  //     localStorage.setItem(ELocalStorageKey.TopTableData, JSON.stringify([currentTopTableData]));
+  //   } else {
+  //     topTableDataFromLocalStorage.push(currentTopTableData);
+  //     localStorage.setItem(ELocalStorageKey.TopTableData, JSON.stringify(topTableDataFromLocalStorage));
+  //   }
+  // }
 
-  private _toggleGameDialog(): void {
-    if (this.stateGameDialog$.value) {
-      this.audioService.past.restart();
-      this.stateGameDialog$.next(false);
-    } else {
-      // this.gameDialogMode$.next(EGameDialogMode.Game);
-      this.audioService.shortTomahawk.restart();
-      this.stateGameDialog$.next(true);
-    }
-  }
+  // private _toggleGameDialog(): void {
+  //   if (this.stateGameDialog$.value) {
+  //     this.audioService.past.restart();
+  //     this.stateGameDialog$.next(false);
+  //   } else {
+  //     // this.gameDialogMode$.next(EGameDialogMode.Game);
+  //     this.audioService.shortTomahawk.restart();
+  //     this.stateGameDialog$.next(true);
+  //   }
+  // }
 
-  private _pauseGame(): void {
-    this._pauseGameToggler = true;
-    this._monsterService.pauseGenerateMonsters();
-  }
+  // private _pauseGame(): void {
+  //   this._pauseGameToggler = true;
+  //   this._monsterService.pauseGenerateMonsters();
+  // }
 
-  private _continueGame(): void {
-    this._pauseGameToggler = false;
-    this._monsterService.startGenerateMonsters();
-  }
+  // private _continueGame(): void {
+  //   this._pauseGameToggler = false;
+  //   this._monsterService.startGenerateMonsters();
+  // }
 
-  private _fabricAttackNodeElement(settings: IAttackNodeElementSettings): EmbeddedViewRef<IAttackNodeElementSettings> {
-    const attackNodeElement = this.attackNodeElementTemplate.createEmbeddedView(settings);
-    this.gameField.insert(attackNodeElement);
+  // private _fabricAttackNodeElement(settings: IAttackNodeElementSettings): EmbeddedViewRef<IAttackNodeElementSettings> {
+  //   const attackNodeElement = this.attackNodeElementTemplate.createEmbeddedView(settings);
+  //   this.gameField.insert(attackNodeElement);
 
-    return attackNodeElement;
-  }
+  //   return attackNodeElement;
+  // }
 
-  private _fabricMonsterNodeElement(settings: Monster): EmbeddedViewRef<Monster> {
-    const monsterNodeElement = this.monsterNodeElementTemplate.createEmbeddedView(settings);
-    this.gameField.insert(monsterNodeElement);
+  // private _fabricMonsterNodeElement(settings: Monster): EmbeddedViewRef<Monster> {
+  //   const monsterNodeElement = this.monsterNodeElementTemplate.createEmbeddedView(settings);
+  //   this.gameField.insert(monsterNodeElement);
 
-    return monsterNodeElement;
-  }
+  //   return monsterNodeElement;
+  // }
 
-  private _getDataCollisions(): IWorkerData {
-    return {
-      player: {
-        positionInPx: this.gameService.player.positionInPx,
-        sizeInPx: this.gameService.player.sizeInPx,
-      },
+  // private _getDataCollisions(): IWorkerData {
+  //   return {
+  //     player: {
+  //       positionInPx: this.gameService.player.positionInPx,
+  //       sizeInPx: this.gameService.player.sizeInPx,
+  //     },
 
-      playerAttacks: this.gameService.player.attackObjects.map((ao) => ({
-        leftInPx: ao.attackNodeElement.context.leftInPx,
-        topInPx: ao.attackNodeElement.context.topInPx,
-        sizeInPx: ao.attackNodeElement.context.sizeInPx,
-      })),
+  //     playerAttacks: this.gameService.player.attackObjects.map((ao) => ({
+  //       leftInPx: ao.attackNodeElement.context.leftInPx,
+  //       topInPx: ao.attackNodeElement.context.topInPx,
+  //       sizeInPx: ao.attackNodeElement.context.sizeInPx,
+  //     })),
 
-      monsters: this._monsterService.monsterObjects.map((mo) => ({
-        positionInPx: mo.monster.positionInPx,
-        sizeInPx: mo.monster.sizeInPx,
-      })),
+  //     monsters: this._monsterService.monsterObjects.map((mo) => ({
+  //       positionInPx: mo.monster.positionInPx,
+  //       sizeInPx: mo.monster.sizeInPx,
+  //     })),
 
-      monstersAttacks: this._monsterService.monsterObjects.map((mo) => {
-        return mo.monster.attackNodeElements.map((ane) => ({
-          leftInPx: ane.context.leftInPx,
-          topInPx: ane.context.topInPx,
-          sizeInPx: ane.context.sizeInPx,
-        }));
-      }),
-    };
-  }
+  //     monstersAttacks: this._monsterService.monsterObjects.map((mo) => {
+  //       return mo.monster.attackNodeElements.map((ane) => ({
+  //         leftInPx: ane.context.leftInPx,
+  //         topInPx: ane.context.topInPx,
+  //         sizeInPx: ane.context.sizeInPx,
+  //       }));
+  //     }),
+  //   };
+  // }
 }

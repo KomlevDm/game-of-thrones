@@ -1,31 +1,35 @@
-<div class="content">
-  <info-state-panel></info-state-panel>
+<bg [bgName]="'snow-forest'"></bg>
 
-  <div class="game-field">
-    <ng-template #gameField></ng-template>
+<info-state-panel
+  [lives]="5"
+  [isShieldActivated]="true"
+  [isAttackActivated]="false"
+  [isSuperpowerActivated]="false"
+  [isTeleportActivated]="false"
+  [heroName]="'noname'"
+  [isRedPotionActivated]="false"
+  [isGreenPotionActivated]="false"
+  [isBluePotionActivated]="false"
+  [score]="0"
+></info-state-panel>
 
-    <div
-      class="player"
-      [style.width.px]="gameService.player.sizeInPx.width"
-      [style.transform]="
-        getObjectPosition(
-          gameService.player.positionInPx.left,
-          gameService.player.positionInPx.top,
-          gameService.player.direction
-        )
-      "
-      [class.shield]="true"
-    >
-      <img class="shield" src="/assets/img/game/sphere-shield.webp" />
-      <img class="hero" src="/assets/img/game/players/{{ gameService.player.house }}.webp" />
-    </div>
-  </div>
+<div class="game-field">
+  <!-- <ng-template #gameField></ng-template> -->
 
-  <!-- <game-dialog [state$]="stateGameDialog$" [mode$]="gameDialogMode$"></game-dialog> -->
+  <hero
+    [xPositionInPx]="45"
+    [yPositionInPx]="450"
+    [direction]="'scale(1, 1)'"
+    [widthInPx]="220"
+    [isShieldActivated]="true"
+    [heroHouse]="'lannister'"
+  ></hero>
 </div>
 
+<!-- <game-dialog [state$]="stateGameDialog$" [mode$]="gameDialogMode$"></game-dialog> -->
+
 <!--#region Templates-->
-<ng-template
+<!-- <ng-template
   #attackTemplate
   let-name="name"
   let-x="leftInPx"
@@ -51,5 +55,5 @@
     [style.transform]="getObjectPosition(x, y)"
     src="/assets/img/game/monsters/{{ name }}.gif"
   />
-</ng-template>
+</ng-template> -->
 <!--#endregion Templates-->

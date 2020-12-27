@@ -6,14 +6,14 @@ import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-transla
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SnowBackgroundModule } from './components/snow-background/snow-background.module';
 import { WrapRouterOutletModule } from './components/wrap-router-outlet/wrap-router-outlet.module';
 import { ELocalStorageKey } from './enums/ELocalStorageKey';
 import { ELanguage } from './enums/ELanguage';
 import { StartPageModule } from './pages/start-page/start-page.module';
+import { SnowBackgroundComponent } from './components/snow-background/snow-background.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, SnowBackgroundComponent],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
@@ -28,7 +28,6 @@ import { StartPageModule } from './pages/start-page/start-page.module';
     }),
     WrapRouterOutletModule,
     StartPageModule,
-    SnowBackgroundModule,
   ],
   bootstrap: [AppComponent],
 })

@@ -1,8 +1,8 @@
 @import 'mixins';
 
 :host {
+  @include host(flex);
   height: 50px;
-  display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 10px;
@@ -24,7 +24,7 @@
         width: 40px;
       }
 
-      &.active {
+      &.activated {
         filter: none;
       }
     }

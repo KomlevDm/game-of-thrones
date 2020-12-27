@@ -1,89 +1,30 @@
 @import 'mixins';
 
 :host {
-  display: block;
-  height: inherit;
-  position: relative;
-  background-image: url(/assets/img/bg/night-dragon.webp);
+  @include host(flex, true);
+  flex-direction: column;
 
-  .content {
-    display: flex;
-    flex-direction: column;
-    height: inherit;
-    background-image: url(/assets/img/bg/snow-forest.webp);
-    background-size: cover;
-    // animation: game-bg-animation 10s infinite linear;
+  .game-field {
+    flex-grow: 1;
+    position: relative;
 
-    .game-field {
-      flex-grow: 1;
-      position: relative;
+    .attack {
+      position: absolute;
+      z-index: 1;
 
-      .player {
-        position: absolute;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        &.shield {
-          img.shield {
-            z-index: 1;
-            animation: pulsar 2s linear infinite;
-
-            @keyframes pulsar {
-              0% {
-                transform: scale(1.4);
-                opacity: 0.4;
-              }
-
-              50% {
-                transform: scale(1.5);
-                opacity: 0.6;
-              }
-
-              100% {
-                transform: scale(1.4);
-                opacity: 0.4;
-              }
-            }
-          }
-
-          img.hero {
-            opacity: 0.9;
-          }
-        }
-
-        img.shield {
-          position: absolute;
-          width: 90%;
-          opacity: 0;
-          transition: opacity 0.3s linear;
-        }
-
-        img.hero {
-          width: 100%;
-          opacity: 1;
-          transition: opacity 0.3s linear;
-        }
-      }
-
-      .attack {
-        position: absolute;
-        z-index: 1;
-
-        img {
-          width: 100%;
-          animation: rotate-pulsar-to-right 0.5s linear infinite;
-          border-radius: 50%;
-        }
-      }
-
-      .monster {
-        position: absolute;
+      img {
+        width: 100%;
+        animation: rotate-pulsar-to-right 0.5s linear infinite;
+        border-radius: 50%;
       }
     }
 
-    game-dialog {
-      z-index: 2;
+    .monster {
+      position: absolute;
     }
+  }
+
+  game-dialog {
+    z-index: 2;
   }
 }

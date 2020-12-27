@@ -1,0 +1,18 @@
+@import 'variables';
+@import 'mixins';
+
+:host {
+  @include absolute(0, -$widthScreen, 0, 0);
+  animation: bg 10s linear infinite;
+  will-change: transform;
+
+  @keyframes bg {
+    from {
+      transform: translate(0, 0);
+    }
+
+    to {
+      transform: translate(-$widthScreen, 0);
+    }
+  }
+}

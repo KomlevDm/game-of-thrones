@@ -5,6 +5,13 @@
   overflow: hidden;
 
   @for $i from 1 through 3 {
+    .snow-#{$i} {
+      @include absolute(-2400px, 0, 0, -2400px);
+      background-image: url(/assets/components/snow-background/img/snow-#{$i}.png);
+      animation: snow-animation-#{$i} 30s linear infinite;
+      will-change: transform;
+    }
+
     @keyframes snow-animation-#{$i} {
       from {
         transform: translate(0, 0);
@@ -13,12 +20,6 @@
       to {
         transform: translate($i * 300px, $i * 600px);
       }
-    }
-
-    .snow-#{$i} {
-      @include absolute(-2400px, 0, 0, -2400px);
-      background-image: url(/assets/components/snow-background/img/snow-#{$i}.png);
-      animation: snow-animation-#{$i} 30s linear infinite;
     }
   }
 }
