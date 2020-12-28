@@ -28,6 +28,7 @@ import { IWorkerData } from '../../interfaces/IWorkerData';
 import { ITableItem } from '../top-table-page/interfaces/ITableItem';
 import { UserService } from '../../services/user.service';
 import { EHouse } from '../../enums/EHouse';
+import { HeroComponent } from './hero/hero.component';
 // import { EGameDialogMode } from '../../components/game-dialog/game-dialog.component';
 
 @Component({
@@ -36,7 +37,7 @@ import { EHouse } from '../../enums/EHouse';
   styleUrls: ['./game-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GamePageComponent  {
+export class GamePageComponent {
   constructor(
     private _router: Router,
     private audioService: AudioService,
@@ -44,10 +45,10 @@ export class GamePageComponent  {
     private _cdr: ChangeDetectorRef,
     private _domSanitizer: DomSanitizer,
     public gameService: GameService,
-     userService: UserService
+    userService: UserService
   ) {
-    userService.activateGame()
-     gameService.startGame('test', EHouse.Lannister);
+    userService.activateGame();
+    gameService.startGame('test', EHouse.Lannister);
   }
 
   private _isKeydownArrowUp = false;
@@ -68,27 +69,35 @@ export class GamePageComponent  {
   @ViewChild('attackTemplate') attackNodeElementTemplate: TemplateRef<IAttackNodeElementSettings>;
   @ViewChild('monsterTemplate') monsterNodeElementTemplate: TemplateRef<Monster>;
 
+  @ViewChild('heroComponent') hero: HeroComponent;
+
+  public xPositionInPxHero = 45;
+
+  ngAfterViewInit(): void {
+    (window as any).w = () => {
+      this.hero.teleport(() => {
+        this.xPositionInPxHero = 400;
+        this._cdr.detectChanges();
+      });
+    };
+  }
+
   ngOnInit() {
     // if (!this.gameService.player) return;
-
     // this.stateGameDialog$.pipe(takeUntil(this._destroyedComponent$)).subscribe((dialogState) => {
     //   if (dialogState) this._pauseGame();
     //   else this._continueGame();
     // });
-
     // this.gameService.player.initFabricAttack(this._fabricAttackNodeElement.bind(this));
-
     // this._monsterService.initFabricsMonster(
     //   this._fabricMonsterNodeElement.bind(this),
     //   this._fabricAttackNodeElement.bind(this)
     // );
     // this._monsterService.startGenerateMonsters();
-
     // this._worker.onmessage = ({ data }: { data: IWorkerResponse }) => {
     //   const player = this.gameService.player;
     //   const monsterObjects = this._monsterService.monsterObjects;
     //   const { playerLostLives, playerAttacksIndexes, monstersIndexes, monstersAttacksIndexes } = data;
-
     //   for (let i = 0; i < playerLostLives; i++) {
     //     if (!player.isActivatedShield) player.deleteLife();
     //     if (player.isDead) this._gameOver();
@@ -97,7 +106,6 @@ export class GamePageComponent  {
     //     player.attackObjects[playerAttacksIndexes[i] - i].attackNodeElement.destroy();
     //     player.attackObjects.splice(playerAttacksIndexes[i] - i, 1);
     //   }
-
     //   monstersIndexes.forEach((mi) => monsterObjects[mi].monster.deleteLife());
     //   monstersAttacksIndexes.forEach((mai) => {
     //     if (!monsterObjects[mai.monsterIndex].monster.isDead) {
@@ -113,11 +121,9 @@ export class GamePageComponent  {
     //   });
     //   for (let i = 0; i < monsterObjects.length; i++) {
     //     const monsterObject = monsterObjects[i];
-
     //     if (monsterObject.monster.isDead) {
     //       player.increaseScore(monsterObject.monster.cost);
     //       this.audioService.coinsRinging.restart();
-
     //       monsterObject.subAttack.unsubscribe();
     //       monsterObject.monster.attackNodeElements.forEach((ane) => ane.destroy());
     //       monsterObject.monsterNodeElement.destroy();
@@ -125,7 +131,6 @@ export class GamePageComponent  {
     //     }
     //   }
     // };
-
     // this._gameLoop();
   }
 

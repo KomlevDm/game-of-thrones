@@ -1,4 +1,4 @@
-<bg [bgName]="'space'"></bg>
+<bg [bgName]="'mountains'"></bg>
 
 <info-state-panel
   [lives]="5"
@@ -17,12 +17,13 @@
   <!-- <ng-template #gameField></ng-template> -->
 
   <hero
-    [xPositionInPx]="45"
-    [yPositionInPx]="450"
+    #heroComponent
+    [xPositionInPx]="xPositionInPxHero"
+    [yPositionInPx]="460"
     [direction]="'scale(1, 1)'"
     [widthInPx]="220"
     [isShieldActivated]="false"
-    [heroHouse]="'targaryen'"
+    [heroHouse]="'lannister'"
   ></hero>
 </div>
 

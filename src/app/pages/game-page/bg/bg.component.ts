@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy, HostBinding, Input } from '@angular/core';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { EBgGame } from './enums/EBgGame';
 
 @Component({
@@ -9,13 +8,11 @@ import { EBgGame } from './enums/EBgGame';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BgComponent {
-  constructor(public domSanitizer: DomSanitizer) {}
-
   @Input()
   private bgName: EBgGame;
 
   @HostBinding('style.backgroundImage')
-  private get backgroundImage(): SafeStyle {
-    return this.domSanitizer.bypassSecurityTrustStyle(`url(/assets/pages/game-page/bg/img/${this.bgName}.webp)`);
+  private get backgroundImage(): string {
+    return `url(/assets/pages/game-page/bg/img/${this.bgName}.jpg)`;
   }
 }
