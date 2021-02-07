@@ -1,68 +1,57 @@
 import { Injectable } from '@angular/core';
-import { Player, IPlayerSettings } from '../classes/player/Player';
-import { EHouse } from '../enums/EHouse';
-import { Stark } from '../classes/player/Stark';
-import { Targaryen } from '../classes/player/Targaryen';
-import { Lannister } from '../classes/player/Lannister';
-import { ELocalStorageKey } from '../enums/ELocalStorageKey';
-import { v1 as uuid } from 'uuid';
 import { Router } from '@angular/router';
-import { AudioService } from './audio.service';
-import { MonsterService } from './monster.service';
+import * as uuid from 'uuid';
+import { EHouse } from '../enums/EHouse';
+import { ELocalStorageKey } from '../enums/ELocalStorageKey';
 import { ISaveGameData } from '../pages/load-page/interfaces/ISaveGameData';
+import { AudioService } from './audio.service';
+import { HeroService } from './hero.service';
+import { MonsterService } from './monster.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class GameService {
   constructor(
-    private _router: Router,
+    private router: Router,
     private audioService: AudioService,
-    private _monsterService: MonsterService
+    private monsterService: MonsterService,
+    private heroService: HeroService
   ) {}
 
-  private _player: Player = null;
-  private _gameSession: string = null;
-  private _saveGameName: string = null;
-
-  public get player(): Player {
-    return this._player;
-  }
+  private _gameSession: string;
+  private _saveGameName: string;
 
   public get saveGameName(): string {
     return this._saveGameName;
   }
 
-  public startGame(name: string, house: EHouse): void {
-    this._player = this._createInstancePlayer(house, { name });
+  public startGame(playerName: string, house: EHouse): void {
+    this.heroService.createHero({ name: playerName, house });
 
-    this._createGameSession();
+    // this._createGameSession();
 
-    this._router.navigateByUrl('/game');
+    this.router.navigateByUrl('/game');
 
     this.audioService.startGame.play();
   }
 
   public restartGame(): void {
-    this._player.attackObjects.forEach((a) => a.attackNodeElement.destroy());
-    const fabricAttackNodeElement = this.player.fabricAttackNodeElement;
-
-    this._player = this._createInstancePlayer(this._player.house, { name: this._player.name });
-    this.player.initFabricAttack(fabricAttackNodeElement);
-
-    this._monsterService.restartGenerateMonster();
-
-    this._createGameSession();
-
-    this.audioService.startGame.play();
+    // this._hero.attackObjects.forEach((a) => a.attackNodeElement.destroy());
+    // const fabricAttackNodeElement = this.hero.fabricAttackNodeElement;
+    // this._hero = this.heroService.createHero(this._hero.house, { name: this._hero.name });
+    // this.hero.initFabricAttack(fabricAttackNodeElement);
+    // this.monsterService.restartGenerateMonster();
+    // this._createGameSession();
+    // this.audioService.startGame.play();
   }
 
   public loadGame(gameData: ISaveGameData): void {
     this._saveGameName = gameData.name;
 
-    this._player = this._createInstancePlayer(gameData.player.house, gameData.player);
+    this.heroService.createHero({ house: gameData.hero.house, ...gameData.hero });
 
     this._createGameSession(gameData.sessionId);
 
-    this._router.navigateByUrl('/game');
+    this.router.navigateByUrl('/game');
 
     this.audioService.startGame.play();
   }
@@ -71,15 +60,9 @@ export class GameService {
     const currentGameData = {
       sessionId: this._gameSession,
       name,
-      player: Object.create(null),
+      hero: this.heroService.getSaveData(),
       date: new Date().toString(),
     };
-
-    for (const key in this._player) {
-      if (this._player.hasOwnProperty(key) && this._isValidKey(key)) {
-        currentGameData.player[this._deleteUnderscoreForKey(key)] = this._player[key];
-      }
-    }
 
     const saveDataFromLocalStorage: ISaveGameData[] = JSON.parse(localStorage.getItem(ELocalStorageKey.SaveGameData));
 
@@ -98,33 +81,12 @@ export class GameService {
   }
 
   public cleanGameInfo(): void {
-    this._player = null;
+    this.heroService.deleteHero();
     this._gameSession = null;
     this._saveGameName = null;
   }
 
   private _createGameSession(sessionId?: string): void {
     this._gameSession = sessionId || uuid();
-  }
-
-  private _createInstancePlayer(house: EHouse, settings: IPlayerSettings): Player {
-    switch (house) {
-      case EHouse.Stark:
-        return new Stark(settings);
-
-      case EHouse.Targaryen:
-        return new Targaryen(settings);
-
-      case EHouse.Lannister:
-        return new Lannister(settings);
-    }
-  }
-
-  private _deleteUnderscoreForKey(key: string): string {
-    return key.replace('_', '');
-  }
-
-  private _isValidKey(key: string): boolean {
-    return !key.includes('attack') && !key.includes('$');
   }
 }

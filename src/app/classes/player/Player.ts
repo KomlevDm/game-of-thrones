@@ -1,6 +1,6 @@
 import { EHouse } from '../../enums/EHouse';
 import { EDirection } from '../../enums/EDirection';
-import { SIZE_FIELD_GAME_IN_PX, DEBOUNCE_TIME_ATTACK_IN_MS } from '../../constants/gameSettings';
+import { SIZE_FIELD_GAME_IN_PX } from '../../constants/gameParams';
 import { EmbeddedViewRef } from '@angular/core';
 import { debounceTime, mergeMap } from 'rxjs/operators';
 import { Subject, timer } from 'rxjs';
@@ -63,7 +63,8 @@ export abstract class Player {
       sound: attack.sound,
       attack$: new Subject<EDirection>(),
     };
-    this._attack.attack$.pipe(debounceTime(DEBOUNCE_TIME_ATTACK_IN_MS)).subscribe((attackDirection) => {
+
+    this._attack.attack$.pipe(debounceTime(70)).subscribe((attackDirection) => {
       const attackNodeElementSettings: IAttackNodeElementSettings = {
         name: this._attack.name,
         leftInPx:

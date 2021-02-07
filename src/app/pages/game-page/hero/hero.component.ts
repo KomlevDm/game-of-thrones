@@ -1,4 +1,12 @@
-import { Component, ChangeDetectionStrategy, Input, HostBinding, ElementRef } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  Input,
+  HostBinding,
+  ElementRef,
+  OnDestroy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { Subject, timer } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { EDirection } from '../../../enums/EDirection';
@@ -10,25 +18,34 @@ import { EHouse } from '../../../enums/EHouse';
   styleUrls: ['./hero.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeroComponent {
-  constructor(private elRef: ElementRef<HTMLLIElement>) {}
+export class HeroComponent implements OnDestroy {
+  constructor(private elRef: ElementRef<HTMLLIElement>, public cdr: ChangeDetectorRef) {}
 
-  private readonly TELEPORT_TIMEOUT_IN_MS = 1000;
+  private readonly SPEED_TIMEOUT_IN_MS = 200;
+  private readonly TRANSITION_DELTA_IN_MS = 10;
 
   private destroyer$ = new Subject<void>();
 
-  @Input() private xPositionInPx: number;
-  @Input() private yPositionInPx: number;
-  @Input() private direction: EDirection;
+  @Input()
+  public set xPositionInPx(x: number) {
+    this.elRef.nativeElement.style.transform =
+      this.elRef.nativeElement.style.transform.replace(/(?<=translate\()\d+/g, x.toString()) ||
+      `translate(${x}px, 0px)`;
+  }
+
+  @Input()
+  public set yPositionInPx(y: number) {
+    this.elRef.nativeElement.style.transform =
+      this.elRef.nativeElement.style.transform.replace(/(?<=translate\(\d+px, )\d+(?=px\))/g, y.toString()) ||
+      `translate(0px, ${y}px)`;
+  }
 
   @Input()
   @HostBinding('style.width.px')
-  private widthInPx: number;
+  public widthInPx: number;
 
-  @HostBinding('style.transform')
-  private get position(): string {
-    return `translate(${this.xPositionInPx}px, ${this.yPositionInPx}px) ${this.direction}`;
-  }
+  @Input()
+  public direction: EDirection;
 
   @Input()
   public isShieldActivated = false;
@@ -36,32 +53,24 @@ export class HeroComponent {
   @Input()
   public heroHouse: EHouse;
 
-  public teleport(callback: Function): void {
-    this.elRef.nativeElement.style.transition = `transform ${this.TELEPORT_TIMEOUT_IN_MS / 2}ms linear`;
-    this.elRef.nativeElement.style.transform = this.elRef.nativeElement.style.transform.replace(
-      this.direction,
-      EDirection.Teleport
-    );
+  public speed(): void {
+    this.elRef.nativeElement.style.transition = `transform ${this.SPEED_TIMEOUT_IN_MS}ms linear`;
+    this.elRef.nativeElement.style.transform = this.elRef.nativeElement.style.transform += ` ${EDirection.None}`;
 
-    timer(this.TELEPORT_TIMEOUT_IN_MS / 2)
+    timer(this.SPEED_TIMEOUT_IN_MS + this.TRANSITION_DELTA_IN_MS)
       .pipe(
-        switchMap(() => {
-          callback();
-
-          return timer(this.TELEPORT_TIMEOUT_IN_MS / 2);
-        }),
+        switchMap(() => timer(this.SPEED_TIMEOUT_IN_MS)),
         switchMap(() => {
           this.elRef.nativeElement.style.transform = this.elRef.nativeElement.style.transform.replace(
-            EDirection.Teleport,
-            this.direction
+            ` ${EDirection.None}`,
+            ''
           );
 
-          return timer(this.TELEPORT_TIMEOUT_IN_MS / 2);
+          return timer(this.SPEED_TIMEOUT_IN_MS);
         }),
-
         takeUntil(this.destroyer$)
       )
-      .subscribe(() => (this.elRef.nativeElement.style.transition = 'none'));
+      .subscribe(() => (this.elRef.nativeElement.style.transition = 'unset'));
   }
 
   ngOnDestroy(): void {

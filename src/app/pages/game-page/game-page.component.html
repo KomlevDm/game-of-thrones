@@ -1,49 +1,27 @@
 <bg [bgName]="'mountains'"></bg>
 
 <info-state-panel
-  [lives]="5"
-  [isShieldActivated]="true"
-  [isAttackActivated]="false"
-  [isSuperpowerActivated]="false"
-  [isTeleportActivated]="false"
-  [heroName]="'noname'"
-  [isRedPotionActivated]="false"
-  [isGreenPotionActivated]="false"
-  [isBluePotionActivated]="false"
+  [lives]="heroService.hero.lives"
+  [isShieldAvailable]="heroService.hero.isShieldAvailable"
+  [isAttackAvailable]="false"
+  [isSuperpowerAvailable]="false"
+  [isSpeedAvailable]="heroService.hero.isSpeedAvailable"
+  [heroName]="heroService.hero.name"
+  [isRedPotionAvailable]="false"
+  [isGreenPotionAvailable]="false"
+  [isBluePotionAvailable]="false"
   [score]="0"
 ></info-state-panel>
 
 <div class="game-field">
-  <!-- <ng-template #gameField></ng-template> -->
-
-  <hero
-    #heroComponent
-    [xPositionInPx]="xPositionInPxHero"
-    [yPositionInPx]="460"
-    [direction]="'scale(1, 1)'"
-    [widthInPx]="220"
-    [isShieldActivated]="false"
-    [heroHouse]="'lannister'"
-  ></hero>
+  <ng-template #gameFieldTemplate></ng-template>
 </div>
 
 <!-- <game-dialog [state$]="stateGameDialog$" [mode$]="gameDialogMode$"></game-dialog> -->
 
-<!--#region Templates-->
-<!-- <ng-template
-  #attackTemplate
-  let-name="name"
-  let-x="leftInPx"
-  let-y="topInPx"
-  let-width="sizeInPx"
-  let-direction="animationDirection"
->
-  <div class="attack" [style.width.px]="width" [style.transform]="getObjectPosition(x, y, direction)">
-    <img src="/assets/img/game/attacks/{{ name }}" />
-  </div>
-</ng-template>
-
+<!-- #region Templates
 <ng-template
+  <ng-template
   #monsterTemplate
   let-name="name"
   let-x="positionInPx.left"
@@ -56,5 +34,5 @@
     [style.transform]="getObjectPosition(x, y)"
     src="/assets/img/game/monsters/{{ name }}.gif"
   />
-</ng-template> -->
-<!--#endregion Templates-->
+</ng-template>
+#endregion Templates -->

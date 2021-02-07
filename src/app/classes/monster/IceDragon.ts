@@ -1,5 +1,5 @@
 import { Monster } from './Monster';
-import { SIZE_FIELD_GAME_IN_PX } from 'src/app/constants/gameSettings';
+import { SIZE_FIELD_GAME_IN_PX } from 'src/app/constants/gameParams';
 
 export class IceDragon extends Monster {
   constructor() {

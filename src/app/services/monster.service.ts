@@ -10,7 +10,7 @@ import { IceDragon } from '../classes/monster/IceDragon';
 import { DeathAngel } from '../classes/monster/DeathAngel';
 import { FlyingMonster } from '../classes/monster/FlyingMonster';
 import { getRandomNumber } from '../helpers/getRandomNumber';
-import { SIZE_FIELD_GAME_IN_PX } from '../constants/gameSettings';
+import { SIZE_FIELD_GAME_IN_PX } from '../constants/gameParams';
 
 enum EVerticalDirection {
   Up,

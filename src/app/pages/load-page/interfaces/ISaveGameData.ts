@@ -1,8 +1,8 @@
-import { IPlayerSettings } from '../../../classes/player/Player';
+import { IHeroSettings } from '../../../classes/game/hero/Hero';
 
 export interface ISaveGameData {
   sessionId: string;
   name: string;
-  player: IPlayerSettings;
+  hero: IHeroSettings;
   date: string;
 }

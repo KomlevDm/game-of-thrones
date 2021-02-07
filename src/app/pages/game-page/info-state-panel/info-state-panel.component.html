@@ -4,20 +4,20 @@
     <img src="/assets/pages/game-page/info-state-panel/img/life.png" />
   </div>
 
-  <div class="shield hero-power" [class.activated]="isShieldActivated">
+  <div class="shield hero-power" [class.activated]="isShieldAvailable">
     <img src="/assets/pages/game-page/info-state-panel/img/shield.png" />
   </div>
 
-  <div class="attack hero-power" [class.activated]="isAttackActivated">
+  <div class="attack hero-power" [class.activated]="isAttackAvailable">
     <img src="/assets/pages/game-page/info-state-panel/img/attack.png" />
   </div>
 
-  <div class="superpower hero-power" [class.activated]="isSuperpowerActivated">
+  <div class="superpower hero-power" [class.activated]="isSuperpowerAvailable">
     <img src="/assets/pages/game-page/info-state-panel/img/superpower.png" />
   </div>
 
-  <div class="teleport hero-power" [class.activated]="isTeleportActivated">
-    <img src="/assets/pages/game-page/info-state-panel/img/teleport.png" />
+  <div class="speed hero-power" [class.activated]="isSpeedAvailable">
+    <img src="/assets/pages/game-page/info-state-panel/img/speed.png" />
   </div>
 </div>
 
@@ -27,15 +27,15 @@
 
 <div class="state">
   <div class="magic">
-    <div class="hero-power" [class.activated]="isRedPotionActivated">
+    <div class="hero-power" [class.activated]="isRedPotionAvailable">
       <img src="/assets/pages/game-page/info-state-panel/img/red-potion.png" />
     </div>
 
-    <div class="hero-power" [class.activated]="isGreenPotionActivated">
+    <div class="hero-power" [class.activated]="isGreenPotionAvailable">
       <img src="/assets/pages/game-page/info-state-panel/img/green-potion.png" />
     </div>
 
-    <div class="hero-power" [class.activated]="isBluePotionActivated">
+    <div class="hero-power" [class.activated]="isBluePotionAvailable">
       <img src="/assets/pages/game-page/info-state-panel/img/blue-potion.png" />
     </div>
   </div>

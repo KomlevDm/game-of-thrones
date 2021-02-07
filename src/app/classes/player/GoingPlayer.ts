@@ -1,6 +1,6 @@
 import { Player, IPlayerSettings } from './Player';
 import { debounceTime, filter, tap, switchMap, takeWhile } from 'rxjs/operators';
-import { DEBOUNCE_TIME_JUMP_IN_MS, SIZE_FIELD_GAME_IN_PX } from '../../constants/gameSettings';
+import { DEBOUNCE_TIME_JUMP_IN_MS, SIZE_FIELD_GAME_IN_PX } from '../../constants/gameParams';
 import { timer, Subject } from 'rxjs';
 import { EDirection } from 'src/app/enums/EDirection';
 import { AudioService } from 'src/app/services/audio.service';

@@ -1,4 +1,4 @@
-import { SIZE_FIELD_GAME_IN_PX } from '../../constants/gameSettings';
+import { SIZE_FIELD_GAME_IN_PX } from '../../constants/gameParams';
 import { Monster, IMonsterSettings } from './Monster';
 import { getRandomNumber } from 'src/app/helpers/getRandomNumber';
 

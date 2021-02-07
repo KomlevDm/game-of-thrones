@@ -8,15 +8,15 @@ import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 })
 export class InfoStatePanelComponent {
   @Input() public lives: number;
-  @Input() public isShieldActivated: boolean;
-  @Input() public isAttackActivated: boolean;
-  @Input() public isSuperpowerActivated: boolean;
-  @Input() public isTeleportActivated: boolean;
+  @Input() public isShieldAvailable: boolean;
+  @Input() public isAttackAvailable: boolean;
+  @Input() public isSuperpowerAvailable: boolean;
+  @Input() public isSpeedAvailable: boolean;
 
   @Input() public heroName: string;
 
-  @Input() public isRedPotionActivated: boolean;
-  @Input() public isGreenPotionActivated: boolean;
-  @Input() public isBluePotionActivated: boolean;
+  @Input() public isRedPotionAvailable: boolean;
+  @Input() public isGreenPotionAvailable: boolean;
+  @Input() public isBluePotionAvailable: boolean;
   @Input() public score: number;
 }
