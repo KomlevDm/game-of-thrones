@@ -2,7 +2,7 @@
 
 Small game based on the series Game of Thrones.
 
-Online: http://n90505hm.beget.tech/
+[Play Now!] (https://komlevdm.github.io/game-of-thrones/)
 
 `Control keys`:
 
