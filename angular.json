@@ -122,6 +122,12 @@
               "devServerTarget": "game-of-thrones:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+            "baseHref": "https://komlevdm.github.io/game-of-thrones/"
+          }
         }
       }
     }
