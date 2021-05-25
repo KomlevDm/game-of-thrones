@@ -126,7 +126,7 @@
         "deploy": {
           "builder": "angular-cli-ghpages:deploy",
           "options": {
-            "baseHref": "https://komlevdm.github.io/game-of-thrones/"
+            "baseHref": "/game-of-thrones/"
           }
         }
       }

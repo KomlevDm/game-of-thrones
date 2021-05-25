@@ -20,7 +20,7 @@ import { LoadComponent } from './components/load/load.component';
 import { BackArrowComponent } from './components/back-arrow/back-arrow.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
-  return new TranslateHttpLoader(httpClient);
+  return new TranslateHttpLoader(httpClient, 'assets/i18n/');
 }
 
 @NgModule({
@@ -33,7 +33,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     GameComponent,
     GameDialogComponent,
     LoadComponent,
-    BackArrowComponent
+    BackArrowComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -46,11 +46,11 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    })
+        deps: [HttpClient],
+      },
+    }),
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {
   constructor(private _translateService: TranslateService) {

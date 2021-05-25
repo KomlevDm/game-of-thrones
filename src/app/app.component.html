@@ -1,5 +1,5 @@
 <div class="wrap-logo" [class.display]="!isStartApp || (gameService.player && router.url === '/game')">
-  <img src="../assets/img/game/attacks/fire-sphere.gif" class="fire-sphere" />
+  <img src="assets/img/game/attacks/fire-sphere.gif" class="fire-sphere" />
 
   <div class="logo">
     <h1 (click)="start()">{{ gameService.player?.name || 'Start' }}</h1>

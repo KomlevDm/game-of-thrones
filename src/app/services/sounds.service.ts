@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ACTION_AUDIO, BACKGROUND_AUDIO } from 'src/assets/audio/audio-list';
 import { EKeyLocalStorage } from '../enums/EKeyLocalStorage';
 
-const PATH_TO_AUDIO = '../../assets/audio';
+const PATH_TO_AUDIO = 'assets/audio';
 
 interface IBgSound {
   soundNames: string[];

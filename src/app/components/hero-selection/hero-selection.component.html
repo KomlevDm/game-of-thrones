@@ -6,7 +6,7 @@
   <div class="house" [class.selected]="selectedHouse === EHouse.Stark" (click)="selectHouse(EHouse.Stark)">
     <div class="house-title">{{ 'HeroSelection.Houses.Stark.HouseName' | translate }}</div>
 
-    <img src="../../../assets/img/bg/stark-logo.jpg" />
+    <img src="assets/img/bg/stark-logo.jpg" />
 
     <div class="motto">{{ 'HeroSelection.Houses.Stark.Motto' | translate }}</div>
   </div>
@@ -14,7 +14,7 @@
   <div class="house" [class.selected]="selectedHouse === EHouse.Targaryen" (click)="selectHouse(EHouse.Targaryen)">
     <div class="house-title">{{ 'HeroSelection.Houses.Targaryen.HouseName' | translate }}</div>
 
-    <img src="../../../assets/img/bg/targaryen-logo.jpg" />
+    <img src="assets/img/bg/targaryen-logo.jpg" />
 
     <div class="motto">{{ 'HeroSelection.Houses.Targaryen.Motto' | translate }}</div>
   </div>
@@ -22,7 +22,7 @@
   <div class="house" [class.selected]="selectedHouse === EHouse.Lannister" (click)="selectHouse(EHouse.Lannister)">
     <div class="house-title">{{ 'HeroSelection.Houses.Lannister.HouseName' | translate }}</div>
 
-    <img src="../../../assets/img/bg/lannister-logo.jpg" />
+    <img src="assets/img/bg/lannister-logo.jpg" />
 
     <div class="motto">{{ 'HeroSelection.Houses.Lannister.Motto' | translate }}</div>
   </div>
@@ -35,5 +35,5 @@
     <input type="text" [(ngModel)]="playerName" maxlength="20" />
   </div>
 
-  <img class="play-button" src="../../../assets/img/play.png" [class.allow]="isAllowPlayGame()" (click)="startGame()" />
+  <img class="play-button" src="assets/img/play.png" [class.allow]="isAllowPlayGame()" (click)="startGame()" />
 </div>
