@@ -2,7 +2,7 @@
 
 Small game based on the series Game of Thrones.
 
-[Play Now!] (https://komlevdm.github.io/game-of-thrones/)
+[Play Now!](https://komlevdm.github.io/game-of-thrones/)
 
 `Control keys`:
 
