@@ -1,0 +1,65 @@
+{
+  "Title": "Игра Престолов",
+  "MainMenu": {
+    "Title": "Меню",
+    "Buttons": {
+      "Play": "Играть",
+      "Load": "Загрузить",
+      "Top": "Рекорды",
+      "Language": "Язык"
+    }
+  },
+  "ToggleLanguageDialog": {
+    "Title": "Пожалуйста выберите предпочитаемый язык"
+  },
+  "TopTable": {
+    "Title": "Таблица рекордов",
+    "ColumnTitles": {
+      "Name": "Имя",
+      "Score": "Очки",
+      "Date": "Дата"
+    },
+    "NoteEmptyTable": "На данный момент таблица пуста"
+  },
+  "HeroSelection": {
+    "Title": "Выберите дом",
+    "Houses": {
+      "Stark": {
+        "HouseName": "Старк",
+        "Motto": "Зима близко"
+      },
+      "Targaryen": {
+        "HouseName": "Таргариен",
+        "Motto": "Пламя и кровь"
+      },
+      "Lannister": {
+        "HouseName": "Ланнистер",
+        "Motto": "Услышь мой рев"
+      }
+    },
+    "PlayerInfo": "Ваше имя"
+  },
+  "Game": {
+    "NotePlayerNotExists": "Вы не выбрали дом, за который будете играть",
+    "GameDialog": {
+      "GameOverText": "Игра окончена",
+      "SaveText": "Сохранить текущие достижения, как",
+      "ButtonNames": {
+        "Continue": "Продолжить",
+        "Save": "Сохранить",
+        "Exit": "Выйти",
+        "Restart": "Заново",
+        "Ok": "Ок",
+        "Cancel": "Закрыть"
+      }
+    }
+  },
+  "Load": {
+    "Title": "Доступные сохранения",
+    "NoteEmptySaveGameData": "Нет доступных сохранений",
+    "ButtonNames": {
+      "Delete": "Удалить",
+      "Load": "Загрузить"
+    }
+  }
+}
