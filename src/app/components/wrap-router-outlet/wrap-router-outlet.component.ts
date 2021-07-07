@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ViewChild, HostBinding, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewChild, HostBinding, Input, HostListener } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { transition, trigger, query, style, animate } from '@angular/animations';
 
@@ -17,8 +17,10 @@ import { transition, trigger, query, style, animate } from '@angular/animations'
   ],
 })
 export class WrapRouterOutletComponent {
+  public isShowSpinner = false;
+
   @Input()
-  public isSpinner = false;
+  public isUseSpinner = false;
 
   @ViewChild(RouterOutlet, { static: true })
   private routerOutlet: RouterOutlet;
@@ -26,5 +28,15 @@ export class WrapRouterOutletComponent {
   @HostBinding('@routeAnimation')
   private get routerOutletActivated(): ActivatedRoute {
     return this.routerOutlet.isActivated && this.routerOutlet.activatedRoute;
+  }
+
+  @HostListener('@routeAnimation.start')
+  private routeAnimationStart() {
+    this.isShowSpinner = true;
+  }
+
+  @HostListener('@routeAnimation.done')
+  private routeAnimationEnd() {
+    this.isShowSpinner = false;
   }
 }
