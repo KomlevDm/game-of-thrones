@@ -67,7 +67,7 @@ export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
   private isKeydownShiftLeft = false;
   private _pauseGameToggler = false;
   private requestIdAnimationFrameId: number;
-  private _worker = new Worker('../../app.worker.ts', { type: 'module' });
+  private _worker = new Worker(new URL('../../app.worker.ts', import.meta.url), { type: 'module' });
 
   public stateGameDialog$ = new BehaviorSubject(false);
   // public gameDialogMode$ = new BehaviorSubject(EGameDialogMode.Game);
