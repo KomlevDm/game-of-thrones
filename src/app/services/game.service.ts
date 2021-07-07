@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import * as uuid from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { EHouse } from '../enums/EHouse';
 import { ELocalStorageKey } from '../enums/ELocalStorageKey';
 import { ISaveGameData } from '../pages/load-page/interfaces/ISaveGameData';
