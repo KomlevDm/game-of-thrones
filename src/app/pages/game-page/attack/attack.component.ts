@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  HostBinding,
-  OnDestroy,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { EDirection } from '../../../enums/EDirection';
 
@@ -16,11 +9,14 @@ import { EDirection } from '../../../enums/EDirection';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AttackComponent implements OnDestroy {
-  constructor(private elRef: ElementRef<HTMLLIElement>, public cdr: ChangeDetectorRef) {}
+  private readonly destroyer$ = new Subject<void>();
 
-  private destroyer$ = new Subject<void>();
   private _xPositionInPx: number;
   private _yPositionInPx: number;
+
+  public name: string;
+  public direction: EDirection;
+  @HostBinding('style.width.px') public sizeInPx: number;
 
   public set xPositionInPx(x: number) {
     this._xPositionInPx = x;
@@ -44,12 +40,7 @@ export class AttackComponent implements OnDestroy {
     return this._yPositionInPx;
   }
 
-  @HostBinding('style.width.px')
-  public sizeInPx: number;
-
-  public name: string;
-
-  public direction: EDirection;
+  constructor(private readonly elRef: ElementRef<HTMLLIElement>) {}
 
   ngOnDestroy(): void {
     this.destroyer$.next();

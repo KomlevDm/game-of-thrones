@@ -20,7 +20,7 @@ export abstract class Hero extends Personage {
     });
 
     this.house = settings.house;
-    this._level = settings.level ?? new Level();
+    this._level = new Level(settings.levelNumber);
     this._isShieldActivated = settings.isShieldActivated ?? false;
     this._isShieldAvailable = settings.isShieldAvailable ?? true;
     this._isSpeedActivated = settings.isSpeedActivated ?? false;
@@ -36,7 +36,7 @@ export abstract class Hero extends Personage {
     };
     this.attackObj.attack$.pipe(debounceTime(DEBOUNCE_TIME_ATTACK_IN_MS)).subscribe((direction) => {
       const attackObject = {
-        attackComponentRef: this.createAttackComponent(direction),
+        attackComponentRef: this.createAttack(direction),
         direction,
       };
 
@@ -90,11 +90,14 @@ export abstract class Hero extends Personage {
     return this._isSpeedAvailable;
   }
 
-  public init(componentFactoryResolver: ComponentFactoryResolver, gameField: ViewContainerRef): void {
+  public viewInit(componentFactoryResolver: ComponentFactoryResolver, gameField: ViewContainerRef): void {
     this.componentFactoryResolver = componentFactoryResolver;
     this.gameField = gameField;
 
-    this.initHeroComponent();
+    const factory = this.componentFactoryResolver.resolveComponentFactory(HeroComponent);
+    this.heroComponent = this.gameField.createComponent(factory).instance;
+    this.heroComponent.heroHouse = this.house;
+    this.heroComponent.widthInPx = this.widthInPx;
   }
 
   public stepToLeft(stepSize = this.stepSizeInPx): void {
@@ -182,41 +185,18 @@ export abstract class Hero extends Personage {
     this.attackObj.attack$.next(this.direction);
   }
 
-  public drawAttackNodeElements(): void {
-    this.attackObj.views = this.attackObj.views.filter((view) => {
-      const { attackComponentRef, direction } = view;
-
-      if (direction === EDirection.Right && attackComponentRef.instance.xPositionInPx < SIZE_FIELD_GAME_IN_PX.width) {
-        attackComponentRef.instance.xPositionInPx += this.attackObj.stepSizeInPx;
-        return true;
-      }
-
-      if (direction === EDirection.Left && attackComponentRef.instance.xPositionInPx + this.attackObj.sizeInPx > 0) {
-        attackComponentRef.instance.xPositionInPx -= this.attackObj.stepSizeInPx;
-        return true;
-      }
-
-      attackComponentRef.destroy();
-      return false;
-    });
-  }
-
   public render(): void {
-    this.heroComponent.xPositionInPx = this.xPositionInPx;
-    this.heroComponent.yPositionInPx = this.yPositionInPx;
     this.heroComponent.direction = this.direction;
     this.heroComponent.isShieldActivated = this.isShieldActivated;
+    this.heroComponent.widthInPx = this.widthInPx;
+    this.heroComponent.xPositionInPx = this.xPositionInPx;
+    this.heroComponent.yPositionInPx = this.yPositionInPx;
+    this.renderAttack();
+
     this.heroComponent.cdr.markForCheck();
   }
 
-  private initHeroComponent(): void {
-    const factory = this.componentFactoryResolver.resolveComponentFactory(HeroComponent);
-    this.heroComponent = this.gameField.createComponent(factory).instance;
-    this.heroComponent.heroHouse = this.house;
-    this.heroComponent.widthInPx = this.widthInPx;
-  }
-
-  private createAttackComponent(direction: EDirection): ComponentRef<AttackComponent> {
+  private createAttack(direction: EDirection): ComponentRef<AttackComponent> {
     const factory = this.componentFactoryResolver.resolveComponentFactory(AttackComponent);
     const attackComponentRef = this.gameField.createComponent(factory);
 
@@ -231,10 +211,30 @@ export abstract class Hero extends Personage {
 
     return attackComponentRef;
   }
+
+  private renderAttack(): void {
+    this.attackObj.views = this.attackObj.views.filter((view) => {
+      const { attackComponentRef, direction } = view;
+
+      if (direction === EDirection.Right && attackComponentRef.instance.xPositionInPx < SIZE_FIELD_GAME_IN_PX.width) {
+        attackComponentRef.instance.xPositionInPx += this.attackObj.stepSizeInPx;
+        return true;
+      }
+
+      if (direction === EDirection.Left && attackComponentRef.instance.xPositionInPx + this.attackObj.sizeInPx > 0) {
+        attackComponentRef.instance.xPositionInPx -= this.attackObj.stepSizeInPx;
+        return true;
+      }
+
+      attackComponentRef.destroy();
+
+      return false;
+    });
+  }
 }
 
 export interface IHeroSettings extends IPersonageSettings {
-  level: Level;
+  levelNumber: number;
   house: EHouse;
   isShieldActivated: boolean;
   isShieldAvailable: boolean;

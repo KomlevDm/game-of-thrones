@@ -46,7 +46,8 @@ export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
   public hero: Hero;
 
   constructor(
-    private heroService: HeroService,
+    heroService: HeroService,
+    appStateService: AppStateService,
     private _router: Router,
     private audioService: AudioService,
     private _monsterService: MonsterService,
@@ -54,12 +55,12 @@ export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
     public gameService: GameService,
     private componentFactoryResolver: ComponentFactoryResolver,
     private ngZone: NgZone,
-    appStateService: AppStateService
+    public cdr: ChangeDetectorRef
   ) {
     appStateService.activateGame();
     gameService.playGame('test', EHouse.Lannister);
 
-    this.hero = this.heroService.hero;
+    this.hero = heroService.hero;
   }
 
   private destroyer$ = new Subject<void>();
@@ -83,11 +84,6 @@ export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('monsterTemplate') monsterNodeElementTemplate: TemplateRef<Monster>;
 
   ngOnInit() {
-    this.ngZone.runOutsideAngular(() => {
-      addEventListener('keydown', this.keydownHandler);
-      addEventListener('keyup', this.keyupHandler);
-    });
-
     // this.stateGameDialog$.pipe(takeUntil(this.destroyer$)).subscribe((dialogState) => {
     //   if (dialogState) this._pauseGame();
     //   else this._continueGame();
@@ -138,9 +134,14 @@ export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.heroService.hero.init(this.componentFactoryResolver, this.gameField);
+    this.hero.viewInit(this.componentFactoryResolver, this.gameField);
 
-    this.gameLoop();
+    this.ngZone.runOutsideAngular(() => {
+      addEventListener('keydown', this.keydownHandler);
+      addEventListener('keyup', this.keyupHandler);
+
+      this.gameLoop();
+    });
   }
 
   ngOnDestroy(): void {
@@ -262,17 +263,19 @@ export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
     // if (this._isKeydownArrowDown && this.gameService.player instanceof FlyingPlayer) {
     //   this.gameService.player.stepToDown();
     // }
-    if (this.isKeydownArrowLeft) this.heroService.hero.stepToLeft();
-    if (this.isKeydownArrowRight) this.heroService.hero.stepToRight();
-    if (this.isKeydownSpace) this.heroService.hero.attack();
-    if (this.isKeydownControlLeft) this.heroService.hero.activateShield();
-    if (this.isKeydownShiftLeft) this.heroService.hero.speed();
+    if (this.isKeydownArrowLeft) this.hero.stepToLeft();
+    if (this.isKeydownArrowRight) this.hero.stepToRight();
+    if (this.isKeydownSpace) this.hero.attack();
+    if (this.isKeydownControlLeft) this.hero.activateShield();
+    if (this.isKeydownShiftLeft) this.hero.speed();
 
-    this.heroService.hero.drawAttackNodeElements();
-    this.heroService.hero.render();
     // this._monsterService.drawMonsters();
     // this._worker.postMessage(this._getDataCollisions());
     // }
+
+    this.hero.render();
+    this.cdr.detectChanges();
+
     this.requestIdAnimationFrameId = requestAnimationFrame(this.gameLoop.bind(this));
   }
 
