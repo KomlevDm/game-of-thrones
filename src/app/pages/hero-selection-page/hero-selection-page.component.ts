@@ -12,42 +12,39 @@ import { FormControl, Validators } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeroSelectionPageComponent {
-  constructor(private gameService: GameService, public audioService: AudioService) {}
-
-  public EHouse = EHouse;
-  public selectedHouse: EHouse = null;
-  public playerNameControl = new FormControl(Player.defaultName, Validators.required);
-  public houseRange = {
+  private selectedHousesAudio = {
     [EHouse.Stark]: this.audioService.wolfRipsApartEnemy,
     [EHouse.Targaryen]: this.audioService.dragonRoar,
     [EHouse.Lannister]: this.audioService.lionRoar,
   };
 
-  @HostListener('document:keydown.enter')
-  public onKeydownEnterHandler() {
-    this.startGame();
+  public EHouse = EHouse;
+  public selectedHouse: EHouse;
+  public playerNameControl = new FormControl(Player.defaultName, Validators.required);
+
+  public get isAllowPlayGame(): boolean {
+    return this.selectedHouse && this.playerNameControl.valid;
   }
 
-  public selectHouse(house: EHouse): void {
-    this.selectedHouse = house;
+  constructor(private readonly gameService: GameService, private readonly audioService: AudioService) {}
 
-    Object.entries(this.houseRange).forEach(([key, value]) => {
-      if (key !== house) {
-        value.stop();
+  public selectHouse(selectedHouse: EHouse): void {
+    this.selectedHouse = selectedHouse;
+
+    Object.entries(this.selectedHousesAudio).forEach(([house, audio]) => {
+      if (house !== selectedHouse) {
+        audio.stop();
         return;
       }
 
-      value.restart();
+      audio.restart();
     });
   }
 
-  public isAllowPlayGame(): boolean {
-    return this.selectedHouse !== null && Boolean(this.playerNameControl.valid);
-  }
+  @HostListener('document:keydown.enter')
+  public playGame() {
+    if (!this.isAllowPlayGame) return;
 
-  public startGame(): void {
-    if (this.isAllowPlayGame()) {
-      this.gameService.startGame(this.playerNameControl.value, this.selectedHouse);
-    }
+    this.gameService.playGame(this.playerNameControl.value, this.selectedHouse);
   }
 }

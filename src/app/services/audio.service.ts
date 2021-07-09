@@ -24,7 +24,7 @@ export class AudioService {
   private readonly AUDIO_PATH = '../../assets/audio';
   private readonly bgAudio = new BgAudio(this.AUDIO_PATH, Object.values(AUDIO_LIST.background));
 
-  public startGame: HTMLAudioElement;
+  public playGame: HTMLAudioElement;
   public dragonFlame: HTMLAudioElement;
   public blade: HTMLAudioElement;
   public shortTomahawk: HTMLAudioElement;
@@ -46,7 +46,7 @@ export class AudioService {
   }
 
   public init(): void {
-    this.startGame = new Audio(`${this.AUDIO_PATH}/${AUDIO_LIST.action.startGame}`);
+    this.playGame = new Audio(`${this.AUDIO_PATH}/${AUDIO_LIST.action.playGame}`);
 
     this.dragonFlame = new Audio(`${this.AUDIO_PATH}/${AUDIO_LIST.action.dragonFlame}`);
     this.dragonFlame.volume = 0.5;

@@ -54,7 +54,7 @@ export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
     appStateService: AppStateService
   ) {
     appStateService.activateGame();
-    gameService.startGame('test', EHouse.Lannister);
+    gameService.playGame('test', EHouse.Lannister);
   }
 
   private destroyer$ = new Subject<void>();

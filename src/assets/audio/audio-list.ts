@@ -18,7 +18,7 @@ export const AUDIO_LIST = {
     starkAttack: 'stark-attack.mp3',
     targaryenAttack: 'targaryen-attack.mp3',
     lannisterAttack: 'lannister-attack.mp3',
-    startGame: 'start-game.mp3',
+    playGame: 'play-game.mp3',
     coinsRinging: 'coins-ringing.mp3',
     gameOver: 'game-over.mp3',
     death: 'death.mp3',

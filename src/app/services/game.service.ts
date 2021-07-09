@@ -24,14 +24,14 @@ export class GameService {
     return this._saveGameName;
   }
 
-  public startGame(playerName: string, house: EHouse): void {
+  public playGame(playerName: string, house: EHouse): void {
     this.heroService.createHero({ name: playerName, house });
 
     // this._createGameSession();
 
     this.router.navigateByUrl('/game');
 
-    this.audioService.startGame.play();
+    this.audioService.playGame.play();
   }
 
   public restartGame(): void {
@@ -41,7 +41,7 @@ export class GameService {
     // this.hero.initFabricAttack(fabricAttackNodeElement);
     // this.monsterService.restartGenerateMonster();
     // this._createGameSession();
-    // this.audioService.startGame.play();
+    // this.audioService.playGame.play();
   }
 
   public loadGame(gameData: ISaveGameData): void {
@@ -53,7 +53,7 @@ export class GameService {
 
     this.router.navigateByUrl('/game');
 
-    this.audioService.startGame.play();
+    this.audioService.playGame.play();
   }
 
   public saveGame(name: string): void {
