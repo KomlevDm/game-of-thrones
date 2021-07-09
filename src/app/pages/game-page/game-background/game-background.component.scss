@@ -3,10 +3,10 @@
 
 :host {
   @include absolute(0, -$widthScreen, 0, 0);
-  animation: bg 10s linear infinite;
+  animation: background 10s linear infinite;
   will-change: transform;
 
-  @keyframes bg {
+  @keyframes background {
     from {
       transform: translate(0, 0);
     }

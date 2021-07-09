@@ -33,6 +33,7 @@ import { ITableItem } from '../top-table-page/interfaces/ITableItem';
 import { AppStateService } from '../../services/app-state.service';
 import { EHouse } from '../../enums/EHouse';
 import { HeroService } from '../../services/hero.service';
+import { Hero } from 'src/app/classes/game/hero/Hero';
 // import { EGameDialogMode } from '../../components/game-dialog/game-dialog.component';
 
 @Component({
@@ -42,19 +43,23 @@ import { HeroService } from '../../services/hero.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
+  public hero: Hero;
+
   constructor(
+    private heroService: HeroService,
     private _router: Router,
     private audioService: AudioService,
     private _monsterService: MonsterService,
     private _domSanitizer: DomSanitizer,
     public gameService: GameService,
-    public heroService: HeroService,
     private componentFactoryResolver: ComponentFactoryResolver,
     private ngZone: NgZone,
     appStateService: AppStateService
   ) {
     appStateService.activateGame();
     gameService.playGame('test', EHouse.Lannister);
+
+    this.hero = this.heroService.hero;
   }
 
   private destroyer$ = new Subject<void>();

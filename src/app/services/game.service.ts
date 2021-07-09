@@ -24,12 +24,12 @@ export class GameService {
     return this._saveGameName;
   }
 
-  public playGame(playerName: string, house: EHouse): void {
+  public async playGame(playerName: string, house: EHouse): Promise<void> {
     this.heroService.createHero({ name: playerName, house });
 
     // this._createGameSession();
 
-    this.router.navigateByUrl('/game');
+    await this.router.navigateByUrl('/game');
 
     this.audioService.playGame.play();
   }

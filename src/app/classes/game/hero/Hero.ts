@@ -7,6 +7,7 @@ import { EHouse } from '../../../enums/EHouse';
 import { AttackComponent } from '../../../pages/game-page/attack/attack.component';
 import { HeroComponent } from '../../../pages/game-page/hero/hero.component';
 import { AudioService } from '../../../services/audio.service';
+import { Level } from '../../level/Level';
 import { IPersonageSettings, Personage } from '../Personage';
 
 export abstract class Hero extends Personage {
@@ -19,6 +20,7 @@ export abstract class Hero extends Personage {
     });
 
     this.house = settings.house;
+    this._level = settings.level ?? new Level();
     this._isShieldActivated = settings.isShieldActivated ?? false;
     this._isShieldAvailable = settings.isShieldAvailable ?? true;
     this._isSpeedActivated = settings.isSpeedActivated ?? false;
@@ -49,6 +51,7 @@ export abstract class Hero extends Personage {
   private readonly TIMEOUT_SPEED_ACTIVATED_IN_MS = 100;
   private readonly TIMEOUT_SPEED_AVAILABLE_IN_MS = 2000;
 
+  private _level: Level;
   private _isShieldActivated: boolean;
   private _isShieldAvailable: boolean;
   private _isSpeedActivated: boolean;
@@ -66,6 +69,10 @@ export abstract class Hero extends Personage {
   };
 
   public readonly house: EHouse;
+
+  public get level(): Level {
+    return this._level;
+  }
 
   public get isShieldActivated(): boolean {
     return this._isShieldActivated;
@@ -227,6 +234,7 @@ export abstract class Hero extends Personage {
 }
 
 export interface IHeroSettings extends IPersonageSettings {
+  level: Level;
   house: EHouse;
   isShieldActivated: boolean;
   isShieldAvailable: boolean;

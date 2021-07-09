@@ -1,24 +1,15 @@
 import { EDirection } from '../../enums/EDirection';
 
 export abstract class Personage {
-  constructor({
-    name,
-    widthInPx,
-    heightInPx,
-    xPositionInPx,
-    yPositionInPx,
-    stepSizeInPx,
-    direction,
-    lives,
-  }: IPersonageSettings) {
-    this.name = name;
-    this.widthInPx = widthInPx;
-    this.heightInPx = heightInPx;
-    this.xPositionInPx = xPositionInPx;
-    this.yPositionInPx = yPositionInPx;
-    this.stepSizeInPx = stepSizeInPx;
-    this.direction = direction;
-    this._lives = lives;
+  constructor(settings: IPersonageSettings) {
+    this.name = settings.name;
+    this.widthInPx = settings.widthInPx;
+    this.heightInPx = settings.heightInPx;
+    this.xPositionInPx = settings.xPositionInPx;
+    this.yPositionInPx = settings.yPositionInPx;
+    this.stepSizeInPx = settings.stepSizeInPx;
+    this.direction = settings.direction;
+    this._lives = settings.lives;
   }
 
   private isDead = false;

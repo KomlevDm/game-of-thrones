@@ -1,12 +1,12 @@
-<bg [bgName]="'mountains'"></bg>
+<game-background [name]="hero.level.gameBackgroundName"></game-background>
 
 <info-state-panel
-  [lives]="heroService.hero.lives"
-  [isShieldAvailable]="heroService.hero.isShieldAvailable"
+  [lives]="hero.lives"
+  [isShieldAvailable]="hero.isShieldAvailable"
   [isAttackAvailable]="false"
   [isSuperpowerAvailable]="false"
-  [isSpeedAvailable]="heroService.hero.isSpeedAvailable"
-  [heroName]="heroService.hero.name"
+  [isSpeedAvailable]="hero.isSpeedAvailable"
+  [heroName]="hero.name"
   [isRedPotionAvailable]="false"
   [isGreenPotionAvailable]="false"
   [isBluePotionAvailable]="false"
