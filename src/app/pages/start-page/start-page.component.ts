@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService } from '../../services/user.service';
+import { AppStateService } from '../../services/app-state.service';
 
 @Component({
   selector: 'start-page',
@@ -9,5 +9,5 @@ import { UserService } from '../../services/user.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StartPageComponent {
-  constructor(public router: Router, public userService: UserService) {}
+  constructor(public readonly router: Router, public readonly appStateService: AppStateService) {}
 }

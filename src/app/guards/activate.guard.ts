@@ -8,19 +8,19 @@ import {
   UrlSegment,
   Router,
 } from '@angular/router';
-import { UserService } from '../services/user.service';
+import { AppStateService } from '../services/app-state.service';
 
 @Injectable({ providedIn: 'root' })
 export class ActivateGuard implements CanLoad, CanActivate {
-  constructor(private router: Router, private userService: UserService) {}
+  constructor(private readonly router: Router, private readonly appStateService: AppStateService) {}
 
-  private rootUrl = '/';
+  private readonly ROOT_URL = '/';
 
   public canLoad(route: Route, segments: UrlSegment[]): boolean {
-    if (segments[0].toString() === this.rootUrl && this.userService.isGameActivated) return false;
+    if (segments[0].toString() === this.ROOT_URL && this.appStateService.isGameActivated) return false;
 
-    if (segments[0].toString() !== this.rootUrl && !this.userService.isGameActivated) {
-      this.router.navigate([this.rootUrl]);
+    if (segments[0].toString() !== this.ROOT_URL && !this.appStateService.isGameActivated) {
+      this.router.navigateByUrl(this.ROOT_URL);
       return false;
     }
 
@@ -28,10 +28,10 @@ export class ActivateGuard implements CanLoad, CanActivate {
   }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (state.url === this.rootUrl && this.userService.isGameActivated) return false;
+    if (state.url === this.ROOT_URL && this.appStateService.isGameActivated) return false;
 
-    if (state.url !== this.rootUrl && !this.userService.isGameActivated) {
-      this.router.navigate([this.rootUrl]);
+    if (state.url !== this.ROOT_URL && !this.appStateService.isGameActivated) {
+      this.router.navigateByUrl(this.ROOT_URL);
       return false;
     }
 

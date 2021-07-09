@@ -1,6 +1,6 @@
 <logo
   [text]="'StartPage.Logo.Text' | translate"
   decrease
-  (startedDecrease)="userService.activateGame()"
-  (endedDecrease)="router.navigate(['menu'])"
+  (startedDecrease)="appStateService.activateGame()"
+  (endedDecrease)="router.navigateByUrl('/menu')"
 ></logo>

@@ -30,7 +30,7 @@ import { EDirection } from '../../enums/EDirection';
 import { IWorkerResponse } from '../../interfaces/IWorkerResponse';
 import { IWorkerData } from '../../interfaces/IWorkerData';
 import { ITableItem } from '../top-table-page/interfaces/ITableItem';
-import { UserService } from '../../services/user.service';
+import { AppStateService } from '../../services/app-state.service';
 import { EHouse } from '../../enums/EHouse';
 import { HeroService } from '../../services/hero.service';
 // import { EGameDialogMode } from '../../components/game-dialog/game-dialog.component';
@@ -51,9 +51,9 @@ export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
     public heroService: HeroService,
     private componentFactoryResolver: ComponentFactoryResolver,
     private ngZone: NgZone,
-    userService: UserService
+    appStateService: AppStateService
   ) {
-    userService.activateGame();
+    appStateService.activateGame();
     gameService.startGame('test', EHouse.Lannister);
   }
 
