@@ -1,65 +1,73 @@
 {
-  "Title": "Игра Престолов",
-  "MainMenu": {
-    "Title": "Меню",
-    "Buttons": {
-      "Play": "Играть",
-      "Load": "Загрузить",
-      "Top": "Рекорды",
-      "Language": "Язык"
+  "Game": {
+    "GameDialog": {
+      "ButtonNames": {
+        "Cancel": "Закрыть",
+        "Continue": "Продолжить",
+        "Exit": "Выйти",
+        "Ok": "Ок",
+        "Restart": "Заново",
+        "Save": "Сохранить"
+      },
+      "GameOverText": "Игра окончена",
+      "SaveText": "Сохранить текущие достижения, как"
     }
   },
-  "ToggleLanguageDialog": {
-    "Title": "Пожалуйста выберите предпочитаемый язык"
-  },
-  "TopTable": {
-    "Title": "Таблица рекордов",
-    "ColumnTitles": {
-      "Name": "Имя",
-      "Score": "Очки",
-      "Date": "Дата"
-    },
-    "EmptyTableMessage": "На данный момент таблица пуста"
-  },
-  "HeroSelection": {
-    "Title": "Выберите дом",
+  "HeroSelectionPage": {
     "Houses": {
+      "Lannister": {
+        "HouseName": "HeroSelectionPage.Houses.Lannister.HouseName",
+        "Motto": "HeroSelectionPage.Houses.Lannister.Motto"
+      },
       "Stark": {
-        "HouseName": "Старк",
-        "Motto": "Зима близко"
+        "HouseName": "HeroSelectionPage.Houses.Stark.HouseName",
+        "Motto": "HeroSelectionPage.Houses.Stark.Motto"
       },
       "Targaryen": {
-        "HouseName": "Таргариен",
-        "Motto": "Пламя и кровь"
-      },
-      "Lannister": {
-        "HouseName": "Ланнистер",
-        "Motto": "Услышь мой рев"
+        "HouseName": "HeroSelectionPage.Houses.Targaryen.HouseName",
+        "Motto": "HeroSelectionPage.Houses.Targaryen.Motto"
       }
     },
-    "PlayerInfo": "Ваше имя"
+    "PlayerInfo": "HeroSelectionPage.PlayerInfo",
+    "Title": "HeroSelectionPage.Title"
   },
-  "Game": {
-    "NotePlayerNotExists": "Вы не выбрали дом, за который будете играть",
-    "GameDialog": {
-      "GameOverText": "Игра окончена",
-      "SaveText": "Сохранить текущие достижения, как",
-      "ButtonNames": {
-        "Continue": "Продолжить",
-        "Save": "Сохранить",
-        "Exit": "Выйти",
-        "Restart": "Заново",
-        "Ok": "Ок",
-        "Cancel": "Закрыть"
-      }
-    }
-  },
-  "Load": {
-    "Title": "Доступные сохранения",
-    "EmptyDataMessage": "Нет доступных сохранений",
+  "LoadPage": {
     "ButtonNames": {
-      "Delete": "Удалить",
-      "Load": "Загрузить"
+      "Delete": "LoadPage.ButtonNames.Delete",
+      "Load": "LoadPage.ButtonNames.Load"
+    },
+    "EmptyDataMessage": "LoadPage.EmptyDataMessage",
+    "Title": "LoadPage.Title"
+  },
+  "MenuPage": {
+    "Menu": {
+      "Button": {
+        "Language": "MenuPage.Menu.Button.Language",
+        "Load": "MenuPage.Menu.Button.Load",
+        "Play": "MenuPage.Menu.Button.Play",
+        "Top": "MenuPage.Menu.Button.Top"
+      },
+      "Logo": {
+        "Text": "MenuPage.Menu.Logo.Text"
+      }
+    },
+    "Title": "MenuPage.Title",
+    "ToggleLanguageDialog": {
+      "Title": "MenuPage.ToggleLanguageDialog.Title"
     }
+  },
+  "StartPage": {
+    "Logo": {
+      "Text": "StartPage.Logo.Text"
+    }
+  },
+  "TopTablePage": {
+    "ColumnTitles": {
+      "Date": "TopTablePage.ColumnTitles.Date",
+      "Name": "TopTablePage.ColumnTitles.Name",
+      "Score": "TopTablePage.ColumnTitles.Score"
+    },
+    "EmptyTableMessage": "TopTablePage.EmptyTableMessage",
+    "Title": "TopTablePage.Title"
   }
 }

@@ -2,20 +2,23 @@
   "Game": {
     "GameDialog": {
       "ButtonNames": {
+        "Cancel": "Cancel",
         "Continue": "Continue",
-        "Save": "Save",
         "Exit": "Exit",
-        "Restart": "Restart",
         "Ok": "Ok",
-        "Cancel": "Cancel"
+        "Restart": "Restart",
+        "Save": "Save"
       },
       "GameOverText": "Game over",
       "SaveText": "Save current achievements as"
     }
   },
   "HeroSelectionPage": {
-    "Title": "Select home",
     "Houses": {
+      "Lannister": {
+        "HouseName": "Lannister",
+        "Motto": "Hear me Roar"
+      },
       "Stark": {
         "HouseName": "Stark",
         "Motto": "Winter is Coming"
@@ -23,35 +26,32 @@
       "Targaryen": {
         "HouseName": "Targaryen",
         "Motto": "Fire and Blood"
-      },
-      "Lannister": {
-        "HouseName": "Lannister",
-        "Motto": "Hear me Roar"
       }
     },
-    "PlayerInfo": "Your name"
+    "PlayerInfo": "Your name",
+    "Title": "Select home"
   },
   "LoadPage": {
-    "Title": "Available saves",
     "ButtonNames": {
       "Delete": "Delete",
       "Load": "Load"
     },
-    "EmptyDataMessage": "No available saves"
+    "EmptyDataMessage": "No available saves",
+    "Title": "Available saves"
   },
   "MenuPage": {
-    "Title": "Game of thrones",
     "Menu": {
+      "Button": {
+        "Language": "Language",
+        "Load": "Load",
+        "Play": "Play",
+        "Top": "Top"
+      },
       "Logo": {
         "Text": "Menu"
-      },
-      "Button": {
-        "Play": "Play",
-        "Load": "Load",
-        "Top": "Top",
-        "Language": "Language"
       }
     },
+    "Title": "Game of thrones",
     "ToggleLanguageDialog": {
       "Title": "Please select your preferred language"
     }
@@ -62,12 +62,12 @@
     }
   },
   "TopTablePage": {
-    "Title": "Top",
     "ColumnTitles": {
+      "Date": "Date",
       "Name": "Name",
-      "Score": "Score",
-      "Date": "Date"
+      "Score": "Score"
     },
-    "EmptyTableMessage": "The table is currently empty"
+    "EmptyTableMessage": "The table is currently empty",
+    "Title": "Top"
   }
 }
