@@ -1,15 +1,15 @@
-import { SIZE_FIELD_GAME_IN_PX } from '../../constants/gameParams';
 import { Monster, IMonsterSettings } from './Monster';
 import { getRandomNumber } from 'src/app/helpers/getRandomNumber';
+import { GameService } from 'src/app/services/game.service';
 
 export abstract class FlyingMonster extends Monster {
   constructor(settings: IMonsterSettings) {
     super({
       ...settings,
       positionInPx: {
-        left: SIZE_FIELD_GAME_IN_PX.width,
-        top: getRandomNumber(0, SIZE_FIELD_GAME_IN_PX.height - settings.sizeInPx.height)
-      }
+        left: GameService.SIZE_FIELD_GAME_IN_PX.WIDTH,
+        top: getRandomNumber(0, GameService.SIZE_FIELD_GAME_IN_PX.HEIGHT - settings.sizeInPx.height),
+      },
     });
   }
 
@@ -22,6 +22,7 @@ export abstract class FlyingMonster extends Monster {
   public stepToDown(): void {
     const newPositionTop = this.positionInPx.top + this.stepSizeInPx;
 
-    if (newPositionTop + this.sizeInPx.height <= SIZE_FIELD_GAME_IN_PX.height) this.positionInPx.top = newPositionTop;
+    if (newPositionTop + this.sizeInPx.height <= GameService.SIZE_FIELD_GAME_IN_PX.HEIGHT)
+      this.positionInPx.top = newPositionTop;
   }
 }

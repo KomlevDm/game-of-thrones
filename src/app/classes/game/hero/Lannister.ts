@@ -1,15 +1,14 @@
 import { EHouse } from '../../../enums/EHouse';
 import { AudioService } from 'src/app/services/audio.service';
-import { GoingHero, IGoingHeroSettings } from './GoingHero';
+import { AGoingHero, IGoingHeroSettings } from './GoingHero';
 
-export class Lannister extends GoingHero {
+export class Lannister extends AGoingHero {
   constructor(settings: IGoingHeroSettings) {
     super({
       ...settings,
       house: EHouse.Lannister,
-      widthInPx: settings.widthInPx ?? 260,
-      //TODO
-      // heightInPx: settings.heightInPx ??  ,
+      widthInPx: 260,
+      heightInPx: 260,
       xPositionInPx: settings.xPositionInPx ?? 0,
       yPositionInPx: settings.yPositionInPx ?? 430,
       attack: {

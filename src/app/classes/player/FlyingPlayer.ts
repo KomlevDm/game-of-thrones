@@ -1,5 +1,5 @@
+import { GameService } from 'src/app/services/game.service';
 import { Player, IPlayerSettings } from './Player';
-import { SIZE_FIELD_GAME_IN_PX } from '../../constants/gameParams';
 
 export abstract class FlyingPlayer extends Player {
   constructor(settings: IPlayerSettings) {
@@ -15,7 +15,7 @@ export abstract class FlyingPlayer extends Player {
   public stepToDown(): void {
     const newPositionTop = this.positionInPx.top + this._stepSizeInPx;
 
-    if (newPositionTop + this.sizeInPx.height <= SIZE_FIELD_GAME_IN_PX.height) {
+    if (newPositionTop + this.sizeInPx.height <= GameService.SIZE_FIELD_GAME_IN_PX.HEIGHT) {
       this.positionInPx.top = newPositionTop;
     }
   }

@@ -12,6 +12,14 @@ import { MonsterService } from './monster.service';
 export class GameService {
   private static gameRender: GameRenderType;
 
+  public static readonly SIZE_FIELD_GAME_IN_PX: {
+    readonly WIDTH: number;
+    readonly HEIGHT: number;
+  } = {
+    WIDTH: 1300,
+    HEIGHT: 650,
+  };
+
   private _gameSession: string;
   private _saveGameName: string;
 

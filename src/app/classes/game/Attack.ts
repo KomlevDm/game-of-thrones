@@ -1,6 +1,6 @@
-import { SIZE_FIELD_GAME_IN_PX } from 'src/app/constants/gameParams';
 import { EDirection } from 'src/app/enums/EDirection';
 import { AttackComponent } from 'src/app/pages/game-page/attack/attack.component';
+import { GameService } from 'src/app/services/game.service';
 import { AView } from './View';
 
 export class Attack extends AView<AttackComponent> {
@@ -25,7 +25,7 @@ export class Attack extends AView<AttackComponent> {
   }
 
   public render(): void {
-    if (this.view.direction === EDirection.Right && this.view.xPositionInPx < SIZE_FIELD_GAME_IN_PX.width) {
+    if (this.view.direction === EDirection.Right && this.view.xPositionInPx < GameService.SIZE_FIELD_GAME_IN_PX.WIDTH) {
       this.view.xPositionInPx += this.stepSizeInPx;
       this.view.render();
 

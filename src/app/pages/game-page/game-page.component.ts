@@ -33,7 +33,8 @@ import { ITableItem } from '../top-table-page/interfaces/ITableItem';
 import { AppStateService } from '../../services/app-state.service';
 import { EHouse } from '../../enums/EHouse';
 import { HeroService } from '../../services/hero.service';
-import { Hero } from 'src/app/classes/game/hero/Hero';
+import { AHero } from 'src/app/classes/game/hero/Hero';
+import { AGoingHero } from 'src/app/classes/game/hero/GoingHero';
 // import { EGameDialogMode } from '../../components/game-dialog/game-dialog.component';
 
 @Component({
@@ -43,7 +44,7 @@ import { Hero } from 'src/app/classes/game/hero/Hero';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
-  public hero: Hero;
+  public readonly hero: AHero;
 
   constructor(
     heroService: HeroService,
@@ -59,7 +60,7 @@ export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
     appStateService: AppStateService
   ) {
     appStateService.activateGame();
-    gameService.playGame('test', EHouse.Stark);
+    gameService.playGame('test', EHouse.Lannister);
 
     this.hero = heroService.hero;
   }
@@ -263,9 +264,7 @@ export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
     //   // if (this.gameService.player instanceof GoingPlayer) this.gameService.player.jump();
     //   this.gameService.hero.
     // }
-    // if (this._isKeydownArrowDown && this.gameService.player instanceof FlyingPlayer) {
-    //   this.gameService.player.stepToDown();
-    // }
+    if (this.isKeydownArrowUp && this.hero instanceof AGoingHero) this.hero.jump();
     if (this.isKeydownArrowLeft) this.hero.stepToLeft();
     if (this.isKeydownArrowRight) this.hero.stepToRight();
     if (this.isKeydownSpace) this.hero.attack();

@@ -1,11 +1,11 @@
 import { ELocalStorageKey } from '../../enums/ELocalStorageKey';
 
-export class BgAudio {
-  private static instance: BgAudio;
+export class BackgroundAudio {
+  private static instance: BackgroundAudio;
 
   constructor(private audioPath: string, private soundNames: string[]) {
-    if (BgAudio.instance instanceof BgAudio) return BgAudio.instance;
-    BgAudio.instance = this;
+    if (BackgroundAudio.instance instanceof BackgroundAudio) return BackgroundAudio.instance;
+    BackgroundAudio.instance = this;
   }
 
   private currentSound: { element: HTMLAudioElement; index: number } = { element: null, index: 0 };
@@ -15,7 +15,7 @@ export class BgAudio {
     return isMutedBgAudio === null ? false : JSON.parse(isMutedBgAudio);
   }
 
-  public toggleBgAudio(): void {
+  public toggle(): void {
     const isMutedBgAudio = !this.isMuted;
     this.currentSound.element.muted = isMutedBgAudio;
     localStorage.setItem(ELocalStorageKey.IsMutedBgAudio, isMutedBgAudio.toString());

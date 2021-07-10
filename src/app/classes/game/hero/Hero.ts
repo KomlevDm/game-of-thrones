@@ -1,15 +1,15 @@
 import { Subject, timer } from 'rxjs';
 import { debounceTime, switchMap } from 'rxjs/operators';
-import { SIZE_FIELD_GAME_IN_PX } from '../../../constants/gameParams';
 import { EDirection } from '../../../enums/EDirection';
 import { EHouse } from '../../../enums/EHouse';
 import { HeroComponent } from '../../../pages/game-page/hero/hero.component';
 import { AudioService } from '../../../services/audio.service';
-import { Level } from '../../level/Level';
+import { Level } from '../Level';
 import { Attack, IAttack } from '../Attack';
-import { IPersonageSettings, Personage } from '../Personage';
+import { IPersonageSettings, APersonage } from '../Personage';
+import { GameService } from 'src/app/services/game.service';
 
-export abstract class Hero extends Personage<HeroComponent> {
+export abstract class AHero extends APersonage<HeroComponent> {
   private static readonly SHIELD_TIMEOUT_IN_MS = {
     ACTIVATE: 5 * 1000,
     AVAILABLE: 10 * 1000,
@@ -97,7 +97,7 @@ export abstract class Hero extends Personage<HeroComponent> {
   public stepToRight(): void {
     const x = this.xPositionInPx + this.stepSizeInPx;
 
-    if (x + this.widthInPx <= SIZE_FIELD_GAME_IN_PX.width) {
+    if (x + this.widthInPx <= GameService.SIZE_FIELD_GAME_IN_PX.WIDTH) {
       this.direction = EDirection.Right;
       this.xPositionInPx = x;
     }
@@ -113,13 +113,13 @@ export abstract class Hero extends Personage<HeroComponent> {
     AudioService.instance.shield.restart();
     this._isShieldActivated = true;
 
-    timer(Hero.SHIELD_TIMEOUT_IN_MS.ACTIVATE)
+    timer(AHero.SHIELD_TIMEOUT_IN_MS.ACTIVATE)
       .pipe(
         switchMap(() => {
           this._isShieldActivated = false;
           this._isShieldAvailable = false;
 
-          return timer(Hero.SHIELD_TIMEOUT_IN_MS.AVAILABLE);
+          return timer(AHero.SHIELD_TIMEOUT_IN_MS.AVAILABLE);
         })
       )
       .subscribe(() => (this._isShieldAvailable = true));

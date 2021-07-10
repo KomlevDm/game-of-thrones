@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AUDIO_LIST } from 'src/assets/audio/audio-list';
-import { BgAudio } from '../classes/audio/BgAudio';
+import { BackgroundAudio } from '../classes/audio/BackgroundAudio';
 
 @Injectable({ providedIn: 'root' })
 export class AudioService {
@@ -22,7 +22,7 @@ export class AudioService {
   }
 
   private readonly AUDIO_PATH = '../../assets/audio';
-  private readonly bgAudio = new BgAudio(this.AUDIO_PATH, Object.values(AUDIO_LIST.background));
+  private readonly backgroundAudio = new BackgroundAudio(this.AUDIO_PATH, Object.values(AUDIO_LIST.background));
 
   public playGame: HTMLAudioElement;
   public dragonFlame: HTMLAudioElement;
@@ -41,8 +41,8 @@ export class AudioService {
   public gameOver: HTMLAudioElement;
   public death: HTMLAudioElement;
 
-  public get isMutedBgAudio(): boolean {
-    return this.bgAudio.isMuted;
+  public get isMutedBackgroundAudio(): boolean {
+    return this.backgroundAudio.isMuted;
   }
 
   public init(): void {
@@ -82,10 +82,10 @@ export class AudioService {
 
     this.death = new Audio(`${this.AUDIO_PATH}/${AUDIO_LIST.action.death}`);
 
-    this.bgAudio.play();
+    this.backgroundAudio.play();
   }
 
-  public toggleBgAudio(): void {
-    this.bgAudio.toggleBgAudio();
+  public toggleBackgroundAudio(): void {
+    this.backgroundAudio.toggle();
   }
 }

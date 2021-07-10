@@ -10,11 +10,11 @@ import { IceDragon } from '../classes/monster/IceDragon';
 import { DeathAngel } from '../classes/monster/DeathAngel';
 import { FlyingMonster } from '../classes/monster/FlyingMonster';
 import { getRandomNumber } from '../helpers/getRandomNumber';
-import { SIZE_FIELD_GAME_IN_PX } from '../constants/gameParams';
+import { GameService } from './game.service';
 
 enum EVerticalDirection {
   Up,
-  Down
+  Down,
 }
 
 interface IMonsterObject {
@@ -84,7 +84,7 @@ export class MonsterService {
 
       if (monsterObject.monster.isDead) {
         monsterObject.subAttack.unsubscribe();
-        monsterObject.monster.attackNodeElements.forEach(a => a.destroy());
+        monsterObject.monster.attackNodeElements.forEach((a) => a.destroy());
         monsterObject.monsterNodeElement.destroy();
         this._monsterObjects.splice(i, 1);
         i -= 1;
@@ -97,9 +97,9 @@ export class MonsterService {
   }
 
   public restartGenerateMonster(): void {
-    this._monsterObjects.forEach(m => {
+    this._monsterObjects.forEach((m) => {
       m.subAttack.unsubscribe();
-      m.monster.attackNodeElements.forEach(a => a.destroy());
+      m.monster.attackNodeElements.forEach((a) => a.destroy());
       m.monsterNodeElement.destroy();
     });
     this._monsterObjects = [];
@@ -107,7 +107,7 @@ export class MonsterService {
   }
 
   public cleanMonsterInfo(): void {
-    this._monsterObjects.forEach(m => m.subAttack.unsubscribe());
+    this._monsterObjects.forEach((m) => m.subAttack.unsubscribe());
     this._monsterObjects = [];
     this._fabricMonsterNodeElement = null;
     this._fabricAttackNodeElement = null;
@@ -139,7 +139,9 @@ export class MonsterService {
     } else if (
       monsterObject.verticalDirection === EVerticalDirection.Down &&
       monsterObject.monster.positionInPx.top >=
-        SIZE_FIELD_GAME_IN_PX.height - monsterObject.monster.sizeInPx.height - monsterObject.monster.stepSizeInPx
+        GameService.SIZE_FIELD_GAME_IN_PX.HEIGHT -
+          monsterObject.monster.sizeInPx.height -
+          monsterObject.monster.stepSizeInPx
     ) {
       (monsterObject.monster as FlyingMonster).stepToUp();
       monsterObject.verticalDirection = Number(!monsterObject.verticalDirection);

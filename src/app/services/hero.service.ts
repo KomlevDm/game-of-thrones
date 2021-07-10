@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Hero, IHeroSettings } from '../classes/game/hero/Hero';
+import { AHero, IHeroSettings } from '../classes/game/hero/Hero';
 import { Lannister } from '../classes/game/hero/Lannister';
 import { Stark } from '../classes/game/hero/Stark';
 import { EHouse } from '../enums/EHouse';
 
 @Injectable()
 export class HeroService {
-  private _hero: Hero;
+  private _hero: AHero;
 
-  public get hero(): Hero {
+  public get hero(): AHero {
     return this._hero;
   }
 

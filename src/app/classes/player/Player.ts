@@ -1,6 +1,5 @@
 import { EHouse } from '../../enums/EHouse';
 import { EDirection } from '../../enums/EDirection';
-import { SIZE_FIELD_GAME_IN_PX } from '../../constants/gameParams';
 import { EmbeddedViewRef } from '@angular/core';
 import { debounceTime, mergeMap } from 'rxjs/operators';
 import { Subject, timer } from 'rxjs';
@@ -10,6 +9,7 @@ import { IAttackNodeElementSettings } from '../../interfaces/IAttackNodeElementS
 import { IAttack } from '../../interfaces/IAttack';
 import { ISize } from 'src/app/interfaces/ISize';
 import { AudioService } from 'src/app/services/audio.service';
+import { GameService } from 'src/app/services/game.service';
 
 interface IShield {
   isActivatedShield: boolean;
@@ -166,7 +166,7 @@ export abstract class Player {
   public stepToRight(stepSize = this._stepSizeInPx): void {
     const newPositionLeft = this.positionInPx.left + stepSize;
 
-    if (newPositionLeft + this._sizeInPx.width <= SIZE_FIELD_GAME_IN_PX.width) {
+    if (newPositionLeft + this._sizeInPx.width <= GameService.SIZE_FIELD_GAME_IN_PX.WIDTH) {
       this._direction = EDirection.Right;
       this.positionInPx.left = newPositionLeft;
     }
@@ -185,7 +185,7 @@ export abstract class Player {
       const { attackNodeElement, direction } = this._attackObjects[i];
 
       if (direction === EDirection.Right) {
-        if (attackNodeElement.context.leftInPx < SIZE_FIELD_GAME_IN_PX.width)
+        if (attackNodeElement.context.leftInPx < GameService.SIZE_FIELD_GAME_IN_PX.WIDTH)
           attackNodeElement.context.leftInPx += this._attack.stepSizeInPx;
         else {
           attackNodeElement.destroy();

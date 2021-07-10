@@ -1,9 +1,9 @@
 import { Player, IPlayerSettings } from './Player';
 import { debounceTime, filter, tap, switchMap, takeWhile } from 'rxjs/operators';
-import { DEBOUNCE_TIME_JUMP_IN_MS, SIZE_FIELD_GAME_IN_PX } from '../../constants/gameParams';
 import { timer, Subject } from 'rxjs';
 import { EDirection } from 'src/app/enums/EDirection';
 import { AudioService } from 'src/app/services/audio.service';
+import { GameService } from 'src/app/services/game.service';
 
 export abstract class GoingPlayer extends Player {
   constructor(settings: IPlayerSettings) {
@@ -11,7 +11,7 @@ export abstract class GoingPlayer extends Player {
 
     this._jump$
       .pipe(
-        debounceTime(DEBOUNCE_TIME_JUMP_IN_MS),
+        debounceTime(30),
         filter(() => !this._isJumpingNow),
         tap(() => (this._isJumpingNow = true)),
         switchMap(() => {
@@ -27,7 +27,7 @@ export abstract class GoingPlayer extends Player {
           else this.stepToLeft(this._horizontalJumpSizeStep);
         } else if (
           this.positionInPx.top + this._stepSizeInPx + this.sizeInPx.height <=
-          SIZE_FIELD_GAME_IN_PX.height - this._deltaSizeFieldGameHeightInPx
+          GameService.SIZE_FIELD_GAME_IN_PX.HEIGHT - this._deltaSizeFieldGameHeightInPx
         ) {
           this._isAchieveMaxJump = true;
           this.positionInPx.top += this._stepSizeInPx;

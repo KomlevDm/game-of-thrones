@@ -8,5 +8,5 @@ import { AudioService } from 'src/app/services/audio.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FooterPanelComponent {
-  constructor(public audioService: AudioService) {}
+  constructor(public readonly audioService: AudioService) {}
 }
