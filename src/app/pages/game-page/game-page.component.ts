@@ -47,18 +47,19 @@ export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     heroService: HeroService,
-    appStateService: AppStateService,
+    private ngZone: NgZone,
+    private cfr: ComponentFactoryResolver,
+    private cdr: ChangeDetectorRef,
+    private gameService: GameService,
     private _router: Router,
     private audioService: AudioService,
     private _monsterService: MonsterService,
     private _domSanitizer: DomSanitizer,
-    public gameService: GameService,
-    private componentFactoryResolver: ComponentFactoryResolver,
-    private ngZone: NgZone,
-    public cdr: ChangeDetectorRef
+
+    appStateService: AppStateService
   ) {
     appStateService.activateGame();
-    gameService.playGame('test', EHouse.Lannister);
+    gameService.playGame('test', EHouse.Stark);
 
     this.hero = heroService.hero;
   }
@@ -134,7 +135,9 @@ export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.hero.viewInit(this.componentFactoryResolver, this.gameField);
+    GameService.initGameRender({ gameField: this.gameField, cfr: this.cfr });
+
+    this.hero.viewInit();
 
     this.ngZone.runOutsideAngular(() => {
       addEventListener('keydown', this.keydownHandler);
@@ -148,7 +151,7 @@ export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
     removeEventListener('keydown', this.keydownHandler);
     removeEventListener('keyup', this.keyupHandler);
 
-    // this.gameService.cleanGameInfo();
+    this.gameService.clearGame();
     // this._monsterService.cleanMonsterInfo();
 
     this.destroyer$.next();
@@ -267,7 +270,7 @@ export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.isKeydownArrowRight) this.hero.stepToRight();
     if (this.isKeydownSpace) this.hero.attack();
     if (this.isKeydownControlLeft) this.hero.activateShield();
-    if (this.isKeydownShiftLeft) this.hero.speed();
+    // if (this.isKeydownShiftLeft) this.hero.speed();
 
     // this._monsterService.drawMonsters();
     // this._worker.postMessage(this._getDataCollisions());

@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, OnDestroy } from '@angular/core';
-import { Subject } from 'rxjs';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding } from '@angular/core';
+import { IView } from 'src/app/classes/game/View';
 import { EDirection } from '../../../enums/EDirection';
 
 @Component({
@@ -8,42 +8,28 @@ import { EDirection } from '../../../enums/EDirection';
   styleUrls: ['./attack.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AttackComponent implements OnDestroy {
-  private readonly destroyer$ = new Subject<void>();
-
-  private _xPositionInPx: number;
-  private _yPositionInPx: number;
-
+export class AttackComponent implements IView {
   public name: string;
   public direction: EDirection;
-  @HostBinding('style.width.px') public sizeInPx: number;
+  public xPositionInPx: number;
+  public yPositionInPx: number;
 
-  public set xPositionInPx(x: number) {
-    this._xPositionInPx = x;
+  @HostBinding('style.width.px')
+  public sizeInPx: number;
 
-    this.elRef.nativeElement.style.transform =
-      this.elRef.nativeElement.style.transform.replace(/(?<=translate\()\d+/g, x.toString()) ||
-      `translate(${x}px, 0px) ${this.direction}`;
-  }
-  public get xPositionInPx(): number {
-    return this._xPositionInPx;
-  }
-
-  public set yPositionInPx(y: number) {
-    this._yPositionInPx = y;
-
-    this.elRef.nativeElement.style.transform =
-      this.elRef.nativeElement.style.transform.replace(/(?<=translate\(\d+px, )\d+(?=px\))/g, y.toString()) ||
-      `translate(0px, ${y}px) ${this.direction}`;
-  }
-  public get yPositionInPx(): number {
-    return this._yPositionInPx;
+  @HostBinding('style.transform')
+  private get transform(): string {
+    return (
+      this.elRef.nativeElement.style.transform
+        .replace(/(?<=translate\()\d+/g, `${this.xPositionInPx}`)
+        .replace(/(?<=translate\(\d+px, )\d+(?=px\))/g, `${this.yPositionInPx}`) ||
+      `translate(${this.xPositionInPx}px, ${this.yPositionInPx}px)`
+    );
   }
 
-  constructor(private readonly elRef: ElementRef<HTMLLIElement>) {}
+  constructor(private readonly elRef: ElementRef<HTMLLIElement>, private readonly cdr: ChangeDetectorRef) {}
 
-  ngOnDestroy(): void {
-    this.destroyer$.next();
-    this.destroyer$.complete();
+  public render(): void {
+    this.cdr.markForCheck();
   }
 }

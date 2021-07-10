@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { ComponentFactoryResolver, Injectable, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { v4 as uuid } from 'uuid';
 import { EHouse } from '../enums/EHouse';
@@ -10,6 +10,15 @@ import { MonsterService } from './monster.service';
 
 @Injectable()
 export class GameService {
+  private static gameRender: GameRenderType;
+
+  private _gameSession: string;
+  private _saveGameName: string;
+
+  public get saveGameName(): string {
+    return this._saveGameName;
+  }
+
   constructor(
     private router: Router,
     private audioService: AudioService,
@@ -17,11 +26,12 @@ export class GameService {
     private heroService: HeroService
   ) {}
 
-  private _gameSession: string;
-  private _saveGameName: string;
+  public static initGameRender(gameRender: GameRenderType): void {
+    GameService.gameRender = gameRender;
+  }
 
-  public get saveGameName(): string {
-    return this._saveGameName;
+  public static getGameRender(): GameRenderType {
+    return GameService.gameRender;
   }
 
   public async playGame(playerName: string, house: EHouse): Promise<void> {
@@ -80,7 +90,8 @@ export class GameService {
     }
   }
 
-  public cleanGameInfo(): void {
+  public clearGame(): void {
+    GameService.gameRender = null;
     this.heroService.deleteHero();
     this._gameSession = null;
     this._saveGameName = null;
@@ -90,3 +101,8 @@ export class GameService {
     this._gameSession = sessionId || uuid();
   }
 }
+
+export type GameRenderType = {
+  readonly gameField: ViewContainerRef;
+  readonly cfr: ComponentFactoryResolver;
+};

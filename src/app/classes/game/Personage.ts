@@ -1,7 +1,10 @@
 import { EDirection } from '../../enums/EDirection';
+import { AView } from './View';
 
-export abstract class Personage {
+export abstract class Personage<C> extends AView<C> {
   constructor(settings: IPersonageSettings) {
+    super();
+
     this.name = settings.name;
     this.widthInPx = settings.widthInPx;
     this.heightInPx = settings.heightInPx;
@@ -40,12 +43,12 @@ export abstract class Personage {
 }
 
 export interface IPersonageSettings {
-  name: string;
-  widthInPx: number;
-  heightInPx: number;
-  xPositionInPx: number;
-  yPositionInPx: number;
-  stepSizeInPx: number;
-  direction: EDirection;
-  lives: number;
+  readonly name: string;
+  readonly widthInPx: number;
+  readonly heightInPx: number;
+  readonly xPositionInPx: number;
+  readonly yPositionInPx: number;
+  readonly stepSizeInPx: number;
+  readonly direction: EDirection;
+  readonly lives: number;
 }

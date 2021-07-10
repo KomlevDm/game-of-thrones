@@ -1,74 +1,32 @@
-import { ComponentFactoryResolver, ComponentRef, ViewContainerRef } from '@angular/core';
 import { Subject, timer } from 'rxjs';
 import { debounceTime, switchMap } from 'rxjs/operators';
-import { SIZE_FIELD_GAME_IN_PX, DEBOUNCE_TIME_ATTACK_IN_MS } from '../../../constants/gameParams';
+import { SIZE_FIELD_GAME_IN_PX } from '../../../constants/gameParams';
 import { EDirection } from '../../../enums/EDirection';
 import { EHouse } from '../../../enums/EHouse';
-import { AttackComponent } from '../../../pages/game-page/attack/attack.component';
 import { HeroComponent } from '../../../pages/game-page/hero/hero.component';
 import { AudioService } from '../../../services/audio.service';
 import { Level } from '../../level/Level';
+import { Attack, IAttack } from '../Attack';
 import { IPersonageSettings, Personage } from '../Personage';
 
-export abstract class Hero extends Personage {
-  constructor(settings: IHeroSettings) {
-    super({
-      ...settings,
-      stepSizeInPx: settings.stepSizeInPx ?? 5,
-      direction: settings.direction ?? EDirection.Right,
-      lives: settings.lives ?? 5,
-    });
+export abstract class Hero extends Personage<HeroComponent> {
+  private static readonly SHIELD_TIMEOUT_IN_MS = {
+    ACTIVATE: 5 * 1000,
+    AVAILABLE: 10 * 1000,
+  };
 
-    this.house = settings.house;
-    this._level = new Level(settings.levelNumber);
-    this._isShieldActivated = settings.isShieldActivated ?? false;
-    this._isShieldAvailable = settings.isShieldAvailable ?? true;
-    this._isSpeedActivated = settings.isSpeedActivated ?? false;
-    this._isSpeedAvailable = settings.isSpeedAvailable ?? true;
-    this.speedSizeInPx = settings.speedSizeInPx ?? 1000;
-
-    this.attackObj = {
-      ...settings.attack,
-      sizeInPx: settings.attack.sizeInPx ?? 30,
-      stepSizeInPx: settings.attack.stepSizeInPx ?? 10,
-      attack$: new Subject<EDirection>(),
-      views: [],
-    };
-    this.attackObj.attack$.pipe(debounceTime(DEBOUNCE_TIME_ATTACK_IN_MS)).subscribe((direction) => {
-      const attackObject = {
-        attackComponentRef: this.createAttack(direction),
-        direction,
-      };
-
-      this.attackObj.sound();
-
-      this.attackObj.views.push(attackObject);
-    });
-  }
-
-  private readonly TIMEOUT_SHIELD_ACTIVATED_IN_MS = 5000;
-  private readonly TIMEOUT_SHIELD_AVAILABLE_IN_MS = 10000;
-  private readonly TIMEOUT_SPEED_ACTIVATED_IN_MS = 100;
-  private readonly TIMEOUT_SPEED_AVAILABLE_IN_MS = 2000;
+  public readonly house: EHouse;
 
   private _level: Level;
   private _isShieldActivated: boolean;
   private _isShieldAvailable: boolean;
   private _isSpeedActivated: boolean;
   private _isSpeedAvailable: boolean;
-  private speedSizeInPx: number;
-  private componentFactoryResolver: ComponentFactoryResolver;
-  private gameField: ViewContainerRef;
-  private heroComponent: HeroComponent;
-  private attackObj: IHeroSettings['attack'] & {
-    attack$: Subject<EDirection>;
-    views: {
-      attackComponentRef: ComponentRef<AttackComponent>;
-      direction: EDirection;
-    }[];
+  private attackPool: IAttack & {
+    pool: Attack[];
+    readonly addAttack$: Subject<void>;
+    readonly render: () => void;
   };
-
-  public readonly house: EHouse;
 
   public get level(): Level {
     return this._level;
@@ -90,20 +48,45 @@ export abstract class Hero extends Personage {
     return this._isSpeedAvailable;
   }
 
-  public viewInit(componentFactoryResolver: ComponentFactoryResolver, gameField: ViewContainerRef): void {
-    this.componentFactoryResolver = componentFactoryResolver;
-    this.gameField = gameField;
+  constructor(settings: IHeroSettings) {
+    super({
+      ...settings,
+      stepSizeInPx: settings.stepSizeInPx ?? 5,
+      direction: settings.direction ?? EDirection.Right,
+      lives: settings.lives ?? 5,
+    });
 
-    const factory = this.componentFactoryResolver.resolveComponentFactory(HeroComponent);
-    this.heroComponent = this.gameField.createComponent(factory).instance;
-    this.heroComponent.heroHouse = this.house;
-    this.heroComponent.widthInPx = this.widthInPx;
+    this.house = settings.house;
+    this._level = new Level(settings.levelNumber);
+    this._isShieldActivated = settings.isShieldActivated ?? false;
+    this._isShieldAvailable = settings.isShieldAvailable ?? true;
+    this._isSpeedActivated = settings.isSpeedActivated ?? false;
+    this._isSpeedAvailable = settings.isSpeedAvailable ?? true;
+
+    this.setAttackSettings(settings.attack);
   }
 
-  public stepToLeft(stepSize = this.stepSizeInPx): void {
-    if (this._isSpeedActivated) return;
+  public viewInit(): void {
+    if (this.view) return;
 
-    const x = this.xPositionInPx - stepSize;
+    super.viewInit(HeroComponent);
+
+    this.view.house = this.house;
+    this.view.widthInPx = this.widthInPx;
+  }
+
+  public render(): void {
+    this.attackPool.render();
+
+    this.view.direction = this.direction;
+    this.view.xPositionInPx = this.xPositionInPx;
+    this.view.yPositionInPx = this.yPositionInPx;
+    this.view.isShieldActivated = this.isShieldActivated;
+    this.view.render();
+  }
+
+  public stepToLeft(): void {
+    const x = this.xPositionInPx - this.stepSizeInPx;
 
     if (x >= 0) {
       this.direction = EDirection.Left;
@@ -111,10 +94,8 @@ export abstract class Hero extends Personage {
     }
   }
 
-  public stepToRight(stepSize = this.stepSizeInPx): void {
-    if (this._isSpeedActivated) return;
-
-    const x = this.xPositionInPx + stepSize;
+  public stepToRight(): void {
+    const x = this.xPositionInPx + this.stepSizeInPx;
 
     if (x + this.widthInPx <= SIZE_FIELD_GAME_IN_PX.width) {
       this.direction = EDirection.Right;
@@ -122,9 +103,8 @@ export abstract class Hero extends Personage {
     }
   }
 
-  public deleteLife(amount = 1): void {
-    super.deleteLife(amount);
-    AudioService.instance.death.play();
+  public attack(): void {
+    this.attackPool.addAttack$.next();
   }
 
   public activateShield(): void {
@@ -133,128 +113,66 @@ export abstract class Hero extends Personage {
     AudioService.instance.shield.restart();
     this._isShieldActivated = true;
 
-    timer(this.TIMEOUT_SHIELD_ACTIVATED_IN_MS)
+    timer(Hero.SHIELD_TIMEOUT_IN_MS.ACTIVATE)
       .pipe(
         switchMap(() => {
           this._isShieldActivated = false;
           this._isShieldAvailable = false;
-          return timer(this.TIMEOUT_SHIELD_AVAILABLE_IN_MS);
+
+          return timer(Hero.SHIELD_TIMEOUT_IN_MS.AVAILABLE);
         })
       )
       .subscribe(() => (this._isShieldAvailable = true));
   }
 
-  public speed(): void {
-    if (this._isSpeedActivated || !this._isSpeedAvailable) return;
+  public deleteLife(amount = 1): void {
+    AudioService.instance.death.play();
+    super.deleteLife(amount);
+  }
 
-    //TODO
-    // AudioService.instance.speed.restart();
-    this._isSpeedActivated = true;
+  private setAttackSettings(settings: IAttack): void {
+    if (this.attackPool) return;
 
-    switch (this.direction) {
-      case EDirection.Left: {
-        const x = this.xPositionInPx - this.speedSizeInPx;
-        this.xPositionInPx = x < 0 ? 0 : x;
+    settings = {
+      ...settings,
+      sizeInPx: settings.sizeInPx ?? 30,
+      stepSizeInPx: settings.stepSizeInPx ?? 10,
+    };
 
-        break;
-      }
+    this.attackPool = {
+      ...settings,
+      addAttack$: new Subject<void>(),
+      pool: [],
+      render: () => {
+        this.attackPool.pool = this.attackPool.pool.filter((attack) => {
+          attack.render();
+          return attack.isExists();
+        });
+      },
+    };
 
-      case EDirection.Right: {
-        const x = this.xPositionInPx + this.speedSizeInPx;
-        this.xPositionInPx =
-          x > SIZE_FIELD_GAME_IN_PX.width - this.widthInPx ? SIZE_FIELD_GAME_IN_PX.width - this.widthInPx : x;
-
-        break;
-      }
-    }
-
-    this.heroComponent.speed();
-
-    timer(this.TIMEOUT_SPEED_ACTIVATED_IN_MS)
-      .pipe(
-        switchMap(() => {
-          this._isSpeedActivated = false;
-          this._isSpeedAvailable = false;
-          return timer(this.TIMEOUT_SPEED_AVAILABLE_IN_MS);
+    this.attackPool.addAttack$.pipe(debounceTime(Attack.DEBOUNCE_TIME_IN_MS)).subscribe(() => {
+      this.attackPool.pool.push(
+        new Attack({
+          ...settings,
+          xStartPositionInPx:
+            this.direction === EDirection.Right
+              ? this.xPositionInPx + this.widthInPx + settings.xStartPositionInPx
+              : this.xPositionInPx - settings.xStartPositionInPx,
+          yStartPositionInPx: this.yPositionInPx + settings.yStartPositionInPx,
+          direction: this.direction,
         })
-      )
-      .subscribe(() => (this._isSpeedAvailable = true));
-  }
-
-  public attack(): void {
-    this.attackObj.attack$.next(this.direction);
-  }
-
-  public render(): void {
-    this.heroComponent.direction = this.direction;
-    this.heroComponent.isShieldActivated = this.isShieldActivated;
-    this.heroComponent.widthInPx = this.widthInPx;
-    this.heroComponent.xPositionInPx = this.xPositionInPx;
-    this.heroComponent.yPositionInPx = this.yPositionInPx;
-    this.renderAttack();
-
-    this.heroComponent.cdr.markForCheck();
-  }
-
-  private createAttack(direction: EDirection): ComponentRef<AttackComponent> {
-    const factory = this.componentFactoryResolver.resolveComponentFactory(AttackComponent);
-    const attackComponentRef = this.gameField.createComponent(factory);
-
-    attackComponentRef.instance.name = this.attackObj.name;
-    attackComponentRef.instance.direction = direction;
-    attackComponentRef.instance.xPositionInPx =
-      direction === EDirection.Right
-        ? this.xPositionInPx + this.widthInPx + this.attackObj.xPositionInPx
-        : this.xPositionInPx - this.attackObj.xPositionInPx;
-    attackComponentRef.instance.yPositionInPx = this.yPositionInPx + this.attackObj.yPositionInPx;
-    attackComponentRef.instance.sizeInPx = this.attackObj.sizeInPx;
-
-    return attackComponentRef;
-  }
-
-  private renderAttack(): void {
-    this.attackObj.views = this.attackObj.views.filter((view) => {
-      const { attackComponentRef, direction } = view;
-
-      if (direction === EDirection.Right && attackComponentRef.instance.xPositionInPx < SIZE_FIELD_GAME_IN_PX.width) {
-        attackComponentRef.instance.xPositionInPx += this.attackObj.stepSizeInPx;
-        return true;
-      }
-
-      if (direction === EDirection.Left && attackComponentRef.instance.xPositionInPx + this.attackObj.sizeInPx > 0) {
-        attackComponentRef.instance.xPositionInPx -= this.attackObj.stepSizeInPx;
-        return true;
-      }
-
-      attackComponentRef.destroy();
-
-      return false;
+      );
     });
   }
 }
 
 export interface IHeroSettings extends IPersonageSettings {
-  levelNumber: number;
-  house: EHouse;
-  isShieldActivated: boolean;
-  isShieldAvailable: boolean;
-  isSpeedActivated: boolean;
-  isSpeedAvailable: boolean;
-  speedSizeInPx: number;
-  attack: {
-    name: string;
-    sizeInPx: number;
-    xPositionInPx: number;
-    yPositionInPx: number;
-    stepSizeInPx: number;
-    sound: () => void;
-  };
-}
-
-export interface IAttackNodeElementSettings {
-  name: string;
-  leftInPx: number;
-  topInPx: number;
-  sizeInPx: number;
-  animationDirection?: EDirection;
+  readonly levelNumber: number;
+  readonly house: EHouse;
+  readonly isShieldActivated: boolean;
+  readonly isShieldAvailable: boolean;
+  readonly isSpeedActivated: boolean;
+  readonly isSpeedAvailable: boolean;
+  readonly attack: IAttack;
 }

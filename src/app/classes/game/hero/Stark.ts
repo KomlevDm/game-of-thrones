@@ -15,8 +15,8 @@ export class Stark extends GoingHero {
       attack: {
         ...settings.attack,
         name: 'attack-7.png',
-        xPositionInPx: 10,
-        yPositionInPx: 30,
+        xStartPositionInPx: 10,
+        yStartPositionInPx: 30,
         sound: AudioService.instance.starkAttack.restart.bind(AudioService.instance.starkAttack),
       },
     });

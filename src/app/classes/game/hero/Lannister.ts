@@ -15,8 +15,8 @@ export class Lannister extends GoingHero {
       attack: {
         ...settings.attack,
         name: 'attack-2.png',
-        xPositionInPx: 0,
-        yPositionInPx: 40,
+        xStartPositionInPx: 0,
+        yStartPositionInPx: 40,
         sound: AudioService.instance.starkAttack.restart.bind(AudioService.instance.lannisterAttack),
       },
     });
