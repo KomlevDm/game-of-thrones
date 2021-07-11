@@ -9,9 +9,9 @@ import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 export class InfoStatePanelComponent {
   @Input() public lives: number;
   @Input() public isShieldAvailable: boolean;
-  @Input() public isAttackAvailable: boolean;
+  @Input() public isSuperAttackActivated: boolean;
   @Input() public isSuperpowerAvailable: boolean;
-  @Input() public isSpeedAvailable: boolean;
+  @Input() public isAttackSpeedActivated: boolean;
 
   @Input() public heroName: string;
 

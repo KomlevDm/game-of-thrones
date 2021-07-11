@@ -18,7 +18,7 @@ export const AUDIO_LIST = {
     heroAttack: 'hero-attack.mp3',
     playGame: 'play-game.mp3',
     coinsRinging: 'coins-ringing.mp3',
-    gameOver: 'game-over.mp3',
+    thunder: 'thunder.mp3',
     death: 'death.mp3',
   },
 };

@@ -1,0 +1,12 @@
+:host {
+  div {
+    position: absolute;
+    z-index: 1;
+
+    img {
+      width: 100%;
+      animation: rotate-pulsar-to-right 0.5s linear infinite;
+      border-radius: 50%;
+    }
+  }
+}

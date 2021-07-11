@@ -36,7 +36,7 @@ export class AudioService {
   public shield: HTMLAudioElement;
   public heroAttack: HTMLAudioElement;
   public coinsRinging: HTMLAudioElement;
-  public gameOver: HTMLAudioElement;
+  public thunder: HTMLAudioElement;
   public death: HTMLAudioElement;
 
   public get isMutedBackgroundAudio(): boolean {
@@ -72,7 +72,7 @@ export class AudioService {
 
     this.coinsRinging = new Audio(`${this.AUDIO_PATH}/${AUDIO_LIST.action.coinsRinging}`);
 
-    this.gameOver = new Audio(`${this.AUDIO_PATH}/${AUDIO_LIST.action.gameOver}`);
+    this.thunder = new Audio(`${this.AUDIO_PATH}/${AUDIO_LIST.action.thunder}`);
 
     this.death = new Audio(`${this.AUDIO_PATH}/${AUDIO_LIST.action.death}`);
 

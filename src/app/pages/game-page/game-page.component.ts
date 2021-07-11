@@ -267,7 +267,7 @@ export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.isKeydownArrowRight) this.hero.stepToRight();
     if (this.isKeydownSpace) this.hero.attack();
     if (this.isKeydownControlLeft) this.hero.activateShield();
-    if (this.isKeydownShiftLeft) this.hero.increaseAttackSpeed();
+    // if (this.isKeydownShiftLeft) ;
 
     // this._monsterService.drawMonsters();
     // this._worker.postMessage(this._getDataCollisions());

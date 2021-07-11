@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, HostBinding, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, HostBinding, ChangeDetectorRef } from '@angular/core';
 import { IView } from 'src/app/classes/game/View';
 import { EDirection } from '../../../enums/EDirection';
 import { EHouse } from '../../../enums/EHouse';
@@ -21,15 +21,10 @@ export class HeroComponent implements IView {
 
   @HostBinding('style.transform')
   private get transform(): string {
-    return (
-      this.elRef.nativeElement.style.transform
-        .replace(/(?<=translate\()\d+/g, `${this.xPositionInPx}`)
-        .replace(/(?<=translate\(\d+px, )\d+(?=px\))/g, `${this.yPositionInPx}`) ||
-      `translate(${this.xPositionInPx}px, ${this.yPositionInPx}px)`
-    );
+    return `translate(${this.xPositionInPx}px, ${this.yPositionInPx}px)`;
   }
 
-  constructor(private readonly elRef: ElementRef<HTMLLIElement>, private readonly cdr: ChangeDetectorRef) {}
+  constructor(private readonly cdr: ChangeDetectorRef) {}
 
   public render(): void {
     this.cdr.markForCheck();
