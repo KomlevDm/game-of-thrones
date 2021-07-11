@@ -1,23 +1,23 @@
 <div class="state">
   <div class="lives">
     <span>{{ lives }}</span>
-    <img src="/assets/pages/game-page/info-state-panel/img/life.png" />
+    <img src="/assets/img/game-artifacts/life.png" />
   </div>
 
   <div class="shield hero-power" [class.activated]="isShieldAvailable">
-    <img src="/assets/pages/game-page/info-state-panel/img/shield.png" />
+    <img src="/assets/img/game-artifacts/shield.png" />
   </div>
 
   <div class="super-attack hero-power" [class.activated]="isSuperAttackActivated">
-    <img src="/assets/pages/game-page/info-state-panel/img/attack.png" />
+    <img src="/assets/img/game-artifacts/super-attack.png" />
   </div>
 
-  <div class="superpower hero-power" [class.activated]="isSuperpowerAvailable">
-    <img src="/assets/pages/game-page/info-state-panel/img/superpower.png" />
+  <div class="super-punch hero-power" [class.activated]="isSuperPunchAvailable">
+    <img src="/assets/img/game-artifacts/super-punch.png" />
   </div>
 
   <div class="attack-speed hero-power" [class.activated]="isAttackSpeedActivated">
-    <img src="/assets/pages/game-page/info-state-panel/img/speed.png" />
+    <img src="/assets/img/game-artifacts/attack-speed.png" />
   </div>
 </div>
 
@@ -25,23 +25,9 @@
   {{ heroName }}
 </div>
 
-<div class="state">
-  <div class="magic">
-    <div class="hero-power" [class.activated]="isRedPotionAvailable">
-      <img src="/assets/pages/game-page/info-state-panel/img/red-potion.png" />
-    </div>
-
-    <div class="hero-power" [class.activated]="isGreenPotionAvailable">
-      <img src="/assets/pages/game-page/info-state-panel/img/green-potion.png" />
-    </div>
-
-    <div class="hero-power" [class.activated]="isBluePotionAvailable">
-      <img src="/assets/pages/game-page/info-state-panel/img/blue-potion.png" />
-    </div>
-  </div>
-
+<div class="state justify-content-flex-end">
   <div class="score">
     <span>{{ score }}</span>
-    <img src="/assets/pages/game-page/info-state-panel/img/coins.png" />
+    <img src="/assets/img/game-artifacts/coins.png" />
   </div>
 </div>

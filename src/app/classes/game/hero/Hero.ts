@@ -12,11 +12,17 @@ import { SuperAttack } from '../SuperAttack';
 
 export abstract class AHero extends APersonage<HeroComponent> {
   private static readonly ATTACK_DEBOUNCE_TIME_IN_MS = 80;
+
   private static readonly SHIELD_ACTIVATE_TIMEOUT_IN_MS = 5 * 1000;
   private static readonly SHIELD_AVAILABLE_TIMEOUT_IN_MS = 10 * 1000;
+
+  private static readonly SUPER_ATTACK_TIMEOUT_IN_MS = 5 * 1000;
+
+  private static readonly SUPER_PUNCH_ACTIVATE_TIMEOUT_IN_MS = 5 * 1000;
+  private static readonly SUPER_PUNCH_AVAILABLE_TIMEOUT_IN_MS = 10 * 1000;
+
   private static readonly ATTACK_SPEED_TIMEOUT_IN_MS = 10 * 1000;
   private static readonly ATTACK_SPEED_DELTA_STEP_SIZE_IN_PX = 20;
-  private static readonly SUPER_ATTACK_TIMEOUT_IN_MS = 5 * 1000;
 
   public readonly house: EHouse;
 
@@ -25,9 +31,12 @@ export abstract class AHero extends APersonage<HeroComponent> {
   private _isShieldActivated: boolean;
   private _isShieldAvailable: boolean;
 
-  private _isAttackSpeedActivated: boolean;
-
   private _isSuperAttackActivated: boolean;
+
+  private _isSuperPunchActivated: boolean;
+  private _isSuperPunchAvailable: boolean;
+
+  private _isAttackSpeedActivated: boolean;
 
   private attackPool: IAttack & {
     pool: (Attack | SuperAttack)[];
@@ -46,12 +55,19 @@ export abstract class AHero extends APersonage<HeroComponent> {
     return this._isShieldAvailable;
   }
 
-  public get isAttackSpeedActivated(): boolean {
-    return this._isAttackSpeedActivated;
-  }
-
   public get isSuperAttackActivated(): boolean {
     return this._isSuperAttackActivated;
+  }
+
+  public get isSuperPunchActivated(): boolean {
+    return this._isSuperPunchActivated;
+  }
+  public get isSuperPunchAvailable(): boolean {
+    return this._isSuperPunchAvailable;
+  }
+
+  public get isAttackSpeedActivated(): boolean {
+    return this._isAttackSpeedActivated;
   }
 
   constructor(settings: IHeroSettings) {
@@ -68,9 +84,12 @@ export abstract class AHero extends APersonage<HeroComponent> {
     this._isShieldActivated = settings.isShieldActivated ?? false;
     this._isShieldAvailable = settings.isShieldAvailable ?? true;
 
-    this._isAttackSpeedActivated = settings.isAttackSpeedActivated ?? false;
-
     this._isSuperAttackActivated = settings.isSuperAttackActivated ?? false;
+
+    this._isSuperPunchActivated = settings.isSuperPunchActivated ?? false;
+    this._isSuperPunchAvailable = settings.isSuperPunchAvailable ?? false;
+
+    this._isAttackSpeedActivated = settings.isAttackSpeedActivated ?? false;
 
     this.setAttackSettings(settings.attack);
   }
@@ -117,21 +136,61 @@ export abstract class AHero extends APersonage<HeroComponent> {
   }
 
   public activateShield(): void {
-    if (!this._isShieldAvailable) return;
+    if (this._isShieldActivated || !this._isShieldAvailable) return;
 
     AudioService.instance.shield.play();
     this._isShieldActivated = true;
-    this._isShieldAvailable = false;
 
     timer(AHero.SHIELD_ACTIVATE_TIMEOUT_IN_MS)
       .pipe(
         switchMap(() => {
           this._isShieldActivated = false;
+          this._isShieldAvailable = false;
 
           return timer(AHero.SHIELD_AVAILABLE_TIMEOUT_IN_MS);
         })
       )
       .subscribe(() => (this._isShieldAvailable = true));
+  }
+
+  public activateSuperAttack(): void {
+    if (this._isSuperAttackActivated) return;
+
+    AudioService.instance.thunder.play();
+    this._isSuperAttackActivated = true;
+
+    timer(AHero.SUPER_ATTACK_TIMEOUT_IN_MS).subscribe(() => (this._isSuperAttackActivated = false));
+  }
+
+  public activateSuperPunch(): void {
+    if (this._isSuperPunchActivated || !this._isSuperPunchAvailable) return;
+
+    switch (this.house) {
+      case EHouse.Stark:
+        AudioService.instance.wolfRipsApartEnemy.play();
+        break;
+
+      case EHouse.Targaryen:
+        AudioService.instance.dragonRoar.play();
+        break;
+
+      case EHouse.Lannister:
+        AudioService.instance.lionRoar.play();
+        break;
+    }
+
+    this._isSuperPunchActivated = true;
+
+    timer(AHero.SUPER_PUNCH_ACTIVATE_TIMEOUT_IN_MS)
+      .pipe(
+        switchMap(() => {
+          this._isSuperPunchActivated = false;
+          this._isSuperPunchAvailable = false;
+
+          return timer(AHero.SUPER_PUNCH_AVAILABLE_TIMEOUT_IN_MS);
+        })
+      )
+      .subscribe(() => (this._isSuperPunchAvailable = true));
   }
 
   public activateAttackSpeed(): void {
@@ -148,15 +207,6 @@ export abstract class AHero extends APersonage<HeroComponent> {
     });
   }
 
-  public activateSuperAttack(): void {
-    if (this._isSuperAttackActivated) return;
-
-    AudioService.instance.thunder.play();
-    this._isSuperAttackActivated = true;
-
-    timer(AHero.SUPER_ATTACK_TIMEOUT_IN_MS).subscribe(() => (this._isSuperAttackActivated = false));
-  }
-
   public deleteLife(amount = 1): void {
     AudioService.instance.death.play();
     super.deleteLife(amount);
@@ -167,7 +217,7 @@ export abstract class AHero extends APersonage<HeroComponent> {
 
     settings = {
       ...settings,
-      sizeInPx: settings.sizeInPx ?? 30,
+      sizeInPx: settings.sizeInPx ?? 20,
       stepSizeInPx: settings.stepSizeInPx ?? 10,
       sound: AudioService.instance.heroAttack.restart.bind(AudioService.instance.heroAttack),
     };
@@ -209,9 +259,12 @@ export interface IHeroSettings extends IPersonageSettings {
   readonly isShieldActivated: boolean;
   readonly isShieldAvailable: boolean;
 
-  readonly isAttackSpeedActivated: boolean;
-
   readonly isSuperAttackActivated: boolean;
+
+  readonly isSuperPunchActivated: boolean;
+  readonly isSuperPunchAvailable: boolean;
+
+  readonly isAttackSpeedActivated: boolean;
 
   readonly attack: IAttack;
 }

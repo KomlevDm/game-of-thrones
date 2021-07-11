@@ -10,13 +10,10 @@ export class InfoStatePanelComponent {
   @Input() public lives: number;
   @Input() public isShieldAvailable: boolean;
   @Input() public isSuperAttackActivated: boolean;
-  @Input() public isSuperpowerAvailable: boolean;
+  @Input() public isSuperPunchAvailable: boolean;
   @Input() public isAttackSpeedActivated: boolean;
 
   @Input() public heroName: string;
 
-  @Input() public isRedPotionAvailable: boolean;
-  @Input() public isGreenPotionAvailable: boolean;
-  @Input() public isBluePotionAvailable: boolean;
   @Input() public score: number;
 }

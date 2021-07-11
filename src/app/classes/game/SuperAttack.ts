@@ -5,7 +5,7 @@ import { AView } from './View';
 
 export class SuperAttack extends AView<SuperAttackComponent> {
   private static readonly Y_STEP_SIZE_IN_PX = 1.2;
-  private static readonly COEF_SIZE_IN_PX = 0.7;
+  private static readonly COEF_SIZE_IN_PX = 0.8;
 
   constructor(settings: ISuperAttack & { direction: EDirection }) {
     super();

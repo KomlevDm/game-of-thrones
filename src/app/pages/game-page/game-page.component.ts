@@ -34,6 +34,7 @@ import { HeroService } from '../../services/hero.service';
 import { AHero } from 'src/app/classes/game/hero/Hero';
 import { AGoingHero } from 'src/app/classes/game/hero/GoingHero';
 import { AFlyingHero } from 'src/app/classes/game/hero/FlyingHero';
+import { ArtifactService } from 'src/app/services/artifact.service';
 // import { EGameDialogMode } from '../../components/game-dialog/game-dialog.component';
 
 @Component({
@@ -65,6 +66,7 @@ export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
     private cfr: ComponentFactoryResolver,
     private cdr: ChangeDetectorRef,
     private gameService: GameService,
+    private artifactService: ArtifactService,
     private _router: Router,
     private audioService: AudioService,
     private _monsterService: MonsterService,
@@ -73,7 +75,7 @@ export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
     appStateService: AppStateService
   ) {
     appStateService.activateGame();
-    gameService.playGame('test', EHouse.Stark);
+    gameService.playGame('test', EHouse.Targaryen);
 
     this.hero = heroService.hero;
   }
@@ -141,6 +143,8 @@ export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.hero.viewInit();
 
+    this.artifactService.startArtifactsGeneration();
+
     this.ngZone.runOutsideAngular(() => {
       addEventListener('keydown', this.keydownHandler);
       addEventListener('keyup', this.keyupHandler);
@@ -152,13 +156,11 @@ export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     removeEventListener('keydown', this.keydownHandler);
     removeEventListener('keyup', this.keyupHandler);
-
     this.gameService.clearGame();
+    this.artifactService.stopArtifactsGeneration();
     // this._monsterService.cleanMonsterInfo();
-
     this.destroyer$.next();
     this.destroyer$.complete();
-
     cancelAnimationFrame(this.requestIdAnimationFrameId);
   }
 
@@ -267,7 +269,7 @@ export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.isKeydownArrowRight) this.hero.stepToRight();
     if (this.isKeydownSpace) this.hero.attack();
     if (this.isKeydownControlLeft) this.hero.activateShield();
-    // if (this.isKeydownShiftLeft) ;
+    if (this.isKeydownShiftLeft) this.hero.activateSuperPunch();
 
     // this._monsterService.drawMonsters();
     // this._worker.postMessage(this._getDataCollisions());
