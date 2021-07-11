@@ -1,5 +1,4 @@
 import { EHouse } from '../../../enums/EHouse';
-import { AudioService } from '../../../services/audio.service';
 import { AGoingHero, IGoingHeroSettings } from './GoingHero';
 
 export class Stark extends AGoingHero {
@@ -13,10 +12,9 @@ export class Stark extends AGoingHero {
       yPositionInPx: settings.yPositionInPx ?? 460,
       attack: {
         ...settings.attack,
-        name: 'attack-7.png',
+        name: 'attack-3.png',
         xStartPositionInPx: 10,
         yStartPositionInPx: 30,
-        sound: AudioService.instance.starkAttack.restart.bind(AudioService.instance.starkAttack),
       },
     });
   }

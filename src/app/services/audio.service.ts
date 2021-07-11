@@ -34,9 +34,7 @@ export class AudioService {
   public lionRoar: HTMLAudioElement;
   public wolfRipsApartEnemy: HTMLAudioElement;
   public shield: HTMLAudioElement;
-  public starkAttack: HTMLAudioElement;
-  public targaryenAttack: HTMLAudioElement;
-  public lannisterAttack: HTMLAudioElement;
+  public heroAttack: HTMLAudioElement;
   public coinsRinging: HTMLAudioElement;
   public gameOver: HTMLAudioElement;
   public death: HTMLAudioElement;
@@ -70,11 +68,7 @@ export class AudioService {
 
     this.shield = new Audio(`${this.AUDIO_PATH}/${AUDIO_LIST.action.shield}`);
 
-    this.starkAttack = new Audio(`${this.AUDIO_PATH}/${AUDIO_LIST.action.starkAttack}`);
-
-    this.targaryenAttack = new Audio(`${this.AUDIO_PATH}/${AUDIO_LIST.action.targaryenAttack}`);
-
-    this.lannisterAttack = new Audio(`${this.AUDIO_PATH}/${AUDIO_LIST.action.lannisterAttack}`);
+    this.heroAttack = new Audio(`${this.AUDIO_PATH}/${AUDIO_LIST.action.heroAttack}`);
 
     this.coinsRinging = new Audio(`${this.AUDIO_PATH}/${AUDIO_LIST.action.coinsRinging}`);
 

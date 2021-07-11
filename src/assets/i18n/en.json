@@ -11,7 +11,8 @@
       },
       "GameOverText": "Game over",
       "SaveText": "Save current achievements as"
-    }
+    },
+    "HeroDefaultName": "Hero"
   },
   "HeroSelectionPage": {
     "Houses": {
@@ -30,6 +31,12 @@
     },
     "PlayerInfo": "Your name",
     "Title": "Select home"
+  },
+  "Level": {
+    "Name": {
+      "Mountains": "Level.Name.Mountains",
+      "SnowForest": "Level.Name.SnowForest"
+    }
   },
   "LoadPage": {
     "ButtonNames": {

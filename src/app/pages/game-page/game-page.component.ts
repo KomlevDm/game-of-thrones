@@ -21,8 +21,6 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { IAttackNodeElementSettings } from 'src/app/interfaces/IAttackNodeElementSettings';
 import { MonsterService } from 'src/app/services/monster.service';
-import { FlyingPlayer } from 'src/app/classes/player/FlyingPlayer';
-import { GoingPlayer } from 'src/app/classes/player/GoingPlayer';
 import { Monster } from 'src/app/classes/monster/Monster';
 import { ELocalStorageKey } from 'src/app/enums/ELocalStorageKey';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
@@ -35,6 +33,7 @@ import { EHouse } from '../../enums/EHouse';
 import { HeroService } from '../../services/hero.service';
 import { AHero } from 'src/app/classes/game/hero/Hero';
 import { AGoingHero } from 'src/app/classes/game/hero/GoingHero';
+import { AFlyingHero } from 'src/app/classes/game/hero/FlyingHero';
 // import { EGameDialogMode } from '../../components/game-dialog/game-dialog.component';
 
 @Component({
@@ -44,7 +43,21 @@ import { AGoingHero } from 'src/app/classes/game/hero/GoingHero';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
+  private readonly destroyer$ = new Subject<void>();
+
   public readonly hero: AHero;
+
+  private isKeydownArrowUp = false;
+  private isKeydownArrowDown = false;
+  private isKeydownArrowLeft = false;
+  private isKeydownArrowRight = false;
+  private isKeydownSpace = false;
+  private isKeydownControlLeft = false;
+  private isKeydownShiftLeft = false;
+  private requestIdAnimationFrameId: number;
+
+  @ViewChild('gameFieldTemplate', { read: ViewContainerRef })
+  public gameField: ViewContainerRef;
 
   constructor(
     heroService: HeroService,
@@ -60,28 +73,16 @@ export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
     appStateService: AppStateService
   ) {
     appStateService.activateGame();
-    gameService.playGame('test', EHouse.Lannister);
+    gameService.playGame('test', EHouse.Stark);
 
     this.hero = heroService.hero;
   }
 
-  private destroyer$ = new Subject<void>();
-  private isKeydownArrowUp = false;
-  private isKeydownArrowDown = false;
-  private isKeydownArrowLeft = false;
-  private isKeydownArrowRight = false;
-  private isKeydownSpace = false;
-  private isKeydownControlLeft = false;
-  private isKeydownShiftLeft = false;
   private _pauseGameToggler = false;
-  private requestIdAnimationFrameId: number;
   private _worker = new Worker(new URL('../../app.worker.ts', import.meta.url), { type: 'module' });
 
   public stateGameDialog$ = new BehaviorSubject(false);
   // public gameDialogMode$ = new BehaviorSubject(EGameDialogMode.Game);
-
-  @ViewChild('gameFieldTemplate', { read: ViewContainerRef })
-  public gameField: ViewContainerRef;
 
   @ViewChild('monsterTemplate') monsterNodeElementTemplate: TemplateRef<Monster>;
 
@@ -259,17 +260,14 @@ export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private gameLoop(): void {
     // if (!this._pauseGameToggler) {
-    // if (this.isKeydownArrowUp) {
-    //   // if (this.gameService.player instanceof FlyingPlayer) this.gameService.player.stepToUp();
-    //   // if (this.gameService.player instanceof GoingPlayer) this.gameService.player.jump();
-    //   this.gameService.hero.
-    // }
+    if (this.isKeydownArrowUp && this.hero instanceof AFlyingHero) this.hero.stepToUp();
     if (this.isKeydownArrowUp && this.hero instanceof AGoingHero) this.hero.jump();
+    if (this.isKeydownArrowDown && this.hero instanceof AFlyingHero) this.hero.stepToDown();
     if (this.isKeydownArrowLeft) this.hero.stepToLeft();
     if (this.isKeydownArrowRight) this.hero.stepToRight();
     if (this.isKeydownSpace) this.hero.attack();
     if (this.isKeydownControlLeft) this.hero.activateShield();
-    // if (this.isKeydownShiftLeft) this.hero.speed();
+    if (this.isKeydownShiftLeft) this.hero.increaseAttackSpeed();
 
     // this._monsterService.drawMonsters();
     // this._worker.postMessage(this._getDataCollisions());

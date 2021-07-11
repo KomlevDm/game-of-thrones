@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AHero, IHeroSettings } from '../classes/game/hero/Hero';
 import { Lannister } from '../classes/game/hero/Lannister';
 import { Stark } from '../classes/game/hero/Stark';
+import { Targaryen } from '../classes/game/hero/Targaryen';
 import { EHouse } from '../enums/EHouse';
 
 @Injectable()
@@ -16,6 +17,10 @@ export class HeroService {
     switch (settings.house) {
       case EHouse.Stark:
         this._hero = new Stark(settings);
+        break;
+
+      case EHouse.Targaryen:
+        this._hero = new Targaryen(settings);
         break;
 
       case EHouse.Lannister:

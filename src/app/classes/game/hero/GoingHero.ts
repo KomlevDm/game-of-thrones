@@ -27,8 +27,6 @@ export abstract class AGoingHero extends AHero {
       .subscribe(() => {
         this.isJumping = true;
 
-        AudioService.instance.past.restart();
-
         this.jumpRender();
       });
   }

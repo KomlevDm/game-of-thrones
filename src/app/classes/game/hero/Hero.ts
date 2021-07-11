@@ -10,10 +10,10 @@ import { IPersonageSettings, APersonage } from '../Personage';
 import { GameService } from 'src/app/services/game.service';
 
 export abstract class AHero extends APersonage<HeroComponent> {
-  private static readonly SHIELD_TIMEOUT_IN_MS = {
-    ACTIVATE: 5 * 1000,
-    AVAILABLE: 10 * 1000,
-  };
+  private static readonly SHIELD_ACTIVATE_TIMEOUT_IN_MS = 5 * 1000;
+  private static readonly SHIELD_AVAILABLE_TIMEOUT_IN_MS = 10 * 1000;
+  private static readonly ATTACK_SPEED_ACTIVATE_TIMEOUT_IN_MS = 10 * 1000;
+  private static readonly ATTACK_SPEED_DELTA_STEP_SIZE_IN_PX = 20;
 
   public readonly house: EHouse;
 
@@ -108,21 +108,36 @@ export abstract class AHero extends APersonage<HeroComponent> {
   }
 
   public activateShield(): void {
-    if (this._isShieldActivated || !this._isShieldAvailable) return;
+    if (!this._isShieldAvailable) return;
 
     AudioService.instance.shield.restart();
     this._isShieldActivated = true;
+    this._isShieldAvailable = false;
 
-    timer(AHero.SHIELD_TIMEOUT_IN_MS.ACTIVATE)
+    timer(AHero.SHIELD_ACTIVATE_TIMEOUT_IN_MS)
       .pipe(
         switchMap(() => {
           this._isShieldActivated = false;
-          this._isShieldAvailable = false;
 
-          return timer(AHero.SHIELD_TIMEOUT_IN_MS.AVAILABLE);
+          return timer(AHero.SHIELD_AVAILABLE_TIMEOUT_IN_MS);
         })
       )
       .subscribe(() => (this._isShieldAvailable = true));
+  }
+
+  public increaseAttackSpeed(): void {
+    if (!this._isSpeedAvailable) return;
+
+    AudioService.instance.past.restart();
+    this._isSpeedActivated = true;
+    this._isSpeedAvailable = false;
+
+    this.attackPool.stepSizeInPx += AHero.ATTACK_SPEED_DELTA_STEP_SIZE_IN_PX;
+
+    timer(AHero.ATTACK_SPEED_ACTIVATE_TIMEOUT_IN_MS).subscribe(() => {
+      this._isSpeedActivated = false;
+      this.attackPool.stepSizeInPx -= AHero.ATTACK_SPEED_DELTA_STEP_SIZE_IN_PX;
+    });
   }
 
   public deleteLife(amount = 1): void {
@@ -137,6 +152,7 @@ export abstract class AHero extends APersonage<HeroComponent> {
       ...settings,
       sizeInPx: settings.sizeInPx ?? 30,
       stepSizeInPx: settings.stepSizeInPx ?? 10,
+      sound: AudioService.instance.heroAttack.restart.bind(AudioService.instance.heroAttack),
     };
 
     this.attackPool = {
@@ -145,7 +161,7 @@ export abstract class AHero extends APersonage<HeroComponent> {
       pool: [],
       render: () => {
         this.attackPool.pool = this.attackPool.pool.filter((attack) => {
-          attack.render();
+          attack.render(this.attackPool.stepSizeInPx);
           return attack.isExists();
         });
       },
