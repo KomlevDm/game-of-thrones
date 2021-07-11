@@ -75,7 +75,7 @@ export class GamePageComponent implements OnInit, AfterViewInit, OnDestroy {
     appStateService: AppStateService
   ) {
     appStateService.activateGame();
-    gameService.playGame('test', EHouse.Targaryen);
+    gameService.playGame('test', EHouse.Stark);
 
     this.hero = heroService.hero;
   }

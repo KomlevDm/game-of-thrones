@@ -5,7 +5,7 @@ import { GameService } from './game.service';
 
 @Injectable()
 export class ArtifactService {
-  private static readonly GENERATION_INTERVAL_IN_MS = 3 * 1000;
+  private static readonly GENERATION_INTERVAL_IN_MS = 60 * 1000;
   private static readonly ARTIFACT_LIFETIME_IN_MS = 5 * 1000;
   private static readonly ARTIFACT_SIZE_IN_PX = 50;
 

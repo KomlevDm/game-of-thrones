@@ -1,4 +1,5 @@
 import { debounceTime, filter, Observable, Subject } from 'rxjs';
+import { EDirection } from 'src/app/enums/EDirection';
 import { AudioService } from 'src/app/services/audio.service';
 import { AHero, IHeroSettings } from './Hero';
 
@@ -36,7 +37,8 @@ export abstract class AGoingHero extends AHero {
   }
 
   private jumpRender(): Observable<number> {
-    if (!this.isJumping) return;
+    if (this.direction === EDirection.Right) this.stepToRight();
+    else this.stepToLeft();
 
     if (!this.isAchieveMaxJump) {
       this.yPositionInPx -= this.jumpStepSizeInPx;
